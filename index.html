@@ -163,7 +163,7 @@
             Người làm: <strong>Ngô Minh Tiến</strong> • Mục đích: <strong>Hỗ trợ các bạn luyện thi TOEFL iBT</strong>
           </p>
           <p class="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-xl px-3.5 py-2 leading-relaxed">
-            Đáp án có thể bị sai sót, chủ động kiểm trả để phần luyện tập được trọn vẹn hơn, mọi thắc mắc/feedback lỗi vui lòng liên hệ qua sđt: <strong>0794599501 (ZALO)</strong>
+            Đáp án có thể bị sai sót, chủ động kiểm tra để phần luyện tập được trọn vẹn hơn, mọi thắc mắc/feedback lỗi vui lòng liên hệ qua sđt: <strong>0794599501 (ZALO)</strong>
           </p>
         </div>
 
@@ -431,9 +431,6 @@
           >
             🔄 Đổi chế độ
           </button>
-        </div>
-
-        <div class="flex items-center gap-2 max-w-full overflow-x-auto">
         </div>
 
         <div class="flex items-center gap-2 w-full xl:w-auto justify-between xl:justify-end">
@@ -1265,7 +1262,7 @@
       updateMiniMusicProgressUI();
     }
 
-    function syncPlayerSourceForTrack(track, autoPlay = false) {
+    function syncPlayerSourceForTrack(track, autoPlay = false, silentFail = false) {
       const audioEl = getCustomAudioEl();
       if (!audioEl || !track || !track.url) return;
 
@@ -1282,7 +1279,9 @@
           })
           .catch(() => {
             updateMiniMusicUI(false);
-            showToast('Không thể phát file nhạc này — hãy kiểm tra lại file hoặc chọn file từ máy.', 'warn');
+            if (!silentFail) {
+              showToast('Không thể phát file nhạc này — hãy kiểm tra lại file hoặc chọn file từ máy.', 'warn');
+            }
           });
       } else {
         updateMiniMusicUI(false);
@@ -1379,9 +1378,10 @@
         URL.revokeObjectURL(current.url);
       }
       customMusicTracks = customMusicTracks.filter((t) => t.id !== current.id);
-      selectedMusicTrackId = DEFAULT_REPO_TRACKS[0].id;
+      const firstSorted = getAllMusicTracks()[0];
+      selectedMusicTrackId = firstSorted.id;
       renderMusicPresetOptions();
-      syncPlayerSourceForTrack(DEFAULT_REPO_TRACKS[0], false);
+      syncPlayerSourceForTrack(firstSorted, true);
       showToast('Đã xóa bài nhạc tự thêm.', 'info');
     }
 
@@ -1393,32 +1393,6 @@
 
       const audioEl = getCustomAudioEl();
       if (audioEl) audioEl.volume = musicVolume;
-    }
-
-    function syncPlayerSourceForTrack(track, autoPlay = false, silentFail = false) {
-      const audioEl = getCustomAudioEl();
-      if (!audioEl || !track || !track.url) return;
-
-      audioEl.pause();
-      audioEl.src = track.url;
-      audioEl.volume = musicVolume;
-      updateMiniMusicProgressUI();
-
-      if (autoPlay) {
-        audioEl.play()
-          .then(() => {
-            updateMiniMusicUI(true);
-            updateMiniMusicProgressUI();
-          })
-          .catch(() => {
-            updateMiniMusicUI(false);
-            if (!silentFail) {
-              showToast('Không thể phát file nhạc này — hãy kiểm tra lại file hoặc chọn file từ máy.', 'warn');
-            }
-          });
-      } else {
-        updateMiniMusicUI(false);
-      }
     }
 
     function setupAutoplayFallback() {
@@ -1443,20 +1417,6 @@
       ['click', 'touchstart', 'keydown'].forEach((evt) => {
         document.addEventListener(evt, unlockAudio, { once: true });
       });
-    }
-
-    function removeSelectedCustomTrack() {
-      const current = getCurrentMusicTrack();
-      if (current.isDefault) return;
-      if (current.isLocalBlob && current.url) {
-        URL.revokeObjectURL(current.url);
-      }
-      customMusicTracks = customMusicTracks.filter((t) => t.id !== current.id);
-      const firstSorted = getAllMusicTracks()[0];
-      selectedMusicTrackId = firstSorted.id;
-      renderMusicPresetOptions();
-      syncPlayerSourceForTrack(firstSorted, true);
-      showToast('Đã xóa bài nhạc tự thêm.', 'info');
     }
 
     // =========================================================================
@@ -1700,7 +1660,7 @@
         topic: 'Space Physics & Astronomy',
         timeMinutes: 18,
         paragraphs: [
-          'In 1958, Dr. James Van Allen and a team of researchers from the University of Iowalaunched a satellite with the purpose of measuring the characteristics and effects of cosmic rays in the earth\'s atmosphere. In the end, they discovered more than they could have anticipated. While the team was already quite aware that charged particles lay trapped in the earth\'s magnetic field, the intensity of these particles came as something of a surprise. At various points along the satellite\'s orbit, its instruments failed, leading Van Allen to believe that there was a malfunction within the unit. What was really happening, they would discover later, was that the machine\'s sensors were becoming too overloaded with ions to function properly. The inadvertent discoveries of the Explorer I mission, and the further findings of such expeditions as Explorer III and Sputnik 3, led to the realization that massive belts of radiation circled the earth\'s atmosphere and magnetosphere.',
+          'In 1958, Dr. James Van Allen and a team of researchers from the University of Iowa launched a satellite with the purpose of measuring the characteristics and effects of cosmic rays in the earth\'s atmosphere. In the end, they discovered more than they could have anticipated. While the team was already quite aware that charged particles lay trapped in the earth\'s magnetic field, the intensity of these particles came as something of a surprise. At various points along the satellite\'s orbit, its instruments failed, leading Van Allen to believe that there was a malfunction within the unit. What was really happening, they would discover later, was that the machine\'s sensors were becoming too overloaded with ions to function properly. The inadvertent discoveries of the Explorer I mission, and the further findings of such expeditions as Explorer III and Sputnik 3, led to the realization that massive belts of radiation circled the earth\'s atmosphere and magnetosphere.',
           'The Van Allen belt extends from about 400 to 40,000 miles above the earth and actually consists of two separate radiation belts, one above the other. The inner, and smaller, belt is made up mostly of protons. Conversely, the outer belt consists largely of high energy electrons trapped in the magnetosphere, though a mix of neutrons and various ions is also present. Between the lower and upper belts is what is known as the "safe zone." This safe zone is a large gap formed by the scattering and ejection of particles into the atmosphere by low frequency radiation. The movement of these charged particles along the belts is controlled by the earth\'s magnetic poles. <mark class="bg-amber-100 px-1 rounded">An increase in the strength of the magnetic field causes particles to be deflected and sent traveling toward the opposite pole, so particles are constantly bouncing back and forth between poles.</mark>',
           'The outer belt seems to originate from a number of different causes, as evinced by its varied make-up. One such cause is thought to be powerful geomagnetic storms that inject the outer belt with high energy electrons. The inner belt, on the other hand, seems to depend almost solely upon the collection of albedo neutrons - neutrons from cosmic rays that are reflected by the earth and sent back into space -that collide in the atmosphere and decay into protons. The interaction between particles in these two belts is responsible for the electro-static phenomenon of auroras that occur primarily in the polar regions.',
           'These radiation belts do pose some difficulties to space exploration. Satellites are especially vulnerable to the radiation. The digitization of electronic components in satellites has allowed them to become smaller and smaller, increasing their vulnerability to disruptions caused by highly charged particles within the belts. Some scientists have proposed methods to alleviate the influence of radiation belts on satellites and other spacecraft. These procedures would essentially drain the inner belt of most of its harmful ions. This is a controversial proposal, however, as many of its opponents argue that the radiation belts help guard against solar winds, and weakening the belts may be dangerous to humans.'
@@ -2254,6 +2214,7 @@
         btn.textContent = target === 'dark' ? '☀️ Sáng' : '🌙 Tối';
       }
       saveState();
+      updateMiniMusicProgressUI();
     }
 
     function toggleThemeMode() {
