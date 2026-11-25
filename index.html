@@ -62,7 +62,6 @@
     html.dark .text-slate-700, html.dark .text-slate-600 { color: #cbd5e1; }
     html.dark .text-slate-500, html.dark .text-slate-400 { color: #94a3b8; }
 
-    /* Fix light/pastel pill badges & score boxes in Dark Mode */
     html.dark .bg-brand-50, html.dark .bg-brand-50\/60, html.dark .bg-brand-50\/70 { background-color: rgba(30, 64, 175, 0.24); border-color: rgba(96, 165, 250, 0.35); color: #bfdbfe; }
     html.dark .text-brand-900, html.dark .text-brand-800, html.dark .text-brand-700 { color: #93c5fd; }
     html.dark .bg-emerald-50 { background-color: rgba(16, 185, 129, 0.16); border-color: rgba(52, 211, 153, 0.35); color: #6ee7b7; }
@@ -75,14 +74,12 @@
     html.dark .text-rose-950, html.dark .text-rose-900, html.dark .text-rose-800, html.dark .text-rose-700, html.dark .text-rose-600 { color: #fda4af; }
     html.dark mark.bg-amber-100 { background-color: rgba(245, 158, 11, 0.32); color: #fef3c7; }
 
-    /* Keep primary & semantic solid buttons high-contrast in Dark Mode */
     html.dark button.bg-brand-700, html.dark a.bg-brand-700 { background-color: #2563eb; color: #ffffff; }
     html.dark button.bg-brand-700:hover, html.dark a.bg-brand-700:hover { background-color: #1d4ed8; }
     html.dark button.bg-emerald-600 { background-color: #059669; color: #ffffff; }
     html.dark button.bg-emerald-600:hover { background-color: #047857; }
     html.dark button.bg-rose-600, html.dark button.bg-rose-700 { background-color: #e11d48; color: #ffffff; }
 
-    /* TOEFL Audio Player in Dark Mode */
     html.dark .toefl-audio-shell { background-color: #131c31; border-color: #334155; }
     html.dark .toefl-audio-instruction { background-color: #19243d; border-color: #334155; color: #e2e8f0; }
     html.dark .toefl-audio-bar { background-color: #1e293b; border-color: #334155; color: #cbd5e1; }
@@ -100,7 +97,6 @@
     html.dark .academic-scroll::-webkit-scrollbar-track { background: #0f172a; }
     html.dark .academic-scroll::-webkit-scrollbar-thumb { background: #334155; }
 
-    /* Mini Music Box Motion & Equalizer Animations */
     @keyframes musicBarBounce {
       0%, 100% { transform: scaleY(0.32); }
       50% { transform: scaleY(1); }
@@ -162,7 +158,6 @@
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-100 selection:text-brand-900">
-  <!-- Intro & Mode Selection Overlay Screen -->
   <div id="intro-overlay" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
     <div class="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-2xl w-full p-6 sm:p-8 space-y-6 my-auto">
       <div id="intro-step-welcome" class="space-y-6 text-center sm:text-left">
@@ -272,10 +267,8 @@
     </div>
   </div>
 
-  <!-- Toast / Status Notification Banner -->
   <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
 
-  <!-- Floating Mini Music Box (Bottom Left — Default Repo MP3s + Progress Bar + Motion) -->
   <div id="mini-music-box" class="fixed bottom-4 left-4 z-40 w-[305px] sm:w-[330px] bg-white/95 backdrop-blur border border-slate-200 rounded-2xl shadow-lg p-3 transition-all">
     <div class="flex items-center justify-between gap-2">
       <div class="flex items-center gap-2 min-w-0">
@@ -329,7 +322,6 @@
       </div>
     </div>
 
-    <!-- Running Music Progress Bar -->
     <div class="mt-2.5 flex items-center gap-2">
       <span id="mini-music-current-time" class="text-[10px] font-mono text-slate-500 w-8 text-left tabular-nums">00:00</span>
       <div class="relative flex-1 flex items-center">
@@ -361,7 +353,6 @@
         ></select>
       </div>
 
-      <!-- User Local Audio File Upload Only -->
       <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
         <div class="flex items-center justify-between">
           <span class="text-[11px] font-bold text-slate-700">+ Tự thêm file nhạc từ máy</span>
@@ -405,7 +396,6 @@
     </div>
   </div>
 
-  <!-- Top Navigation Header -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-wrap items-center justify-between py-3 gap-3">
@@ -509,9 +499,7 @@
     </div>
   </header>
 
-  <!-- Main Content Container -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24">
-    <!-- ==================== SECTION 1: READING ==================== -->
     <section id="section-reading" class="space-y-5">
       <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs space-y-4">
         <div class="flex flex-col gap-4">
@@ -608,7 +596,6 @@
         </div>
       </div>
 
-      <!-- Split Screen Workspace -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         <article class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden lg:sticky lg:top-24">
           <div class="px-5 py-4 bg-slate-900 text-white flex flex-wrap items-center justify-between gap-2">
@@ -651,7 +638,6 @@
         </div>
       </div>
 
-      <!-- Modal: Overview & Wrong-Answer Filter -->
       <div id="reading-overview-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs p-4 sm:p-6 flex items-center justify-center">
         <div class="bg-white rounded-2xl border border-slate-200 shadow-2xl max-w-4xl w-full max-h-[88vh] flex flex-col overflow-hidden">
           <div class="px-5 py-4 bg-slate-900 text-white flex items-center justify-between gap-3">
@@ -673,7 +659,6 @@
       </div>
     </section>
 
-    <!-- ==================== SECTION 2: LISTENING ==================== -->
     <section id="section-listening" class="hidden space-y-6">
       <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-xs space-y-5">
         <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 pb-5 border-b border-slate-100">
@@ -779,7 +764,6 @@
       </div>
     </section>
 
-    <!-- ==================== SECTION 3: WRITING ==================== -->
     <section id="section-writing" class="hidden space-y-6">
       <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs">
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -833,7 +817,6 @@
         </div>
       </div>
 
-      <!-- Independent Writing Sub-view -->
       <div id="writing-independent-view" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
           <div>
@@ -917,7 +900,6 @@
         </div>
       </div>
 
-      <!-- Integrated Writing Sub-view -->
       <div id="writing-integrated-view" class="hidden space-y-5">
         <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div class="flex-1">
@@ -1105,7 +1087,6 @@
       </div>
     </section>
 
-    <!-- ==================== SECTION 4: SPEAKING (ĐANG CẬP NHẬT) ==================== -->
     <section id="section-speaking" class="hidden">
       <div class="bg-white rounded-2xl border border-slate-200 p-8 sm:p-10 shadow-xs text-center max-w-2xl mx-auto space-y-4">
         <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-2xl mx-auto">
@@ -1141,10 +1122,6 @@
   </main>
 
   <script>
-    // =========================================================================
-    // 3. DEFAULT REPO MP3 FILES & USER-ADDED LOCAL FILE PLAYER (BOTTOM LEFT)
-    // =========================================================================
-
     const DEFAULT_REPO_TRACKS = [
       {
         id: 'default-earth-embraces-sun',
@@ -1178,26 +1155,23 @@
 
     function pauseBackgroundMusicForLecture() {
       const customAudioEl = getCustomAudioEl();
-      if (customAudioEl && !customAudioEl.paused) {
-        customAudioEl.pause();
+      if (customAudioEl) {
+        if (!customAudioEl.paused) {
+          customAudioEl.pause();
+        }
         updateMiniMusicUI(false);
         updateMiniMusicProgressUI();
       }
     }
 
-    function stopAllAudioOnPageLeave() {
-      const customAudioEl = getCustomAudioEl();
-      if (customAudioEl && !customAudioEl.paused) {
-        customAudioEl.pause();
-        updateMiniMusicUI(false);
-        updateMiniMusicProgressUI();
+    function stopWritingAudioOnly() {
+      const intAudio = document.getElementById('integrated-audio-element');
+      const playBtn = document.getElementById('integrated-play-btn');
+      if (intAudio && !intAudio.paused) {
+        intAudio.pause();
       }
-
-      const integratedAudioEl = document.getElementById('integrated-audio-element');
-      if (integratedAudioEl && !integratedAudioEl.paused) {
-        integratedAudioEl.pause();
-        const playBtn = document.getElementById('integrated-play-btn');
-        if (playBtn) playBtn.textContent = '▶';
+      if (playBtn) {
+        playBtn.textContent = '▶';
       }
     }
 
@@ -1438,10 +1412,6 @@
       });
     }
 
-    // =========================================================================
-    // 1. READING PASSAGES DATA (10 PASSAGES / 67 QUESTIONS)
-    // =========================================================================
-
     const READING_PASSAGES = [
       {
         id: 'passage-01-autocracy',
@@ -1584,30 +1554,9 @@
           'Some areas also experience what are known as retreating monsoons. [■ A] Since land not only gains but also loses heat at a faster rate than the sea, land surfaces are colder in the winter than the sea. [■ B] Thus, it is the sea air that rises faster in these cases. [■ C] An area of low pressure is created offshore, and the cooler land air rushes in to fill the void. [■ D] In contrast to normal monsoon winds, which are normally warm and wet, retreating monsoon winds are frequently cool and relatively dry. They generally do not bring nearly as much precipitation as summer monsoons, and what little precipitation they do bring is generally in the form of snow.'
         ],
         questions: [
-          {
-            num: 13,
-            type: 'Factual Information',
-            prompt: 'Based on information in paragraph 1, the term Monsoons can best be defined as',
-            options: { A: 'seasonal rainstorms caused by heavy winds', B: 'a wind that blows in one direction year round', C: 'a consistent wind that occurs during a specific time of year', D: 'a strong wind that indicates the beginning of a new season' },
-            correct: 'C',
-            explanation: 'Đoạn 1 định nghĩa chính xác hơn về gió mùa là "a seasonal prevailing wind - that is, a wind that blows consistently in one direction", tức là loại gió ổn định xảy ra vào một thời điểm nhất định trong năm.'
-          },
-          {
-            num: 14,
-            type: 'Factual Information',
-            prompt: 'According to paragraph 2, monsoons are caused by',
-            options: { A: 'violent storms at sea', B: 'temperature fluctuations on land', C: 'the release of heat at sea', D: 'variations between land and sea temperatures' },
-            correct: 'D',
-            explanation: 'Đoạn 2 khẳng định: "all monsoons are driven by the same force: temperature differences between land and sea." Sự chênh lệch nhiệt độ giữa đất liền và biển là nguyên nhân gốc rễ.'
-          },
-          {
-            num: 15,
-            type: 'Rhetorical Purpose',
-            prompt: 'Why does the author mention southern India?',
-            options: { A: 'To discuss how monsoons affect the lives of people', B: 'To illustrate the amount of rainfall monsoons can bring to an area', C: 'To indicate where monsoons are strongest', D: 'To discuss the potential dangers of monsoons' },
-            correct: 'B',
-            explanation: 'Tác giả nhắc đến miền nam Ấn Độ để dẫn chứng lượng mưa lớn mà gió mùa có thể mang lại: chiếm gần 80% lượng mưa trung bình năm, có nơi tới 10 mét mưa trong mùa gió mùa.'
-          },
+          { num: 13, type: 'Factual Information', prompt: 'Based on information in paragraph 1, the term Monsoons can best be defined as', options: { A: 'seasonal rainstorms caused by heavy winds', B: 'a wind that blows in one direction year round', C: 'a consistent wind that occurs during a specific time of year', D: 'a strong wind that indicates the beginning of a new season' }, correct: 'C', explanation: 'Đoạn 1 định nghĩa chính xác hơn về gió mùa là "a seasonal prevailing wind - that is, a wind that blows consistently in one direction", tức là loại gió ổn định xảy ra vào một thời điểm nhất định trong năm.' },
+          { num: 14, type: 'Factual Information', prompt: 'According to paragraph 2, monsoons are caused by', options: { A: 'violent storms at sea', B: 'temperature fluctuations on land', C: 'the release of heat at sea', D: 'variations between land and sea temperatures' }, correct: 'D', explanation: 'Đoạn 2 khẳng định: "all monsoons are driven by the same force: temperature differences between land and sea." Sự chênh lệch nhiệt độ giữa đất liền và biển là nguyên nhân gốc rễ.' },
+          { num: 15, type: 'Rhetorical Purpose', prompt: 'Why does the author mention southern India?', options: { A: 'To discuss how monsoons affect the lives of people', B: 'To illustrate the amount of rainfall monsoons can bring to an area', C: 'To indicate where monsoons are strongest', D: 'To discuss the potential dangers of monsoons' }, correct: 'B', explanation: 'Tác giả nhắc đến miền nam Ấn Độ để dẫn chứng lượng mưa lớn mà gió mùa có thể mang lại: chiếm gần 80% lượng mưa trung bình năm, có nơi tới 10 mét mưa trong mùa gió mùa.' },
           {
             num: 16,
             type: 'Insert Text',
@@ -1637,38 +1586,10 @@
           'The speed at which karst formations develop is largely a function of two factors: the chemical makeup of the bedrock and the acidity of the rainwater. Among the various forms of carbonate rock, limestone dissolves most quickly. Other forms of carbonate rock, such as dolostone, are more resistant to the corrosive effects of acid, and, in areas with high concentrations of dolostone, karst formation will occur at a slower pace. The acidity of the rainwater also affects the speed of development; more acidic rainwater will dissolve the bedrock more quickly. Acid rain forms when atmospheric carbon dioxide is absorbed into a rain cloud. Here it reacts with water vapor to form carbonic acid. The higher the level of carbon dioxide in the air, the more carbonic acid will form, and the rainwater will be of higher acidity. Thus, in areas with heavy carbon dioxide emissions, such as in industrial areas, karst formation occurs at an accelerated pace.'
         ],
         questions: [
-          {
-            num: 17,
-            type: 'Reference',
-            prompt: 'The word others in the passage refers to',
-            options: { A: 'land features', B: 'canyons', C: 'river beds', D: 'erosive forces' },
-            correct: 'A',
-            explanation: 'Câu đầu đoạn 1 đối chiếu các dạng địa hình ("land features") được tạo ra do xói mòn với những dạng địa hình khác ("others") được tạo ra chủ yếu bởi quá trình hóa học.'
-          },
-          {
-            num: 18,
-            type: 'Factual Information',
-            prompt: 'According to paragraph 2, how can immature karst formations be identified?',
-            options: { A: 'By the presence of wear patterns on exposed bedrock', B: 'By the presence of large fissures in the bedrock', C: 'By a lack of porous carbonate rock', D: 'By the presence of large cave complexes' },
-            correct: 'A',
-            explanation: 'Ở giai đoạn sơ khai (immature), nước mưa có tính axit nhẹ bắt đầu ăn mòn đá nền lộ thiên, tạo ra các vết lõm và rãnh nhỏ (karren) — tức các dấu hiệu mài mòn ("wear patterns on exposed bedrock").'
-          },
-          {
-            num: 19,
-            type: 'Inference',
-            prompt: 'Based on the information in paragraph 3, what can be inferred about the karst formations in Arizona and New Mexico?',
-            options: { A: 'They are mature karst formations.', B: 'Their bedrock has been completely dissolved.', C: 'Their cave systems are frequently explored.', D: 'They are in areas with high levels of acid rain.' },
-            correct: 'A',
-            explanation: 'Đoạn 3 mô tả các hệ thống hang động rộng lớn, phức tạp và liên kết với nhau là đặc điểm của địa hình karst trưởng thành ("mature karst formations"), rồi dẫn chứng hệ thống hang động ở Arizona và New Mexico.'
-          },
-          {
-            num: 20,
-            type: 'Negative Factual (EXCEPT)',
-            prompt: 'According to the passage, all of the following will speed up the process of karst formation EXCEPT',
-            options: { A: 'high levels of atmospheric carbon dioxide', B: 'high concentrations of limestone in the bedrock', C: 'the presence of large cracks in the bedrock', D: 'weakly acidic rainwater' },
-            correct: 'D',
-            explanation: 'Đoạn 4 nêu nước mưa càng có tính axit cao thì hòa tan đá càng nhanh ("more acidic rainwater will dissolve the bedrock more quickly"). Nước mưa có tính axit yếu ("weakly acidic rainwater") sẽ làm quá trình chậm lại chứ không đẩy nhanh.'
-          }
+          { num: 17, type: 'Reference', prompt: 'The word others in the passage refers to', options: { A: 'land features', B: 'canyons', C: 'river beds', D: 'erosive forces' }, correct: 'A', explanation: 'Câu đầu đoạn 1 đối chiếu các dạng địa hình ("land features") được tạo ra do xói mòn với những dạng địa hình khác ("others") được tạo ra chủ yếu bởi quá trình hóa học.' },
+          { num: 18, type: 'Factual Information', prompt: 'According to paragraph 2, how can immature karst formations be identified?', options: { A: 'By the presence of wear patterns on exposed bedrock', B: 'By the presence of large fissures in the bedrock', C: 'By a lack of porous carbonate rock', D: 'By the presence of large cave complexes' }, correct: 'A', explanation: 'Ở giai đoạn sơ khai (immature), nước mưa có tính axit nhẹ bắt đầu ăn mòn đá nền lộ thiên, tạo ra các vết lõm và rãnh nhỏ (karren) — tức các dấu hiệu mài mòn ("wear patterns on exposed bedrock").' },
+          { num: 19, type: 'Inference', prompt: 'Based on the information in paragraph 3, what can be inferred about the karst formations in Arizona and New Mexico?', options: { A: 'They are mature karst formations.', B: 'Their bedrock has been completely dissolved.', C: 'Their cave systems are frequently explored.', D: 'They are in areas with high levels of acid rain.' }, correct: 'A', explanation: 'Đoạn 3 mô tả các hệ thống hang động rộng lớn, phức tạp và liên kết với nhau là đặc điểm của địa hình karst trưởng thành ("mature karst formations"), rồi dẫn chứng hệ thống hang động ở Arizona và New Mexico.' },
+          { num: 20, type: 'Negative Factual (EXCEPT)', prompt: 'According to the passage, all of the following will speed up the process of karst formation EXCEPT', options: { A: 'high levels of atmospheric carbon dioxide', B: 'high concentrations of limestone in the bedrock', C: 'the presence of large cracks in the bedrock', D: 'weakly acidic rainwater' }, correct: 'D', explanation: 'Đoạn 4 nêu nước mưa càng có tính axit cao thì hòa tan đá càng nhanh ("more acidic rainwater will dissolve the bedrock more quickly"). Nước mưa có tính axit yếu ("weakly acidic rainwater") sẽ làm quá trình chậm lại chứ không đẩy nhanh.' }
         ]
       },
       {
@@ -1685,14 +1606,7 @@
           'These radiation belts do pose some difficulties to space exploration. Satellites are especially vulnerable to the radiation. The digitization of electronic components in satellites has allowed them to become smaller and smaller, increasing their vulnerability to disruptions caused by highly charged particles within the belts. Some scientists have proposed methods to alleviate the influence of radiation belts on satellites and other spacecraft. These procedures would essentially drain the inner belt of most of its harmful ions. This is a controversial proposal, however, as many of its opponents argue that the radiation belts help guard against solar winds, and weakening the belts may be dangerous to humans.'
         ],
         questions: [
-          {
-            num: 21,
-            type: 'Vocabulary',
-            prompt: 'The word inadvertent in the passage is closest in meaning to',
-            options: { A: 'accidental', B: 'unfortunate', C: 'insignificant', D: 'deliberate' },
-            correct: 'A',
-            explanation: 'Đoạn 1 mô tả vệ tinh phóng lên để đo tia vũ trụ nhưng lại bất ngờ phát hiện vành đai bức xạ khi cảm biến bị quá tải ion ("discovered more than they could have anticipated"). Do đó "inadvertent" có nghĩa là vô tình/ngẫu nhiên ("accidental").'
-          },
+          { num: 21, type: 'Vocabulary', prompt: 'The word inadvertent in the passage is closest in meaning to', options: { A: 'accidental', B: 'unfortunate', C: 'insignificant', D: 'deliberate' }, correct: 'A', explanation: 'Đoạn 1 mô tả vệ tinh phóng lên để đo tia vũ trụ nhưng lại bất ngờ phát hiện vành đai bức xạ khi cảm biến bị quá tải ion ("discovered more than they could have anticipated"). Do đó "inadvertent" có nghĩa là vô tình/ngẫu nhiên ("accidental").' },
           {
             num: 22,
             type: 'Sentence Simplification',
@@ -1706,14 +1620,7 @@
             correct: 'C',
             explanation: 'Câu được làm nổi bật giải thích sự gia tăng cường độ từ trường ở các cực làm lệch hướng các hạt mang điện, khiến chúng dội qua lại giữa hai cực. Phương án C phản ánh chính xác ý này.'
           },
-          {
-            num: 23,
-            type: 'Reference',
-            prompt: 'The word them in the passage refers to',
-            options: { A: 'electronic components', B: 'charged particles', C: 'solar winds', D: 'radiation belts' },
-            correct: 'A',
-            explanation: 'Câu văn: "The digitization of electronic components in satellites has allowed them to become smaller and smaller..." Việc số hóa các linh kiện điện tử ("electronic components") giúp chúng ("them") nhỏ đi.'
-          },
+          { num: 23, type: 'Reference', prompt: 'The word them in the passage refers to', options: { A: 'electronic components', B: 'charged particles', C: 'solar winds', D: 'radiation belts' }, correct: 'A', explanation: 'Câu văn: "The digitization of electronic components in satellites has allowed them to become smaller and smaller..." Việc số hóa các linh kiện điện tử ("electronic components") giúp chúng ("them") nhỏ đi.' },
           {
             num: 24,
             type: 'Factual Information',
@@ -1782,27 +1689,8 @@
             correct: 'C',
             explanation: 'Đoạn 2 nêu lý do phát hiện này chưa được coi là bằng chứng xác thực tuyệt đối là do trôi dạt lục địa ("due to continental drift, the earth would have looked quite different millions of years ago").'
           },
-          {
-            num: 28,
-            type: 'Factual Information',
-            prompt: 'According to paragraph 3, what might have made a "Snowball Earth" possible?',
-            options: {
-              A: 'If the earth suddenly received less sunlight',
-              B: 'If the ice caps reached below a certain latitude',
-              C: 'If the ice caps grew much thicker',
-              D: 'If carbon levels in the oceans became too high'
-            },
-            correct: 'B',
-            explanation: 'Đoạn 3 đề cập điểm tới hạn khoảng vĩ độ 30°: nếu băng lan vượt qua điểm này (về phía vùng nhiệt đới, tức vĩ độ thấp hơn), phản xạ nhiệt mặt trời sẽ tăng mạnh gây lạnh đi nhanh chóng.'
-          },
-          {
-            num: 29,
-            type: 'Vocabulary',
-            prompt: 'The word inhospitable in the passage is closest in meaning to',
-            options: { A: 'harsh', B: 'ideal', C: 'inadequate', D: 'tolerable' },
-            correct: 'A',
-            explanation: 'Một Trái Đất bao phủ hoàn toàn bởi băng giá là môi trường khắc nghiệt cho sự sống ("inhospitable"), gần nghĩa nhất với "harsh".'
-          },
+          { num: 28, type: 'Factual Information', prompt: 'According to paragraph 3, what might have made a "Snowball Earth" possible?', options: { A: 'If the earth suddenly received less sunlight', B: 'If the ice caps reached below a certain latitude', C: 'If the ice caps grew much thicker', D: 'If carbon levels in the oceans became too high' }, correct: 'B', explanation: 'Đoạn 3 đề cập điểm tới hạn khoảng vĩ độ 30°: nếu băng lan vượt qua điểm này (về phía vùng nhiệt đới, tức vĩ độ thấp hơn), phản xạ nhiệt mặt trời sẽ tăng mạnh gây lạnh đi nhanh chóng.' },
+          { num: 29, type: 'Vocabulary', prompt: 'The word inhospitable in the passage is closest in meaning to', options: { A: 'harsh', B: 'ideal', C: 'inadequate', D: 'tolerable' }, correct: 'A', explanation: 'Một Trái Đất bao phủ hoàn toàn bởi băng giá là môi trường khắc nghiệt cho sự sống ("inhospitable"), gần nghĩa nhất với "harsh".' },
           {
             num: 30,
             type: 'Rhetorical Purpose',
@@ -2093,7 +1981,7 @@
           'Among the four types of handedness, right, left, mixed and ambidexterity, it is ambidexterity, or the ability to use both hands with equal facility, that is most valued. Ambidexterity has several advantages, such as more proficiency in various tasks, efficiency and brain growth.',
           'First, ambidextrous people are the ablest performers of various tasks. In sports, for instance, ambidextrous basketball, hockey and tennis players could use either their left or right hand or side of the body to shoot or hit the ball. In baseball, an ambidextrous batter has a higher chance of hitting the baseball when it is thrown by an opposite handed pitcher. Ambidexterity people also perform better in activities that require skill in both hands, such as swimming, playing percussion or keyboard music, and even in surgery. In combat, ambidextrous individuals also have an advantage. If one of their hands were injured, they could continue to fight with their other hand.',
           'Second, several popular ambidextrous figures in history have proven the benefits of ambidexterity in terms of efficiency. The artists Michelangelo and Leonardo da Vinci were both ambidextrous, and they painted with both hands, while the scientists Alexander Fleming and Albert Einstein solved difficult scientific riddles while switching their pens from the right to the left hand and vice versa.',
-          'Finally, one interesting effect of ambidexterity is that it makes the brain grow physically. This is because symmetrical coordination between the left and the right sides of the body requires a considerable amount of brain activity. Also, studies have shown that ambidextrous people are more emotionally independent, more determined, and more apt to handle problems without giving up.'
+          'Finally, one interesting effect of ambidextrous is that it makes the brain grow physically. This is because symmetrical coordination between the left and the right sides of the body requires a considerable amount of brain activity. Also, studies have shown that ambidextrous people are more emotionally independent, more determined, and more apt to handle problems without giving up.'
         ],
         transcript: 'Now listen to a lecture on the topic you read about.\n\nUm, last week we were talking about the concept of ambidexterity, or the ability of being equally adept in both hands. Today we\'re gonna talk about why, anthropologically speaking, it\'s not very good to have it. There are a lot of arguments for ambidexterity that sound convincing, but if you consider them more closely, they\'re actually overgeneralized.\n\nAlthough it may be true that ambidextrous people are better performers, their proficiency is not always up to par. Actually, a good example of this comes from chimpanzees, our closest relatives in the primate family. In the study of chimpanzees and their termite eating patterns, results showed that those who were either right or left-handed ate a third more termites than the ambidextrous ones. One explanation for this was that those who preferred only one hand used it more often, thus becoming more specialized and precise in their task. The ambidextrous ones were not as proficient because they divided their proficiency over two hands.\n\nAlso, they say that popular ambidextrous figures, like da Vinci and Einstein, have proven the benefits of ambidexterity in terms of efficiency. Let me put it this way: these people are rare, very special individuals whose ability we cannot attribute to just being ambidextrous. They are very good at what they do because of factors other than handedness. Going back to my example of chimpanzees, efficiency-wise, ambidextrous individuals do not always perform better than the rest.\n\nFinally, it is basically flawed to say that ambidextrous people exhibit greater brain size and activity. Why? Okay, the use of both hands may promote brain growth, but academics and anthropologists often fail to mention that ambidextrous people are prone to have various neurological disorders, such as dyslexia and dyscalculia, both of which are widely recognized as serious learning disabilities.'
       },
@@ -2138,10 +2026,6 @@
         transcript: 'Today we\'re going to talk about facial expressions. You know, smiles, grins, tears, things like that. Are they the same for everybody? The answer is no, they are not. Facial expressions, contrary to popular belief, are not universal. They often vary from culture to culture and are highly dependent on the context of a particular situation.\n\nDo you get this? Um, okay, let me give you examples. East and Southeast Asian people often express their embarrassment by smiling or even laughing, while Westerners would keep mum or silent. An impassive, blank face, on the other hand, means that they are angry. Um, you know, other people would probably put on this impassive look when they feel resigned or submissive.\n\nFacial expressions are also one of the trickiest parts of human activity. A very recent method called the Facial Action Coding System, or FACS, has been known to register over 44 basic emotions. And you see they haven\'t even finished counting yet. These basic facial expressions are innate to humans as well.\n\nOur facial actions, so to speak, involve a very sensitive combination of movements in the chin, lip, cheek, eye, and brow muscles. And this phenomenon can\'t be found in the animal kingdom. That is to say only people have facial expressions, okay?\n\nYou see, guys, facial expressions are not just repositories of our emotions. They are much more than that. This can be proven just by the mere fact that not all facial expressions are spontaneous. Yeah, you heard that right. Facial expressions are not always spontaneous because sometimes they can be voluntary and calculated, which is why they are called posed facial expressions.\n\nThe best-known illustration of these posed facial expressions would be in Japanese culture. You see, the Japanese have developed facial masking, which is a method of masking or hiding one\'s negative emotions with smiles and laughter. Because of this practice, Westerners often think of the Japanese as highly impenetrable or inscrutable'
       }
     ];
-
-    // =========================================================================
-    // 2. PERSISTENT STATE, THEME MODE & LOCAL STORAGE HELPERS
-    // =========================================================================
 
     const STORAGE_KEY = 'toefl_ibt_practice_studio_v1';
 
@@ -2242,10 +2126,6 @@
       showToast(next === 'dark' ? 'Đã bật chế độ Tối.' : 'Đã bật chế độ Sáng.', 'info');
     }
 
-    // =========================================================================
-    // 4. INTRO OVERLAY, NAVIGATION & READING / LISTENING / WRITING LOGIC
-    // =========================================================================
-
     function escapeHtmlText(str) {
       return String(str ?? '')
         .replace(/&/g, '&amp;')
@@ -2285,17 +2165,6 @@
       if (badge) badge.textContent = 'Chế độ: Luyện từng phần';
       dismissIntroToCurrentWorkspace();
       switchSection(appState.activeSection || 'reading');
-    }
-
-    function stopWritingAudioOnly() {
-      const intAudio = document.getElementById('integrated-audio-element');
-      const playBtn = document.getElementById('integrated-play-btn');
-      if (intAudio && !intAudio.paused) {
-        intAudio.pause();
-      }
-      if (playBtn) {
-        playBtn.textContent = '▶';
-      }
     }
 
     function switchSection(sectionName) {
@@ -2642,7 +2511,6 @@
       `;
     }
 
-    // --- LISTENING ---
     let listeningSecondsLeft = 10 * 60;
     let listeningTimerInterval = null;
 
@@ -2715,7 +2583,6 @@
       showToast('Đã xóa ghi chú Listening.', 'info');
     }
 
-    // --- WRITING ---
     let writingSecondsLeft = 30 * 60;
     let writingTimerInterval = null;
 
@@ -2972,69 +2839,40 @@
       if (btn) btn.textContent = audioEl.muted ? '🔇' : '🔊';
     }
 
-    // =========================================================================
-    // 5. BOOTSTRAP INITIALIZATION
-    // =========================================================================
-
     function initApp() {
       applyThemeMode(appState.themeMode);
 
+      initReadingSelectors();
+      renderCurrentReadingPassage();
+      updateGlobalScoreSummary();
+
+      const notesEl = document.getElementById('listening-main-notes');
+      if (notesEl) notesEl.value = appState.listeningNotesText || '';
+
+      initWritingSelectors();
+      selectIndependentPrompt(appState.currentIndependentId);
+      selectIntegratedSet(appState.currentIntegratedId);
+      switchWritingSubtab(appState.writingSubtab || 'independent');
+
       renderMusicPresetOptions();
-      syncPlayerSourceForTrack(getCurrentMusicTrack(), true, true);
+      syncPlayerSourceForTrack(getCurrentMusicTrack(), false, true);
       setupAutoplayFallback();
       const customMusicEl = getCustomAudioEl();
       if (customMusicEl) {
         customMusicEl.addEventListener('ended', nextMusicTrack);
         customMusicEl.addEventListener('timeupdate', updateMiniMusicProgressUI);
         customMusicEl.addEventListener('loadedmetadata', updateMiniMusicProgressUI);
-      }
-
-      initReadingSelectors();
-      resetReadingTimer();
-      renderCurrentReadingPassage();
-      updateGlobalScoreSummary();
-
-      const notesBox = document.getElementById('listening-main-notes');
-      if (notesBox) notesBox.value = appState.listeningNotesText || '';
-
-      initWritingSelectors();
-      selectIndependentPrompt(appState.currentIndependentId);
-      selectIntegratedSet(appState.currentIntegratedId);
-      switchWritingSubtab(appState.writingSubtab);
-
-      const intAudio = document.getElementById('integrated-audio-element');
-      if (intAudio) {
-        intAudio.addEventListener('play', () => {
-          pauseBackgroundMusicForLecture();
-          const btn = document.getElementById('integrated-play-btn');
-          if (btn) btn.textContent = '⏸';
-        });
-        intAudio.addEventListener('pause', () => {
-          const btn = document.getElementById('integrated-play-btn');
-          if (btn) btn.textContent = '▶';
-        });
-        intAudio.addEventListener('timeupdate', () => {
-          const scrubber = document.getElementById('integrated-audio-scrubber');
-          const timeLbl = document.getElementById('integrated-audio-time');
-          const cur = Math.floor(intAudio.currentTime || 0);
-          const dur = Math.floor(intAudio.duration || 245);
-          if (scrubber && dur > 0) scrubber.value = String((cur / dur) * 100);
-          if (timeLbl) timeLbl.textContent = `${formatTimeMMSS(cur)} / ${formatTimeMMSS(dur)}`;
-        });
-        intAudio.addEventListener('ended', () => {
-          const btn = document.getElementById('integrated-play-btn');
-          if (btn) btn.textContent = '▶';
+        customMusicEl.addEventListener('pause', () => {
+          updateMiniMusicUI(false);
+          updateMiniMusicProgressUI();
         });
       }
 
       switchSection(appState.activeSection || 'reading');
 
-      window.addEventListener('pagehide', stopAllAudioOnPageLeave);
-      window.addEventListener('beforeunload', stopAllAudioOnPageLeave);
-      window.addEventListener('blur', stopAllAudioOnPageLeave);
       document.addEventListener('visibilitychange', () => {
         if (document.hidden || document.visibilityState === 'hidden') {
-          stopAllAudioOnPageLeave();
+          stopWritingAudioOnly();
         }
       });
     }
