@@ -1142,6 +1142,15 @@
       return document.getElementById('custom-music-audio');
     }
 
+    function pauseBackgroundMusicForLecture() {
+      const customAudioEl = getCustomAudioEl();
+      if (customAudioEl && !customAudioEl.paused) {
+        customAudioEl.pause();
+        updateMiniMusicUI(false);
+        updateMiniMusicProgressUI();
+      }
+    }
+
     function stopAllAudioOnPageLeave() {
       const customAudioEl = getCustomAudioEl();
       if (customAudioEl && !customAudioEl.paused) {
@@ -2929,6 +2938,7 @@
         audioEl.pause();
         if (btn) btn.textContent = '▶';
       } else {
+        pauseBackgroundMusicForLecture();
         audioEl.play().then(() => {
           if (btn) btn.textContent = '⏸';
         }).catch(() => {
@@ -2997,6 +3007,15 @@
 
       const intAudio = document.getElementById('integrated-audio-element');
       if (intAudio) {
+        intAudio.addEventListener('play', () => {
+          pauseBackgroundMusicForLecture();
+          const btn = document.getElementById('integrated-play-btn');
+          if (btn) btn.textContent = '⏸';
+        });
+        intAudio.addEventListener('pause', () => {
+          const btn = document.getElementById('integrated-play-btn');
+          if (btn) btn.textContent = '▶';
+        });
         intAudio.addEventListener('timeupdate', () => {
           const scrubber = document.getElementById('integrated-audio-scrubber');
           const timeLbl = document.getElementById('integrated-audio-time');
