@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TOEFL iBT Practice Studio — Reading, Listening & Writing</title>
-  <!-- Logo nhỏ gọn (SVG data URI) hiển thị trên tab trình duyệt -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231e40af'/%3E%3Cpath d='M8 10.5h16M16 10.5v12M11 22.5h10' stroke='%23ffffff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -35,145 +34,39 @@
     };
   </script>
   <style>
-    /* Smooth custom scrollbars for split-screen reading and long passages */
-    .academic-scroll::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    .academic-scroll::-webkit-scrollbar-track {
-      background: #f1f5f9;
-      border-radius: 9999px;
-    }
-    .academic-scroll::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 9999px;
-    }
-    .academic-scroll::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
-    .passage-prose p {
-      margin-bottom: 1rem;
-      line-height: 1.8;
-    }
-    .passage-prose p:last-child {
-      margin-bottom: 0;
-    }
+    .academic-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+    .academic-scroll::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 9999px; }
+    .academic-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    .academic-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .passage-prose p { margin-bottom: 1rem; line-height: 1.8; }
+    .passage-prose p:last-child { margin-bottom: 0; }
 
-    /* Classic TOEFL Audio Player Bar matching reference */
-    .toefl-audio-shell {
-      background: #ececec;
-      border: 1px solid #d1d5db;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    .toefl-audio-instruction {
-      padding: 8px 12px;
-      font-family: 'Newsreader', Georgia, serif;
-      font-style: italic;
-      font-size: 14px;
-      color: #27272a;
-      background: #efefef;
-      border-bottom: 1px solid #d4d4d8;
-    }
-    .toefl-audio-bar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 10px;
-      background: #e4e4e7;
-      border-bottom: 1px solid #d4d4d8;
-      font-size: 12px;
-      color: #3f3f46;
-    }
-    .toefl-audio-btn {
-      width: 24px;
-      height: 24px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 3px;
-      color: #3f3f46;
-      background: transparent;
-      cursor: pointer;
-      transition: background-color 0.15s ease, color 0.15s ease;
-    }
-    .toefl-audio-btn:hover {
-      background: #d4d4d8;
-      color: #111827;
-    }
-    .toefl-audio-btn.is-active {
-      background: #cbd5e1;
-      color: #1e3a8a;
-    }
-    .toefl-audio-caption {
-      padding: 12px 14px;
-      font-size: 14px;
-      color: #334155;
-      background: #ededed;
-    }
+    .toefl-audio-shell { background: #ececec; border: 1px solid #d1d5db; border-radius: 4px; overflow: hidden; }
+    .toefl-audio-instruction { padding: 8px 12px; font-family: 'Newsreader', Georgia, serif; font-style: italic; font-size: 14px; color: #27272a; background: #efefef; border-bottom: 1px solid #d4d4d8; }
+    .toefl-audio-bar { display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: #e4e4e7; border-bottom: 1px solid #d4d4d8; font-size: 12px; color: #3f3f46; }
+    .toefl-audio-btn { width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; border-radius: 3px; color: #3f3f46; background: transparent; cursor: pointer; transition: background-color 0.15s ease, color 0.15s ease; }
+    .toefl-audio-btn:hover { background: #d4d4d8; color: #111827; }
+    .toefl-audio-btn.is-active { background: #cbd5e1; color: #1e3a8a; }
+    .toefl-audio-caption { padding: 12px 14px; font-size: 14px; color: #334155; background: #ededed; }
 
-    /* Dark mode refinements */
-    html.dark body {
-      background-color: #0b1120;
-      color: #e2e8f0;
-    }
-    html.dark header {
-      background-color: rgba(15, 23, 42, 0.95);
-      border-color: #1e293b;
-    }
-    html.dark .bg-white {
-      background-color: #0f172a;
-      border-color: #1e293b;
-      color: #e2e8f0;
-    }
-    html.dark .bg-slate-50,
-    html.dark .bg-slate-50\/50,
-    html.dark .bg-slate-50\/60,
-    html.dark .bg-slate-50\/70 {
-      background-color: #131c31;
-      border-color: #1e293b;
-      color: #e2e8f0;
-    }
-    html.dark .bg-slate-100 {
-      background-color: #1e293b;
-      border-color: #334155;
-      color: #e2e8f0;
-    }
-    html.dark .border-slate-200,
-    html.dark .border-slate-300,
-    html.dark .border-slate-100 {
-      border-color: #1e293b;
-    }
-    html.dark .text-slate-900,
-    html.dark .text-slate-800 {
-      color: #f1f5f9;
-    }
-    html.dark .text-slate-700,
-    html.dark .text-slate-600 {
-      color: #cbd5e1;
-    }
-    html.dark .text-slate-500 {
-      color: #94a3b8;
-    }
-    html.dark select,
-    html.dark textarea {
-      background-color: #0b1120;
-      border-color: #334155;
-      color: #f1f5f9;
-    }
-    html.dark .academic-scroll::-webkit-scrollbar-track {
-      background: #0f172a;
-    }
-    html.dark .academic-scroll::-webkit-scrollbar-thumb {
-      background: #334155;
-    }
+    html.dark body { background-color: #0b1120; color: #e2e8f0; }
+    html.dark header { background-color: rgba(15, 23, 42, 0.95); border-color: #1e293b; }
+    html.dark .bg-white { background-color: #0f172a; border-color: #1e293b; color: #e2e8f0; }
+    html.dark .bg-slate-50, html.dark .bg-slate-50\/50, html.dark .bg-slate-50\/60, html.dark .bg-slate-50\/70 { background-color: #131c31; border-color: #1e293b; color: #e2e8f0; }
+    html.dark .bg-slate-100 { background-color: #1e293b; border-color: #334155; color: #e2e8f0; }
+    html.dark .border-slate-200, html.dark .border-slate-300, html.dark .border-slate-100 { border-color: #1e293b; }
+    html.dark .text-slate-900, html.dark .text-slate-800 { color: #f1f5f9; }
+    html.dark .text-slate-700, html.dark .text-slate-600 { color: #cbd5e1; }
+    html.dark .text-slate-500 { color: #94a3b8; }
+    html.dark select, html.dark textarea, html.dark input[type="text"] { background-color: #0b1120; border-color: #334155; color: #f1f5f9; }
+    html.dark .academic-scroll::-webkit-scrollbar-track { background: #0f172a; }
+    html.dark .academic-scroll::-webkit-scrollbar-thumb { background: #334155; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-100 selection:text-brand-900">
   <!-- Intro & Mode Selection Overlay Screen -->
   <div id="intro-overlay" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
     <div class="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-2xl w-full p-6 sm:p-8 space-y-6 my-auto">
-      <!-- Intro Step: Welcome & Start Button -->
       <div id="intro-step-welcome" class="space-y-6 text-center sm:text-left">
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-brand-50 text-brand-800 border border-brand-200">
           <span>🎓</span>
@@ -185,7 +78,7 @@
             Chào mừng bạn đến với Web Luyện Thi TOEFL iBT
           </h2>
           <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
-            Trang web được <strong>Ngô Minh Tiến</strong> xây dựng với mục đích <strong>giúp các bạn luyện thi</strong> TOEFL iBT hiệu quả, trọn bộ <strong>Reading</strong> (10 bài đọc / 60 câu hỏi kèm giải thích chi tiết), <strong>Listening</strong> (liên kết trang nghe &amp; ghi chú thông minh) và <strong>Writing</strong> (10 đề Independent + 5 đề Integrated có audio &amp; transcript).
+            Trang web được <strong>Ngô Minh Tiến</strong> xây dựng với mục đích <strong>giúp các bạn luyện thi</strong> TOEFL iBT hiệu quả, trọn bộ <strong>Reading</strong> (10 bài đọc / 67 câu hỏi kèm giải thích chi tiết), <strong>Listening</strong> (liên kết trang nghe &amp; ghi chú thông minh) và <strong>Writing</strong> (10 đề Independent + 5 đề Integrated có audio &amp; transcript).
           </p>
           <p class="text-xs sm:text-sm font-medium text-brand-800">
             Người làm: <strong>Ngô Minh Tiến</strong> • Mục đích: <strong>Hỗ trợ các bạn luyện thi TOEFL iBT</strong>
@@ -195,7 +88,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
           <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
             <div class="text-xs font-bold text-brand-800">📖 Reading</div>
-            <div class="text-xs text-slate-600 mt-1">60 câu hỏi, đồng hồ đếm ngược, bảng điểm &amp; lọc câu sai.</div>
+            <div class="text-xs text-slate-600 mt-1">67 câu hỏi, đồng hồ đếm ngược, bảng điểm &amp; lọc câu sai.</div>
           </div>
           <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
             <div class="text-xs font-bold text-indigo-800">🎧 Listening</div>
@@ -225,7 +118,6 @@
         </div>
       </div>
 
-      <!-- Mode Choice Step: 2 Options -->
       <div id="intro-step-modes" class="hidden space-y-5">
         <div class="flex items-center justify-between gap-2 pb-3 border-b border-slate-100">
           <div>
@@ -242,7 +134,6 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <!-- Option 1: Luyện từng phần -->
           <button
             type="button"
             onclick="choosePracticeMode('section')"
@@ -256,7 +147,7 @@
                 1. Luyện từng phần
               </h4>
               <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Tự do chọn kỹ năng <strong>Reading</strong>, <strong>Listening</strong> hoặc <strong>Writing</strong>, kiểm tra từng câu hoặc xem giải thích bất cứ lúc nào.
+                Tự do chọn kỹ năng <strong>Reading</strong>, <strong>Listening</strong> hoặc <strong>Writing</strong>, làm bài và xem giải thích chi tiết.
               </p>
             </div>
             <span class="inline-flex items-center gap-1 text-xs font-bold text-brand-700 group-hover:translate-x-1 transition-transform">
@@ -264,7 +155,6 @@
             </span>
           </button>
 
-          <!-- Option 2: Luyện đề thi thử -->
           <button
             type="button"
             disabled
@@ -296,17 +186,129 @@
     </div>
   </div>
 
-  <!-- Toast / Status Notification Banner (replaces alert/confirm) -->
+  <!-- Toast / Status Notification Banner -->
   <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
+
+  <!-- Floating Mini Music Box (Bottom Left — User-added files/links only) -->
+  <div id="mini-music-box" class="fixed bottom-4 left-4 z-40 w-[300px] sm:w-[320px] bg-white/95 backdrop-blur border border-slate-200 rounded-2xl shadow-lg p-3 transition-all">
+    <div class="flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2 min-w-0">
+        <div class="w-8 h-8 rounded-xl bg-brand-50 text-brand-700 border border-brand-200 flex items-center justify-center shrink-0 text-sm">
+          🎵
+        </div>
+        <div class="min-w-0">
+          <div class="text-xs font-bold text-slate-900 truncate">Nhạc nền của bạn</div>
+          <div id="mini-music-status" class="text-[11px] text-slate-500 truncate">Chưa chọn bài nhạc</div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button
+          type="button"
+          id="mini-music-toggle-btn"
+          onclick="toggleMiniMusic()"
+          class="px-2.5 py-1.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white text-xs font-semibold transition"
+          title="Phát / Tạm dừng nhạc"
+        >
+          ▶ Phát
+        </button>
+        <button
+          type="button"
+          id="mini-music-expand-btn"
+          onclick="toggleMiniMusicExpand()"
+          class="w-7 h-7 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-600 text-xs font-bold flex items-center justify-center transition"
+          title="Thêm file nhạc & âm lượng"
+        >
+          ⌄
+        </button>
+      </div>
+    </div>
+
+    <audio id="custom-music-audio" preload="metadata"></audio>
+
+    <div id="mini-music-details" class="hidden mt-3 pt-3 border-t border-slate-100 space-y-2.5">
+      <div class="flex items-center justify-between gap-2">
+        <label for="mini-music-preset" class="text-[11px] font-semibold text-slate-600 shrink-0">Danh sách:</label>
+        <select
+          id="mini-music-preset"
+          onchange="changeMusicPreset(this.value)"
+          class="flex-1 min-w-0 rounded-lg border border-slate-300 bg-slate-50 px-2 py-1 text-xs font-medium text-slate-800"
+        ></select>
+      </div>
+
+      <!-- User Custom Music Upload / Link Input -->
+      <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-bold text-slate-700">+ Tự thêm file / link nhạc</span>
+          <button
+            type="button"
+            id="mini-music-remove-btn"
+            onclick="removeSelectedCustomTrack()"
+            class="hidden text-[11px] font-semibold text-rose-600 hover:text-rose-700"
+          >
+            Xóa bài này
+          </button>
+        </div>
+
+        <input
+          type="text"
+          id="custom-music-title-input"
+          placeholder="Tên bài nhạc (vd: Lofi học bài)"
+          class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-600"
+        />
+
+        <input
+          type="text"
+          id="custom-music-url-input"
+          placeholder="Dán link nhạc (.mp3 / .wav / .ogg)..."
+          class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-600"
+        />
+
+        <div class="flex items-center gap-1.5">
+          <button
+            type="button"
+            onclick="addCustomMusicByUrl()"
+            class="flex-1 py-1.5 px-2.5 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-[11px] font-semibold transition"
+          >
+            + Thêm link
+          </button>
+          <label class="flex-1 py-1.5 px-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-semibold text-center cursor-pointer transition">
+            📁 Chọn file
+            <input
+              type="file"
+              id="custom-music-file-input"
+              accept="audio/*"
+              multiple
+              onchange="handleCustomMusicFileUpload(event)"
+              class="hidden"
+            />
+          </label>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-slate-500">🔈</span>
+        <input
+          id="mini-music-volume"
+          type="range"
+          min="0"
+          max="100"
+          value="70"
+          oninput="setMusicVolume(this.value)"
+          class="flex-1 h-1.5 bg-slate-200 rounded-lg accent-brand-700 cursor-pointer"
+          aria-label="Âm lượng nhạc nền"
+        />
+        <span id="mini-music-vol-label" class="text-[11px] font-mono text-slate-600 w-8 text-right">70%</span>
+      </div>
+    </div>
+  </div>
 
   <!-- Top Navigation Header -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between py-3 gap-3">
-        <!-- Brand & Title -->
         <div class="flex items-center justify-between gap-3">
           <div class="flex items-center gap-3">
-            <!-- Logo nhỏ gọn trên giao diện web -->
             <div class="w-10 h-10 rounded-xl bg-brand-700 text-white flex items-center justify-center shadow-sm shrink-0" aria-hidden="true">
               <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M2 7l10-4 10 4-10 4-10-4z"></path>
@@ -323,20 +325,18 @@
                 </span>
               </div>
               <p class="text-xs text-slate-500">
-                Ôn luyện Reading (60 câu / 10 đề), Listening &amp; Writing (Independent &amp; Integrated)
+                Ôn luyện Reading (67 câu / 10 đề), Listening &amp; Writing (Independent &amp; Integrated)
               </p>
             </div>
           </div>
 
-          <!-- Quick Global Progress Pill on Mobile -->
           <div class="lg:hidden text-right">
             <span id="mobile-score-summary" class="inline-block text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700">
-              0/60 Reading
+              0/67 Reading
             </span>
           </div>
         </div>
 
-        <!-- Mode Badge + Switch Mode Button -->
         <div class="flex items-center gap-2 self-start lg:self-auto">
           <span id="current-practice-mode-badge" class="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-brand-50 text-brand-800 border border-brand-200">
             Chế độ: Luyện từng phần
@@ -350,8 +350,8 @@
           </button>
         </div>
 
-        <!-- Section Mode Switcher -->
-        <nav aria-label="Chuyển kỹ năng TOEFL iBT" class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80 overflow-x-auto">
+        <div class="flex items-center gap-2">
+          <nav aria-label="Chuyển kỹ năng TOEFL iBT" class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80 overflow-x-auto">
             <button
               type="button"
               id="tab-reading"
@@ -359,7 +359,7 @@
               class="nav-tab flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap bg-brand-700 text-white shadow-xs"
             >
               <span>📖 Reading</span>
-              <span id="badge-reading-count" class="text-xs px-1.5 py-0.5 rounded-md bg-white/20 text-white">60</span>
+              <span id="badge-reading-count" class="text-xs px-1.5 py-0.5 rounded-md bg-white/20 text-white">67</span>
             </button>
             <button
               type="button"
@@ -408,13 +408,11 @@
   </header>
 
   <!-- Main Content Container -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24">
     <!-- ==================== SECTION 1: READING ==================== -->
     <section id="section-reading" class="space-y-5">
-      <!-- Reading Control Bar -->
       <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs space-y-4">
         <div class="flex flex-col gap-4">
-          <!-- Passage / Test Selector -->
           <div class="w-full">
             <label for="reading-passage-select" class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
               Chọn bài đọc / Đề luyện tập (10 Bài — Reading.docx)
@@ -446,9 +444,7 @@
             </div>
           </div>
 
-          <!-- Timer, Score & Actions -->
           <div class="flex flex-wrap items-center justify-between gap-2.5 pt-3 border-t border-slate-100">
-            <!-- Countdown Timer -->
             <div class="flex items-center gap-2 bg-slate-100 px-3 py-2 rounded-xl border border-slate-200">
               <span class="text-xs font-semibold text-slate-600 whitespace-nowrap">⏱ Đồng hồ:</span>
               <span id="reading-timer-display" class="font-mono text-sm font-bold text-brand-800">18:00</span>
@@ -471,7 +467,6 @@
             </div>
 
             <div class="flex flex-wrap items-center gap-2.5">
-              <!-- Score Summary -->
               <div class="bg-brand-50 border border-brand-200 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-brand-900 whitespace-nowrap">
                 Tổng điểm: <span id="reading-total-correct">0</span> / <span id="reading-total-questions">67</span> câu đúng
               </div>
@@ -484,7 +479,6 @@
                 📊 Bảng điểm &amp; Lọc câu sai
               </button>
 
-              <!-- Submit & Reset Passage -->
               <button
                 type="button"
                 onclick="gradeCurrentPassage()"
@@ -503,17 +497,17 @@
           </div>
         </div>
 
-        <!-- Question Navigator Strip for Current Passage -->
         <div class="pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-            <span id="reading-passage-progress" class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-medium">0/6 đã trả lời</span>
+          <div class="flex items-center gap-2 text-xs text-slate-500">
+            <span class="font-semibold text-slate-700">Điều hướng câu hỏi:</span>
+            <span id="reading-passage-progress" class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-medium">0/12 đã trả lời</span>
           </div>
           <div id="reading-question-nav" class="flex flex-wrap gap-1.5"></div>
         </div>
       </div>
 
-      <!-- Split Screen Workspace: Passage Left (Scrollable) + Questions Right -->
+      <!-- Split Screen Workspace -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        <!-- Left Column: Reading Passage -->
         <article class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden lg:sticky lg:top-20">
           <div class="px-5 py-4 bg-slate-900 text-white flex flex-wrap items-center justify-between gap-2">
             <div>
@@ -528,7 +522,6 @@
             </div>
           </div>
 
-          <!-- Font size & highlight helper bar -->
           <div class="px-5 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between text-xs text-slate-600">
             <span>📜 Bài đọc học thuật (Hỗ trợ ô vuông <strong class="text-slate-800">[■]</strong> cho câu hỏi chèn câu)</span>
             <div class="flex items-center gap-1.5">
@@ -544,12 +537,11 @@
           ></div>
         </article>
 
-        <!-- Right Column: Questions & Explanations -->
         <div class="lg:col-span-6 space-y-4">
           <div class="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-xs sm:text-sm text-amber-900 flex items-start gap-2.5">
             <span class="text-base shrink-0">💡</span>
             <div>
-              <strong>Hướng dẫn:</strong> Chọn đáp án <strong>A, B, C hoặc D</strong> cho từng câu hỏi. Bạn có thể bấm <em>Kiểm tra từng câu</em> ngay lập tức hoặc bấm <em>Chấm bài &amp; Xem giải thích</em> ở thanh trên để xem đáp án và lời giải chi tiết tiếng Việt từ <code>Reading.docx</code>.
+              <strong>Hướng dẫn:</strong> Chọn đáp án <strong>A, B, C hoặc D</strong> cho từng câu hỏi, sau đó bấm <em>Chấm bài &amp; Xem giải thích</em> ở thanh trên để xem đáp án và lời giải chi tiết tiếng Việt.
             </div>
           </div>
 
@@ -557,12 +549,12 @@
         </div>
       </div>
 
-      <!-- Modal / Drawer: 60-Question Overview, Question-Type Stats & Wrong-Answer Filter -->
+      <!-- Modal: Overview & Wrong-Answer Filter -->
       <div id="reading-overview-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs p-4 sm:p-6 flex items-center justify-center">
         <div class="bg-white rounded-2xl border border-slate-200 shadow-2xl max-w-4xl w-full max-h-[88vh] flex flex-col overflow-hidden">
           <div class="px-5 py-4 bg-slate-900 text-white flex items-center justify-between gap-3">
             <div>
-              <h3 class="text-base sm:text-lg font-bold">📊 Báo cáo tổng hợp Reading (10 Bài — 60 Câu)</h3>
+              <h3 class="text-base sm:text-lg font-bold">📊 Báo cáo tổng hợp Reading (10 Bài — 67 Câu)</h3>
               <p class="text-xs text-slate-300">Xem tỷ lệ đúng theo dạng câu hỏi và nhảy nhanh tới các câu cần ôn lại</p>
             </div>
             <button
@@ -581,7 +573,6 @@
 
     <!-- ==================== SECTION 2: LISTENING ==================== -->
     <section id="section-listening" class="hidden space-y-6">
-      <!-- Prominent Listening Website Link Card (from Listening.docx) -->
       <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-xs space-y-5">
         <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 pb-5 border-b border-slate-100">
           <div>
@@ -596,7 +587,6 @@
             </p>
           </div>
 
-          <!-- Listening Section Timer -->
           <div class="flex items-center gap-2 bg-slate-100 px-3.5 py-2 rounded-xl border border-slate-200 self-start shrink-0">
             <span class="text-xs font-semibold text-slate-600">⏱ Đồng hồ nghe:</span>
             <span id="listening-timer-display" class="font-mono text-sm font-bold text-brand-800">10:00</span>
@@ -618,7 +608,6 @@
           </div>
         </div>
 
-        <!-- Dedicated Link Box Card -->
         <div class="rounded-2xl bg-brand-50/70 border border-brand-200 p-4 sm:p-5">
           <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="space-y-1.5 min-w-0">
@@ -661,7 +650,6 @@
           </div>
         </div>
 
-        <!-- Clean Note-Taking Scratchpad -->
         <div class="space-y-2">
           <div class="flex items-center justify-between">
             <label for="listening-main-notes" class="text-sm font-bold text-slate-800">
@@ -691,7 +679,6 @@
 
     <!-- ==================== SECTION 3: WRITING ==================== -->
     <section id="section-writing" class="hidden space-y-6">
-      <!-- Writing Mode Switcher & Timer -->
       <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs">
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div class="flex flex-wrap items-center gap-2">
@@ -713,7 +700,6 @@
             </button>
           </div>
 
-          <!-- Writing Timer -->
           <div class="flex items-center gap-2 bg-slate-100 px-3.5 py-2 rounded-xl border border-slate-200 self-start lg:self-auto">
             <span class="text-xs font-semibold text-slate-600">⏱ Đồng hồ viết:</span>
             <span id="writing-timer-display" class="font-mono text-sm font-bold text-brand-800">30:00</span>
@@ -747,7 +733,6 @@
 
       <!-- Independent Writing Sub-view -->
       <div id="writing-independent-view" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        <!-- Left: Prompt Selector & Statement -->
         <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
           <div>
             <label for="independent-prompt-select" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">
@@ -770,7 +755,6 @@
             <p class="text-xs text-slate-600 italic">Use specific reasons and examples to support your opinion.</p>
           </div>
 
-          <!-- Helpful Essay Outline -->
           <div class="rounded-xl bg-slate-50 border border-slate-200 p-4 text-xs text-slate-700 space-y-1.5">
             <div class="font-bold text-slate-800 text-sm mb-1">📌 Gợi ý dàn ý Independent Essay</div>
             <p><strong>1. Introduction:</strong> Paraphrase câu hỏi + nêu rõ quan điểm (Agree / Disagree) + 2 lý do chính.</p>
@@ -780,7 +764,6 @@
           </div>
         </div>
 
-        <!-- Right: Essay Editor -->
         <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-3">
           <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-100">
             <div class="flex items-center gap-3 text-xs sm:text-sm">
@@ -834,7 +817,6 @@
 
       <!-- Integrated Writing Sub-view -->
       <div id="writing-integrated-view" class="hidden space-y-5">
-        <!-- Integrated Set Selector -->
         <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div class="flex-1">
             <label for="integrated-set-select" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">
@@ -852,9 +834,7 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          <!-- Left: Reading Passage + Audio Link/Player + Transcript -->
           <div class="lg:col-span-6 space-y-5">
-            <!-- Integrated Reading Passage -->
             <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs">
               <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
                 <h3 class="text-sm font-bold uppercase tracking-wider text-brand-800">
@@ -868,16 +848,14 @@
               ></div>
             </div>
 
-            <!-- Integrated Audio Link Box (Ready-to-use <a href="..."> & src reference) -->
             <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-3">
               <div class="flex items-center justify-between gap-2">
                 <h3 class="text-sm font-bold uppercase tracking-wider text-slate-800">
-                  🎧 Trình nghe bài giảng (Listening Lecture Audio &amp; src)
+                  🎧 Trình nghe bài giảng (Listening Lecture Audio)
                 </h3>
                 <span id="integrated-audio-code-badge" class="text-xs font-bold px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-700"></span>
               </div>
 
-              <!-- Audio Player UI matching reference image -->
               <div class="toefl-audio-shell">
                 <div class="toefl-audio-instruction">
                   Read all the questions before you start listening. You should listen to the audio twice.
@@ -954,36 +932,8 @@
                 </div>
               </div>
 
-              <!-- Hidden/bound HTML5 <audio> element with src attribute -->
               <audio id="integrated-audio-element" preload="metadata"></audio>
 
-              <div class="rounded-xl bg-indigo-50/70 border border-indigo-200 p-3.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <div class="min-w-0 space-y-1.5">
-                  <div id="integrated-link-title" class="text-xs font-bold uppercase tracking-wider text-indigo-900"></div>
-                  <div class="text-xs font-mono text-slate-800 bg-white/90 border border-indigo-200/80 rounded-lg px-2.5 py-1.5 break-all">
-                    src: <span id="integrated-audio-src-text" class="font-semibold text-indigo-900"></span>
-                  </div>
-                  <a
-                    id="integrated-audio-anchor"
-                    href="https://www.examenglish.com/TOEFL/toefl_listening.htm"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-700 hover:text-brand-900 underline underline-offset-4 break-all"
-                  >
-                    <span id="integrated-audio-anchor-text"></span>
-                    <span aria-hidden="true">↗</span>
-                  </a>
-                </div>
-                <button
-                  type="button"
-                  onclick="copyIntegratedAudioLink()"
-                  class="px-3 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 text-xs font-semibold shrink-0 transition"
-                >
-                  📋 Sao chép src
-                </button>
-              </div>
-
-              <!-- Collapsible Transcript -->
               <div class="pt-2 border-t border-slate-100">
                 <button
                   type="button"
@@ -998,7 +948,6 @@
             </div>
           </div>
 
-          <!-- Right: Integrated Response Editor -->
           <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-3 lg:sticky lg:top-20">
             <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-100">
               <div class="flex items-center gap-3 text-xs sm:text-sm">
@@ -1007,27 +956,27 @@
                 <span id="integrated-save-status" class="text-xs text-emerald-700 font-medium">Đã lưu tự động</span>
               </div>
               <div class="flex items-center gap-2">
-              <button
-                type="button"
-                onclick="insertAcademicSnippet('integrated')"
-                class="px-3 py-1.5 rounded-lg bg-brand-50 hover:bg-brand-100 text-brand-800 border border-brand-200 text-xs font-semibold transition"
-              >
-                + Chèn mẫu phản bác
-              </button>
-              <button
-                type="button"
-                onclick="exportWritingFile('integrated')"
-                class="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-semibold transition"
-              >
-                ⬇ Tải .txt
-              </button>
-              <button
-                type="button"
-                onclick="copyWritingText('integrated')"
-                class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition"
-              >
-                Sao chép bài viết
-              </button>
+                <button
+                  type="button"
+                  onclick="insertAcademicSnippet('integrated')"
+                  class="px-3 py-1.5 rounded-lg bg-brand-50 hover:bg-brand-100 text-brand-800 border border-brand-200 text-xs font-semibold transition"
+                >
+                  + Chèn mẫu phản bác
+                </button>
+                <button
+                  type="button"
+                  onclick="exportWritingFile('integrated')"
+                  class="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-semibold transition"
+                >
+                  ⬇ Tải .txt
+                </button>
+                <button
+                  type="button"
+                  onclick="copyWritingText('integrated')"
+                  class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition"
+                >
+                  Sao chép bài viết
+                </button>
                 <button
                   type="button"
                   onclick="clearWritingText('integrated')"
@@ -1113,12 +1062,7 @@
             num: 1,
             type: 'Reference',
             prompt: 'The word they in the passage refers to',
-            options: {
-              A: 'researchers',
-              B: 'autocratic governments',
-              C: 'ancient civilizations',
-              D: 'democratic systems'
-            },
+            options: { A: 'researchers', B: 'autocratic governments', C: 'ancient civilizations', D: 'democratic systems' },
             correct: 'B',
             explanation: 'Câu văn: "Researchers note that even though most autocratic governments were found in ancient civilizations that predate modern democratic systems, they still persist today." Đại từ "they" quy chiếu trực tiếp đến chủ ngữ chính của mệnh đề là "autocratic governments" (các chính quyền chuyên chế).'
           },
@@ -1126,12 +1070,7 @@
             num: 2,
             type: 'Vocabulary',
             prompt: 'The word disseminate in the passage is closest in meaning to',
-            options: {
-              A: 'calculate',
-              B: 'enjoy',
-              C: 'monitor',
-              D: 'spread'
-            },
+            options: { A: 'calculate', B: 'enjoy', C: 'monitor', D: 'spread' },
             correct: 'D',
             explanation: 'Trong ngữ cảnh "the use of social institutions to disseminate propaganda around the country" (sử dụng các thiết chế xã hội để truyền bá tuyên truyền khắp đất nước), "disseminate" có nghĩa là phổ biến, lan truyền, gần nghĩa nhất với "spread".'
           },
@@ -1139,12 +1078,7 @@
             num: 3,
             type: 'Factual Information',
             prompt: 'According to paragraph 2, which method did the Romans use to consolidate economic power:',
-            options: {
-              A: 'They prevented famine.',
-              B: 'They supervised research.',
-              C: 'They constructed roads.',
-              D: 'They evicted all farmers.'
-            },
+            options: { A: 'They prevented famine.', B: 'They supervised research.', C: 'They constructed roads.', D: 'They evicted all farmers.' },
             correct: 'C',
             explanation: 'Đoạn 2 viết: "For instance, Imperial Rome controlled its economy through building trade routes and issuing coins to standardize trade." Việc xây dựng các tuyến đường giao thương tương ứng với "They constructed roads".'
           },
@@ -1152,12 +1086,7 @@
             num: 4,
             type: 'Rhetorical Purpose',
             prompt: 'In paragraph 2, the author mentions harsh conditions and economic crises in order to',
-            options: {
-              A: 'explain how autocratic governments come to power',
-              B: 'elicit sympathy for the citizens in autocratic countries',
-              C: 'illustrate how poorly mismanaged autocracies are',
-              D: 'discuss solutions autocracies have for such problems'
-            },
+            options: { A: 'explain how autocratic governments come to power', B: 'elicit sympathy for the citizens in autocratic countries', C: 'illustrate how poorly mismanaged autocracies are', D: 'discuss solutions autocracies have for such problems' },
             correct: 'A',
             explanation: 'Đoạn 2 mở đầu bằng việc giải thích bối cảnh các nhà lãnh đạo chuyên chế lên nắm quyền: "the ruler and his supporters come to power either through bloody conflict or amidst harsh crises, like famine or economic depression." Vì vậy mục đích là giải thích cách các chính quyền chuyên chế giành được quyền lực.'
           },
@@ -1165,12 +1094,7 @@
             num: 5,
             type: 'Vocabulary',
             prompt: 'The word facsimile in the passage is closest in meaning to',
-            options: {
-              A: 'distortion',
-              B: 'glimpse',
-              C: 'replica',
-              D: 'memory'
-            },
+            options: { A: 'distortion', B: 'glimpse', C: 'replica', D: 'memory' },
             correct: 'C',
             explanation: 'Trong câu "people wouldn\'t have to settle for a mere facsimile of the ruler\'s image", "facsimile" có nghĩa là bản sao chép/bản tái tạo hình ảnh (như tranh vẽ hoặc tượng), gần nghĩa nhất với "replica".'
           },
@@ -1178,12 +1102,7 @@
             num: 6,
             type: 'Factual Information',
             prompt: 'According to paragraph 3, which method may an autocracy use to control information?',
-            options: {
-              A: 'They may ban newspapers in the country.',
-              B: 'The may replace ministers in churches.',
-              C: 'They may take over all newspapers.',
-              D: 'They may replace radio with television.'
-            },
+            options: { A: 'They may ban newspapers in the country.', B: 'The may replace ministers in churches.', C: 'They may take over all newspapers.', D: 'They may replace radio with television.' },
             correct: 'C',
             explanation: 'Đoạn 3 nêu: "For instance, it may shut down all churches and take over all newspapers and radio stations in order to control the flow of information to its citizens." Đáp án đúng là C ("take over all newspapers").'
           },
@@ -1191,12 +1110,7 @@
             num: 7,
             type: 'Negative Factual (EXCEPT)',
             prompt: 'According to paragraph 3, autocratic governments use radio to do all of the following EXCEPT',
-            options: {
-              A: 'broadcast dictators\' speeches',
-              B: 'communicate with their armies',
-              C: 'deliver false news stories',
-              D: 'issue threats to opposition'
-            },
+            options: { A: 'broadcast dictators\' speeches', B: 'communicate with their armies', C: 'deliver false news stories', D: 'issue threats to opposition' },
             correct: 'C',
             explanation: 'Đoạn 3 đề cập đến việc phát thanh các bài diễn văn của nhà độc tài (A), kiểm soát thông tin liên lạc chính thức giúp phản ứng quân sự hiệu quả hơn (B), và có thể liên quan đến việc trấn áp/đối phó với sự phản kháng. Đoạn 3 không đề cập đến việc phát tán tin giả ("deliver false news stories").'
           },
@@ -1204,12 +1118,7 @@
             num: 8,
             type: 'Inference',
             prompt: 'Based on the information in paragraph 3, what can be inferred about an autocratic government\'s need to acquire new technology?',
-            options: {
-              A: 'The government believes that this technology could help create a perfect society.',
-              B: 'The government wants to hold back these developments and keep its old methods.',
-              C: 'The government has to use this technology first so it can safely instruct its citizens.',
-              D: 'The government could lose power if citizens had control of powerful technology.'
-            },
+            options: { A: 'The government believes that this technology could help create a perfect society.', B: 'The government wants to hold back these developments and keep its old methods.', C: 'The government has to use this technology first so it can safely instruct its citizens.', D: 'The government could lose power if citizens had control of powerful technology.' },
             correct: 'D',
             explanation: 'Đoạn 3 nêu: "Because such advancements in technology are so powerful and threatening, autocratic governments feel compelled to utilize them before private citizens can." Điều này cho thấy nếu công nghệ mạnh nằm trong tay tư nhân/người dân thì có thể đe dọa quyền lực của chính quyền chuyên chế.'
           },
@@ -1217,12 +1126,7 @@
             num: 9,
             type: 'Factual Information',
             prompt: 'According to paragraph 4, how did Roman frumentari enforce their autocrat\'s will?',
-            options: {
-              A: 'They crushed rebellions with armies.',
-              B: 'They spied on and terrorized Romans.',
-              C: 'They built statues to idolize the Emperor.',
-              D: 'They spread false news throughout Rome.'
-            },
+            options: { A: 'They crushed rebellions with armies.', B: 'They spied on and terrorized Romans.', C: 'They built statues to idolize the Emperor.', D: 'They spread false news throughout Rome.' },
             correct: 'B',
             explanation: 'Đoạn 4 viết: "Secret police like the Roman frumentari and the Nazi Gestapo were instrumental in pervasive surveillance, terrorizing citizens so that many wouldn\'t even say anything that might be treasonous." Do đó họ do thám và gieo rắc nỗi sợ hãi cho người dân.'
           },
@@ -1230,12 +1134,7 @@
             num: 10,
             type: 'Inference',
             prompt: 'Based on the information in paragraph 4, what can be inferred about the trials of dissidents in an autocracy?',
-            options: {
-              A: 'The trials are meant to show citizens the penalty for opposing the government.',
-              B: 'The trials seriously attempt to determine a person\'s guilt or innocence.',
-              C: 'The trials feature good evidence because of advanced surveillance techniques.',
-              D: 'The trials are unfair because dissidents who can afford good attorneys are set tree.'
-            },
+            options: { A: 'The trials are meant to show citizens the penalty for opposing the government.', B: 'The trials seriously attempt to determine a person\'s guilt or innocence.', C: 'The trials feature good evidence because of advanced surveillance techniques.', D: 'The trials are unfair because dissidents who can afford good attorneys are set tree.' },
             correct: 'A',
             explanation: 'Đoạn 4 mô tả các phiên tòa chỉ là màn trình diễn với cáo buộc phóng đại hoặc bịa đặt, nhưng công chúng vẫn chứng kiến người bất đồng chính kiến phải trả giá đắt ("the public watches dissenters pay dearly for opposing the regime") để răn đe việc chống đối chính quyền.'
           },
@@ -1243,12 +1142,7 @@
             num: 11,
             type: 'Negative Factual (EXCEPT)',
             prompt: 'According to the passage, all of the following have been utilized to control people in an autocracy EXCEPT',
-            options: {
-              A: 'coins',
-              B: 'medicine',
-              C: 'ammunition',
-              D: 'paintings'
-            },
+            options: { A: 'coins', B: 'medicine', C: 'ammunition', D: 'paintings' },
             correct: 'B',
             explanation: 'Bài đọc nhắc đến tiền xu ("coins" - đoạn 2), đạn dược/vũ khí ("ammunition" - đoạn 4), và tranh vẽ tôn vinh lãnh tụ ("paintings" - đoạn 3). "Medicine" (y học) không được nhắc đến như một công cụ kiểm soát.'
           },
@@ -1270,7 +1164,7 @@
       {
         id: 'passage-02-monsoons',
         badge: 'PASSAGE 1 • MONSOONS',
-        selectLabel: 'Bài 2: PASSAGE 1 — Monsoons (Câu 13–16 / Câu 1–4)',
+        selectLabel: 'Bài 2: PASSAGE 1 — Monsoons (Câu 13–16)',
         title: 'PASSAGE 1: MONSOONS',
         topic: 'Meteorology & Geography',
         timeMinutes: 18,
@@ -1285,12 +1179,7 @@
             num: 13,
             type: 'Factual Information',
             prompt: 'Based on information in paragraph 1, the term Monsoons can best be defined as',
-            options: {
-              A: 'seasonal rainstorms caused by heavy winds',
-              B: 'a wind that blows in one direction year round',
-              C: 'a consistent wind that occurs during a specific time of year',
-              D: 'a strong wind that indicates the beginning of a new season'
-            },
+            options: { A: 'seasonal rainstorms caused by heavy winds', B: 'a wind that blows in one direction year round', C: 'a consistent wind that occurs during a specific time of year', D: 'a strong wind that indicates the beginning of a new season' },
             correct: 'C',
             explanation: 'Đoạn 1 định nghĩa chính xác hơn về gió mùa là "a seasonal prevailing wind - that is, a wind that blows consistently in one direction", tức là loại gió ổn định xảy ra vào một thời điểm nhất định trong năm.'
           },
@@ -1298,12 +1187,7 @@
             num: 14,
             type: 'Factual Information',
             prompt: 'According to paragraph 2, monsoons are caused by',
-            options: {
-              A: 'violent storms at sea',
-              B: 'temperature fluctuations on land',
-              C: 'the release of heat at sea',
-              D: 'variations between land and sea temperatures'
-            },
+            options: { A: 'violent storms at sea', B: 'temperature fluctuations on land', C: 'the release of heat at sea', D: 'variations between land and sea temperatures' },
             correct: 'D',
             explanation: 'Đoạn 2 khẳng định: "all monsoons are driven by the same force: temperature differences between land and sea." Sự chênh lệch nhiệt độ giữa đất liền và biển là nguyên nhân gốc rễ.'
           },
@@ -1311,12 +1195,7 @@
             num: 15,
             type: 'Rhetorical Purpose',
             prompt: 'Why does the author mention southern India?',
-            options: {
-              A: 'To discuss how monsoons affect the lives of people',
-              B: 'To illustrate the amount of rainfall monsoons can bring to an area',
-              C: 'To indicate where monsoons are strongest',
-              D: 'To discuss the potential dangers of monsoons'
-            },
+            options: { A: 'To discuss how monsoons affect the lives of people', B: 'To illustrate the amount of rainfall monsoons can bring to an area', C: 'To indicate where monsoons are strongest', D: 'To discuss the potential dangers of monsoons' },
             correct: 'B',
             explanation: 'Tác giả nhắc đến miền nam Ấn Độ để dẫn chứng lượng mưa lớn mà gió mùa có thể mang lại: chiếm gần 80% lượng mưa trung bình năm, có nơi tới 10 mét mưa trong mùa gió mùa.'
           },
@@ -1338,7 +1217,7 @@
       {
         id: 'passage-03-karst',
         badge: 'PASSAGE 2 • KARST FORMATIONS',
-        selectLabel: 'Bài 3: PASSAGE 2 — Karst Formations (Câu 17–20 / Câu 5–8)',
+        selectLabel: 'Bài 3: PASSAGE 2 — Karst Formations (Câu 17–20)',
         title: 'PASSAGE 2: KARST FORMATIONS',
         topic: 'Geology & Geomorphology',
         timeMinutes: 18,
@@ -1353,12 +1232,7 @@
             num: 17,
             type: 'Reference',
             prompt: 'The word others in the passage refers to',
-            options: {
-              A: 'land features',
-              B: 'canyons',
-              C: 'river beds',
-              D: 'erosive forces'
-            },
+            options: { A: 'land features', B: 'canyons', C: 'river beds', D: 'erosive forces' },
             correct: 'A',
             explanation: 'Câu đầu đoạn 1 đối chiếu các dạng địa hình ("land features") được tạo ra do xói mòn với những dạng địa hình khác ("others") được tạo ra chủ yếu bởi quá trình hóa học.'
           },
@@ -1366,12 +1240,7 @@
             num: 18,
             type: 'Factual Information',
             prompt: 'According to paragraph 2, how can immature karst formations be identified?',
-            options: {
-              A: 'By the presence of wear patterns on exposed bedrock',
-              B: 'By the presence of large fissures in the bedrock',
-              C: 'By a lack of porous carbonate rock',
-              D: 'By the presence of large cave complexes'
-            },
+            options: { A: 'By the presence of wear patterns on exposed bedrock', B: 'By the presence of large fissures in the bedrock', C: 'By a lack of porous carbonate rock', D: 'By the presence of large cave complexes' },
             correct: 'A',
             explanation: 'Ở giai đoạn sơ khai (immature), nước mưa có tính axit nhẹ bắt đầu ăn mòn đá nền lộ thiên, tạo ra các vết lõm và rãnh nhỏ (karren) — tức các dấu hiệu mài mòn ("wear patterns on exposed bedrock").'
           },
@@ -1379,12 +1248,7 @@
             num: 19,
             type: 'Inference',
             prompt: 'Based on the information in paragraph 3, what can be inferred about the karst formations in Arizona and New Mexico?',
-            options: {
-              A: 'They are mature karst formations.',
-              B: 'Their bedrock has been completely dissolved.',
-              C: 'Their cave systems are frequently explored.',
-              D: 'They are in areas with high levels of acid rain.'
-            },
+            options: { A: 'They are mature karst formations.', B: 'Their bedrock has been completely dissolved.', C: 'Their cave systems are frequently explored.', D: 'They are in areas with high levels of acid rain.' },
             correct: 'A',
             explanation: 'Đoạn 3 mô tả các hệ thống hang động rộng lớn, phức tạp và liên kết với nhau là đặc điểm của địa hình karst trưởng thành ("mature karst formations"), rồi dẫn chứng hệ thống hang động ở Arizona và New Mexico.'
           },
@@ -1392,12 +1256,7 @@
             num: 20,
             type: 'Negative Factual (EXCEPT)',
             prompt: 'According to the passage, all of the following will speed up the process of karst formation EXCEPT',
-            options: {
-              A: 'high levels of atmospheric carbon dioxide',
-              B: 'high concentrations of limestone in the bedrock',
-              C: 'the presence of large cracks in the bedrock',
-              D: 'weakly acidic rainwater'
-            },
+            options: { A: 'high levels of atmospheric carbon dioxide', B: 'high concentrations of limestone in the bedrock', C: 'the presence of large cracks in the bedrock', D: 'weakly acidic rainwater' },
             correct: 'D',
             explanation: 'Đoạn 4 nêu nước mưa càng có tính axit cao thì hòa tan đá càng nhanh ("more acidic rainwater will dissolve the bedrock more quickly"). Nước mưa có tính axit yếu ("weakly acidic rainwater") sẽ làm quá trình chậm lại chứ không đẩy nhanh.'
           }
@@ -1406,7 +1265,7 @@
       {
         id: 'passage-04-van-allen',
         badge: 'PASSAGE 3 • VAN ALLEN BELT',
-        selectLabel: 'Bài 4: PASSAGE 3 — Van Allen Radiation Belt (Câu 21–25 / Câu 10–14)',
+        selectLabel: 'Bài 4: PASSAGE 3 — Van Allen Radiation Belt (Câu 21–25)',
         title: 'PASSAGE 3: VAN ALLEN RADIATION BELT',
         topic: 'Space Physics & Astronomy',
         timeMinutes: 18,
@@ -1421,12 +1280,7 @@
             num: 21,
             type: 'Vocabulary',
             prompt: 'The word inadvertent in the passage is closest in meaning to',
-            options: {
-              A: 'accidental',
-              B: 'unfortunate',
-              C: 'insignificant',
-              D: 'deliberate'
-            },
+            options: { A: 'accidental', B: 'unfortunate', C: 'insignificant', D: 'deliberate' },
             correct: 'A',
             explanation: 'Đoạn 1 mô tả vệ tinh phóng lên để đo tia vũ trụ nhưng lại bất ngờ phát hiện vành đai bức xạ khi cảm biến bị quá tải ion ("discovered more than they could have anticipated"). Do đó "inadvertent" có nghĩa là vô tình/ngẫu nhiên ("accidental").'
           },
@@ -1447,12 +1301,7 @@
             num: 23,
             type: 'Reference',
             prompt: 'The word them in the passage refers to',
-            options: {
-              A: 'electronic components',
-              B: 'charged particles',
-              C: 'solar winds',
-              D: 'radiation belts'
-            },
+            options: { A: 'electronic components', B: 'charged particles', C: 'solar winds', D: 'radiation belts' },
             correct: 'A',
             explanation: 'Câu văn: "The digitization of electronic components in satellites has allowed them to become smaller and smaller..." Việc số hóa các linh kiện điện tử ("electronic components") giúp chúng ("them") nhỏ đi.'
           },
@@ -1487,7 +1336,7 @@
       {
         id: 'passage-05-snowball-earth',
         badge: 'PASSAGE 5 • SNOWBALL EARTH',
-        selectLabel: 'Bài 5: PASSAGE 5 — The Snowball Earth Hypothesis (Câu 26–30 / Câu 15–19)',
+        selectLabel: 'Bài 5: PASSAGE 5 — The Snowball Earth Hypothesis (Câu 26–30)',
         title: 'PASSAGE 5: THE SNOWBALL EARTH HYPOTHESIS',
         topic: 'Earth History & Paleoclimate',
         timeMinutes: 18,
@@ -1541,12 +1390,7 @@
             num: 29,
             type: 'Vocabulary',
             prompt: 'The word inhospitable in the passage is closest in meaning to',
-            options: {
-              A: 'harsh',
-              B: 'ideal',
-              C: 'inadequate',
-              D: 'tolerable'
-            },
+            options: { A: 'harsh', B: 'ideal', C: 'inadequate', D: 'tolerable' },
             correct: 'A',
             explanation: 'Một Trái Đất bao phủ hoàn toàn bởi băng giá là môi trường khắc nghiệt cho sự sống ("inhospitable"), gần nghĩa nhất với "harsh".'
           },
@@ -1568,7 +1412,7 @@
       {
         id: 'passage-06-thermohaline',
         badge: 'PASSAGE 6 • THERMOHALINE',
-        selectLabel: 'Bài 6: PASSAGE 6 — Thermohaline Circulation (Câu 31–43 / Câu 20–32)',
+        selectLabel: 'Bài 6: PASSAGE 6 — Thermohaline Circulation (Câu 31–43)',
         title: 'PASSAGE 6: THERMOHALINE CIRCULATION',
         topic: 'Oceanography & Climate Change',
         timeMinutes: 18,
@@ -1583,12 +1427,7 @@
             num: 31,
             type: 'Vocabulary',
             prompt: 'The word evoke in the passage is closest in meaning to',
-            options: {
-              A: 'ease',
-              B: 'silence',
-              C: 'raise',
-              D: 'prove'
-            },
+            options: { A: 'ease', B: 'silence', C: 'raise', D: 'prove' },
             correct: 'C',
             explanation: 'Trong cụm "evoke concerns" (làm dấy lên/gây ra những lo ngại), "evoke" gần nghĩa nhất với "raise".'
           },
@@ -1596,12 +1435,7 @@
             num: 32,
             type: 'Reference',
             prompt: 'The phrase this activity in the passage refers to',
-            options: {
-              A: 'thermohaline circulation',
-              B: 'scientific study',
-              C: 'atmospheric cycles',
-              D: 'global warming'
-            },
+            options: { A: 'thermohaline circulation', B: 'scientific study', C: 'atmospheric cycles', D: 'global warming' },
             correct: 'A',
             explanation: 'Câu trước nói về chuyển động đại dương là "thermohaline circulation", nên "this activity" ở cuối đoạn 1 chỉ chính hệ tuần hoàn nhiệt muối này.'
           },
@@ -1609,12 +1443,7 @@
             num: 33,
             type: 'Factual Information',
             prompt: 'According to paragraph 1, what could stop thermohaline circulation?',
-            options: {
-              A: 'heat distribution',
-              B: 'ocean currents',
-              C: 'dense water',
-              D: 'global warming'
-            },
+            options: { A: 'heat distribution', B: 'ocean currents', C: 'dense water', D: 'global warming' },
             correct: 'D',
             explanation: 'Đoạn 1 nêu lo ngại rằng sự nóng lên toàn cầu ("global warming") có thể chấm dứt hoạt động này.'
           },
@@ -1622,12 +1451,7 @@
             num: 34,
             type: 'Vocabulary',
             prompt: 'The word catalyst in the passage is closest in meaning to',
-            options: {
-              A: 'product',
-              B: 'cause',
-              C: 'barrier',
-              D: 'victim'
-            },
+            options: { A: 'product', B: 'cause', C: 'barrier', D: 'victim' },
             correct: 'B',
             explanation: '"The catalyst for thermohaline circulation is the density of the waters..." — mật độ nước là yếu tố thúc đẩy/khởi phát ("cause") tuần hoàn nhiệt muối.'
           },
@@ -1635,12 +1459,7 @@
             num: 35,
             type: 'Reference',
             prompt: 'The word it in the passage refers to',
-            options: {
-              A: 'bottom',
-              B: 'path',
-              C: 'the Atlantic',
-              D: 'seawater'
-            },
+            options: { A: 'bottom', B: 'path', C: 'the Atlantic', D: 'seawater' },
             correct: 'D',
             explanation: 'Câu văn: "As the seawater wells up from the bottom and travels back along its path to the northern Atlantic, it radiates heat into the atmosphere." Chủ thể tỏa nhiệt vào khí quyển chính là "seawater" (nước biển).'
           },
@@ -1648,12 +1467,7 @@
             num: 36,
             type: 'Negative Factual (EXCEPT)',
             prompt: 'All of the following processes occur in the northern Atlantic EXCEPT',
-            options: {
-              A: 'upwelling',
-              B: 'sinking',
-              C: 'freezing',
-              D: 'evaporation'
-            },
+            options: { A: 'upwelling', B: 'sinking', C: 'freezing', D: 'evaporation' },
             correct: 'A',
             explanation: 'Đoạn 2 nêu bay hơi ("evaporation"), đóng băng ("freezing"), và chìm xuống đáy ("sinking") xảy ra ở Bắc Đại Tây Dương, còn nước trồi ("upwelling") xảy ra ở Bắc Thái Bình Dương và Ấn Độ Dương.'
           },
@@ -1661,12 +1475,7 @@
             num: 37,
             type: 'Vocabulary',
             prompt: 'The word diminish in the passage is closest in meaning to',
-            options: {
-              A: 'augment',
-              B: 'lessen',
-              C: 'measure',
-              D: 'absorb'
-            },
+            options: { A: 'augment', B: 'lessen', C: 'measure', D: 'absorb' },
             correct: 'B',
             explanation: 'Nước ngọt băng tan làm loãng nước mặn và làm giảm mật độ ("diminish its density"), gần nghĩa với "lessen".'
           },
@@ -1674,12 +1483,7 @@
             num: 38,
             type: 'Factual Information',
             prompt: 'According to paragraph 3, what are "chimneys" in the northern Atlantic Ocean?',
-            options: {
-              A: 'deposits of salt',
-              B: 'sheets of ice',
-              C: 'sinking water',
-              D: 'rising water'
-            },
+            options: { A: 'deposits of salt', B: 'sheets of ice', C: 'sinking water', D: 'rising water' },
             correct: 'C',
             explanation: 'Đoạn 3 giải thích: "These chimneys are actually immense columns of cold water that shoot down to the ocean floor" — tức các cột nước lạnh chìm xuống đáy đại dương ("sinking water").'
           },
@@ -1687,12 +1491,7 @@
             num: 39,
             type: 'Factual Information',
             prompt: 'According to paragraph 3, what additional evidence shows that the gyre of activity in the Northern Atlantic is slowing down?',
-            options: {
-              A: 'low salt measurements',
-              B: 'higher temperatures',
-              C: 'smaller ice caps',
-              D: 'satellite pictures'
-            },
+            options: { A: 'low salt measurements', B: 'higher temperatures', C: 'smaller ice caps', D: 'satellite pictures' },
             correct: 'D',
             explanation: 'Đoạn 3 viết: "Additionally, photographs recently taken from satellites show that the gyre of activity in the northern Atlantic is slowing down..."'
           },
@@ -1700,12 +1499,7 @@
             num: 40,
             type: 'Vocabulary',
             prompt: 'The word trepidation in the passage is closest in meaning to',
-            options: {
-              A: 'alarm',
-              B: 'logic',
-              C: 'intensity',
-              D: 'data'
-            },
+            options: { A: 'alarm', B: 'logic', C: 'intensity', D: 'data' },
             correct: 'A',
             explanation: 'Một số nhà khoa học cảnh báo nhiệt độ giảm mạnh/kỷ băng hà, trong khi người khác bác bỏ sự lo sợ/báo động đó ("reject such trepidation"), gần nghĩa với "alarm".'
           },
@@ -1753,7 +1547,7 @@
       {
         id: 'passage-07-test-01',
         badge: 'TOEFL iBT READING TEST — ĐỀ SỐ 01',
-        selectLabel: 'Bài 7: ĐỀ SỐ 01 — Plate Tectonics and Subduction Zones (Câu 44–49 / Q1–6)',
+        selectLabel: 'Bài 7: ĐỀ SỐ 01 — Plate Tectonics and Subduction Zones (Câu 44–49)',
         title: 'PASSAGE 1: PLATE TECTONICS AND SUBDUCTION ZONES',
         topic: 'Geology • Time: 18 mins',
         timeMinutes: 18,
@@ -1768,12 +1562,7 @@
             num: 44,
             type: 'Vocabulary (Q1)',
             prompt: 'The word converge in paragraph 1 is closest in meaning to',
-            options: {
-              A: 'come together',
-              B: 'split apart',
-              C: 'cool rapidly',
-              D: 'slide sideways'
-            },
+            options: { A: 'come together', B: 'split apart', C: 'cool rapidly', D: 'slide sideways' },
             correct: 'A',
             explanation: 'Trong đoạn 1, các mảng hội tụ ("converge") đối lập với "divergent margins where plates pull apart" (tách ra) và "transform faults where plates grind horizontally past one another" (trượt ngang). Vì vậy "converge" đồng nghĩa với "come together".'
           },
@@ -1794,12 +1583,7 @@
             num: 46,
             type: 'Reference (Q3)',
             prompt: 'The word they in paragraph 2 refers to',
-            options: {
-              A: 'oceanic plates',
-              B: 'deep-sea trenches',
-              C: 'hydrated minerals',
-              D: 'continental volcanoes'
-            },
+            options: { A: 'oceanic plates', B: 'deep-sea trenches', C: 'hydrated minerals', D: 'continental volcanoes' },
             correct: 'A',
             explanation: 'Câu văn: "As oceanic plates descend into the hotter asthenosphere, they undergo partial melting..." Đại từ "they" thay thế trực tiếp cho "oceanic plates".'
           },
@@ -1847,7 +1631,7 @@
       {
         id: 'passage-08-test-02',
         badge: 'TOEFL iBT READING TEST — ĐỀ SỐ 02',
-        selectLabel: 'Bài 8: ĐỀ SỐ 02 — Bioluminescence in Deep-Sea Ecosystems (Câu 50–55 / Q7–12)',
+        selectLabel: 'Bài 8: ĐỀ SỐ 02 — Bioluminescence in Deep-Sea Ecosystems (Câu 50–55)',
         title: 'PASSAGE 2: BIOLUMINESCENCE IN DEEP-SEA ECOSYSTEMS',
         topic: 'Marine Biology • Time: 18 mins',
         timeMinutes: 18,
@@ -1862,12 +1646,7 @@
             num: 50,
             type: 'Vocabulary (Q7)',
             prompt: 'The word ubiquitous in paragraph 1 is closest in meaning to',
-            options: {
-              A: 'widespread',
-              B: 'fragile',
-              C: 'temporary',
-              D: 'artificial'
-            },
+            options: { A: 'widespread', B: 'fragile', C: 'temporary', D: 'artificial' },
             correct: 'A',
             explanation: 'Ngay sau "ubiquitous", bài đọc nêu tỷ lệ ước tính khoảng 75% sinh vật biển kích thước lớn có hiện tượng này ("occurring in an estimated 75 percent of macroscopic marine organisms"), cho thấy nghĩa là phổ biến rộng khắp ("widespread").'
           },
@@ -1888,12 +1667,7 @@
             num: 52,
             type: 'Reference (Q9)',
             prompt: 'The word it in paragraph 3 refers to',
-            options: {
-              A: 'a small deep-sea shrimp',
-              B: 'a predatory fish',
-              C: 'a cloud of luminous fluid',
-              D: 'the darkness'
-            },
+            options: { A: 'a small deep-sea shrimp', B: 'a predatory fish', C: 'a cloud of luminous fluid', D: 'the darkness' },
             correct: 'A',
             explanation: 'Câu văn: "When a small deep-sea shrimp is startled or seized by a fish, it expels a cloud of luminous fluid directly into the water..." Chủ ngữ thực hiện hành động phun dịch phát quang là "a small deep-sea shrimp".'
           },
@@ -1941,7 +1715,7 @@
       {
         id: 'passage-09-test-03',
         badge: 'TOEFL iBT READING TEST — ĐỀ SỐ 03',
-        selectLabel: 'Bài 9: ĐỀ SỐ 03 — The Classic Maya Collapse (Câu 56–61 / Q13–18)',
+        selectLabel: 'Bài 9: ĐỀ SỐ 03 — The Classic Maya Collapse (Câu 56–61)',
         title: 'PASSAGE 3: THE CLASSIC MAYA COLLAPSE',
         topic: 'Archaeology & Paleoclimatology • Time: 18 mins',
         timeMinutes: 18,
@@ -1956,12 +1730,7 @@
             num: 56,
             type: 'Vocabulary (Q13)',
             prompt: 'The word protracted in paragraph 1 is closest in meaning to',
-            options: {
-              A: 'prolonged',
-              B: 'instantaneous',
-              C: 'unnoticed',
-              D: 'preventable'
-            },
+            options: { A: 'prolonged', B: 'instantaneous', C: 'unnoticed', D: 'preventable' },
             correct: 'A',
             explanation: 'Quá trình suy tàn diễn ra trong khoảng một thế kỷ ("over a span of roughly a century") và dân cư rời bỏ dần dần ("gradually abandoned"), nên "protracted" có nghĩa là kéo dài ("prolonged").'
           },
@@ -1995,12 +1764,7 @@
             num: 59,
             type: 'Reference (Q16)',
             prompt: 'The word them in paragraph 4 refers to',
-            options: {
-              A: 'divine kings',
-              B: 'agricultural yields',
-              C: 'reservoirs',
-              D: 'deities'
-            },
+            options: { A: 'divine kings', B: 'agricultural yields', C: 'reservoirs', D: 'deities' },
             correct: 'A',
             explanation: 'Câu văn: "...divine kings lost the ideological legitimacy that had previously enabled them to command labor and tribute from the populace." "Them" quy chiếu đến "divine kings".'
           },
@@ -2035,7 +1799,7 @@
       {
         id: 'passage-10-test-04',
         badge: 'TOEFL iBT READING TEST — ĐỀ SỐ 04',
-        selectLabel: 'Bài 10: ĐỀ SỐ 04 — Detecting Extrasolar Planets (Câu 62–67 / Q19–24)',
+        selectLabel: 'Bài 10: ĐỀ SỐ 04 — Detecting Extrasolar Planets (Câu 62–67)',
         title: 'PASSAGE 4: DETECTING EXTRASOLAR PLANETS',
         topic: 'Astronomy • Time: 18 mins',
         timeMinutes: 18,
@@ -2050,12 +1814,7 @@
             num: 62,
             type: 'Vocabulary (Q19)',
             prompt: 'The word elusive in paragraph 1 is closest in meaning to',
-            options: {
-              A: 'difficult to achieve',
-              B: 'widely publicized',
-              C: 'mathematically flawed',
-              D: 'financially costly'
-            },
+            options: { A: 'difficult to achieve', B: 'widely publicized', C: 'mathematically flawed', D: 'financially costly' },
             correct: 'A',
             explanation: 'Bằng chứng thực nghiệm về ngoại hành tinh khó đạt được cho tới thập niên 1990 ("empirical confirmation remained remarkably elusive until the 1990s"), nên "elusive" tương đương "difficult to achieve".'
           },
@@ -2076,12 +1835,7 @@
             num: 64,
             type: 'Reference (Q21)',
             prompt: 'The word this in paragraph 3 refers to',
-            options: {
-              A: 'a planet\'s average density',
-              B: 'a transit light curve',
-              C: 'a planet\'s physical diameter',
-              D: 'the gravitational pull of the planet'
-            },
+            options: { A: 'a planet\'s average density', B: 'a transit light curve', C: 'a planet\'s physical diameter', D: 'the gravitational pull of the planet' },
             correct: 'A',
             explanation: 'Chia khối lượng cho thể tích giúp tính mật độ trung bình ("its average density"), và "this" (mật độ trung bình này) cho biết hành tinh cấu tạo từ đá/sắt, nước/băng hay khí.'
           },
@@ -2128,9 +1882,6 @@
       }
     ];
 
-    // Map Reading.docx quick answer table (60 questions in the answer key) to our 60 total questions
-    // Let's also ensure the exact 60 questions in our app are 100% indexed 1..60 cleanly.
-    // Let's re-number question.num sequentially 1 to 60 across the 10 passages so 1..60 is exact.
     (() => {
       let counter = 1;
       READING_PASSAGES.forEach((p) => {
@@ -2143,56 +1894,16 @@
     const LISTENING_SOURCE_URL = 'https://www.examenglish.com/TOEFL/toefl_listening.htm';
 
     const INDEPENDENT_PROMPTS = [
-      {
-        id: 'ind-01',
-        testCode: 'PRACTICE TEST 01',
-        statement: 'All the students in a group should receive the same grade.'
-      },
-      {
-        id: 'ind-02',
-        testCode: 'PRACTICE TEST 02',
-        statement: 'Television has negative effects on children.'
-      },
-      {
-        id: 'ind-03',
-        testCode: 'PRACTICE TEST 03',
-        statement: 'It is more relaxing and less stressful to spend time alone.'
-      },
-      {
-        id: 'ind-04',
-        testCode: 'PRACTICE TEST 04',
-        statement: 'It is better to save your money for the future than to spend it immediately.'
-      },
-      {
-        id: 'ind-05',
-        testCode: 'PRACTICE TEST 05',
-        statement: 'More than 11 months of class in a school year can give students a better and more effective education.'
-      },
-      {
-        id: 'ind-06',
-        testCode: 'PRACTICE TEST 06',
-        statement: 'It is better to take the most difficult classes in college even though you cannot get a good grade in the courses.'
-      },
-      {
-        id: 'ind-07',
-        testCode: 'PRACTICE TEST 07',
-        statement: 'Students should be required to participate in extracurricular activities as part of their education.'
-      },
-      {
-        id: 'ind-08',
-        testCode: 'PRACTICE TEST 08',
-        statement: 'It is better for university students to live with their parents than to live away from home.'
-      },
-      {
-        id: 'ind-09',
-        testCode: 'PRACTICE TEST 09',
-        statement: 'Technology has made communication between people less personal.'
-      },
-      {
-        id: 'ind-10',
-        testCode: 'PRACTICE TEST 10',
-        statement: 'People should choose a job based on their personal interests rather than the amount of money they can earn.'
-      }
+      { id: 'ind-01', testCode: 'PRACTICE TEST 01', statement: 'All the students in a group should receive the same grade.' },
+      { id: 'ind-02', testCode: 'PRACTICE TEST 02', statement: 'Television has negative effects on children.' },
+      { id: 'ind-03', testCode: 'PRACTICE TEST 03', statement: 'It is more relaxing and less stressful to spend time alone.' },
+      { id: 'ind-04', testCode: 'PRACTICE TEST 04', statement: 'It is better to save your money for the future than to spend it immediately.' },
+      { id: 'ind-05', testCode: 'PRACTICE TEST 05', statement: 'More than 11 months of class in a school year can give students a better and more effective education.' },
+      { id: 'ind-06', testCode: 'PRACTICE TEST 06', statement: 'It is better to take the most difficult classes in college even though you cannot get a good grade in the courses.' },
+      { id: 'ind-07', testCode: 'PRACTICE TEST 07', statement: 'Students should be required to participate in extracurricular activities as part of their education.' },
+      { id: 'ind-08', testCode: 'PRACTICE TEST 08', statement: 'It is better for university students to live with their parents than to live away from home.' },
+      { id: 'ind-09', testCode: 'PRACTICE TEST 09', statement: 'Technology has made communication between people less personal.' },
+      { id: 'ind-10', testCode: 'PRACTICE TEST 10', statement: 'People should choose a job based on their personal interests rather than the amount of money they can earn.' }
     ];
 
     const INTEGRATED_SETS = [
@@ -2200,11 +1911,7 @@
         id: 'int-01',
         title: 'Integrated Set 01 — Off-Campus Lunch (Audio 6)',
         audioLabel: 'Audio 6',
-        // Nếu file HTML đặt ngay trong thư mục "Hook Toefl ibt_Writing" thì đổi thành '06.mp3'
-        // Nếu file HTML đặt ở thư mục cha "Ôn tiếng anh" thì giữ 'Hook Toefl ibt_Writing/06.mp3'
         audioSrc: 'Hook Toefl ibt_Writing/06.mp3',
-        audioLinkText: 'ExamEnglish TOEFL Listening — Audio 6 (Off-Campus Lunch)',
-        audioHref: 'https://www.examenglish.com/TOEFL/toefl_listening.htm#audio-6',
         readingParagraphs: [
           'In many areas, high school administrators are beginning to see the wisdom in allowing their students to leave the school grounds during lunch. Permitting students to eat lunch off campus has a number of advantages over the traditional approach of providing lunch in the school cafeteria.',
           'First, allowing students to eat off campus increases efficiency. When students eat in the school cafeteria, the entire student body is served by a single kitchen staff. This results in a long line and lengthy wait times for students. When allowed to leave campus at lunchtime, those students are dispersed to a number of local restaurants where they can be served with greater speed.',
@@ -2218,10 +1925,7 @@
         id: 'int-02',
         title: 'Integrated Set 02 — Ambidexterity (MP3 10)',
         audioLabel: 'MP3 10',
-        // Ví dụ: 'Hook Toefl ibt_Writing/10.mp3' (hoặc '10.mp3' nếu cùng thư mục)
         audioSrc: 'Hook Toefl ibt_Writing/10.mp3',
-        audioLinkText: 'ExamEnglish TOEFL Listening — MP3 10 (Ambidexterity)',
-        audioHref: 'https://www.examenglish.com/TOEFL/toefl_listening.htm#mp3-10',
         readingParagraphs: [
           'Among the four types of handedness, right, left, mixed and ambidexterity, it is ambidexterity, or the ability to use both hands with equal facility, that is most valued. Ambidexterity has several advantages, such as more proficiency in various tasks, efficiency and brain growth.',
           'First, ambidextrous people are the ablest performers of various tasks. In sports, for instance, ambidextrous basketball, hockey and tennis players could use either their left or right hand or side of the body to shoot or hit the ball. In baseball, an ambidextrous batter has a higher chance of hitting the baseball when it is thrown by an opposite handed pitcher. Ambidexterity people also perform better in activities that require skill in both hands, such as swimming, playing percussion or keyboard music, and even in surgery. In combat, ambidextrous individuals also have an advantage. If one of their hands were injured, they could continue to fight with their other hand.',
@@ -2234,10 +1938,7 @@
         id: 'int-03',
         title: 'Integrated Set 03 — Zheng He & 1421 Theory (Audio 12)',
         audioLabel: 'Audio 12',
-        // Ví dụ: 'Hook Toefl ibt_Writing/12.mp3' (hoặc '12.mp3' nếu cùng thư mục)
         audioSrc: 'Hook Toefl ibt_Writing/12.mp3',
-        audioLinkText: 'ExamEnglish TOEFL Listening — Audio 12 (Zheng He & 1421 Theory)',
-        audioHref: 'https://www.examenglish.com/TOEFL/toefl_listening.htm#audio-12',
         readingParagraphs: [
           'Almost a century before Christopher Columbus encountered the Americas in 1492, Chinese mariner and explorer Zheng He traversed the seas around Asia and travelled as far as East Africa, helping form one of the earliest comprehensive understandings of the Eastern Hemisphere. Recent inquiries into his expeditions have yielded remarkable indications that Zheng He and other Chinese explorers actually discovered the Americas in 1421, a claim supported by artifacts found off the California coast, a mysterious tower in New England, and linguistic similarities between Native American and Chinese languages.',
           'First, there have been many unique artifacts found off the coast of California. Among the most impressive of these finds are ship anchors closely resembling those used on ancient Chinese junks. This is a powerful clue that Chinese explorers docked on the coastline, perhaps believing that the land was part of an island resting off of China\'s eastern coast. Other compelling discoveries in this area include ship wreckage that appears to predate Columbus\' expedition.',
@@ -2250,10 +1951,7 @@
         id: 'int-04',
         title: 'Integrated Set 04 — Online Universities (Audio 7)',
         audioLabel: 'Audio 7',
-        // Ví dụ: 'Hook Toefl ibt_Writing/07.mp3' (hoặc '07.mp3' nếu cùng thư mục)
         audioSrc: 'Hook Toefl ibt_Writing/07.mp3',
-        audioLinkText: 'ExamEnglish TOEFL Listening — Audio 7 (Online Universities)',
-        audioHref: 'https://www.examenglish.com/TOEFL/toefl_listening.htm#audio-7',
         readingParagraphs: [
           'These days, it is easier than ever for people to get a college degree, due mostly to online universities. Previously, one had to find a college that was both close to home and affordable, but this is no longer the case. Students of online universities can take their classes over the Internet and complete assignments according to their own schedules. Unfortunately, graduates of online universities are often disappointed to find that many employers do not take these universities seriously.',
           'Many employers think that online universities are inferior to traditional universities in regard to academics. One common perception is that the workload is not as heavy for students of online universities, and that the class assignments are easier. At an online university, students are sent assignments over email and complete them on their own time by a certain date. This means they have little help from instructors and fewer opportunities to learn as they develop their assignments.',
@@ -2266,10 +1964,7 @@
         id: 'int-05',
         title: 'Integrated Set 05 — Facial Expressions (Audio 8)',
         audioLabel: 'Audio 8',
-        // Ví dụ: 'Hook Toefl ibt_Writing/08.mp3' (hoặc '08.mp3' nếu cùng thư mục)
         audioSrc: 'Hook Toefl ibt_Writing/08.mp3',
-        audioLinkText: 'ExamEnglish TOEFL Listening — Audio 8 (Facial Expressions)',
-        audioHref: 'https://www.examenglish.com/TOEFL/toefl_listening.htm#audio-8',
         readingParagraphs: [
           'Facial expressions express the underlying emotions of humans. That is, when a person is in an emotional state, it is expressed on his face. These facial expressions have several noticeable characteristics, such as universality, existence of basic expressions, and spontaneity.',
           'These facial expressions are known to be universal; anywhere in the world, people cry when they are distressed, smile when they are pleased, and frown when they feel anger or contempt. Since the emotional reactions to different events are the same for everyone — grief about a death, happiness about a success or triumph — they are shown similarly through outward expressions, and they hold true for all humanity.',
@@ -2289,21 +1984,17 @@
 
     function getDefaultState() {
       const independentEssays = {};
-      INDEPENDENT_PROMPTS.forEach((p) => {
-        independentEssays[p.id] = '';
-      });
+      INDEPENDENT_PROMPTS.forEach((p) => { independentEssays[p.id] = ''; });
 
       const integratedEssays = {};
-      INTEGRATED_SETS.forEach((s) => {
-        integratedEssays[s.id] = '';
-      });
+      INTEGRATED_SETS.forEach((s) => { integratedEssays[s.id] = ''; });
 
       return {
         activeSection: 'reading',
         themeMode: 'light',
         currentPassageId: READING_PASSAGES[0].id,
-        answers: {}, // { globalIndex: 'A' | 'B' | 'C' | 'D' }
-        checkedQuestions: {}, // { globalIndex: true }
+        answers: {},
+        checkedQuestions: {},
         passageFontSize: 17,
         listeningNotesText: '',
         writingSubtab: 'independent',
@@ -2329,7 +2020,6 @@
           integratedEssays: { ...defaults.integratedEssays, ...(parsed.integratedEssays || {}) }
         };
       } catch (err) {
-        console.warn('Could not load saved state:', err);
         return defaults;
       }
     }
@@ -2346,6 +2036,7 @@
 
     function showToast(message, type = 'info') {
       const container = document.getElementById('toast-container');
+      if (!container) return;
       const toast = document.createElement('div');
       const palette = {
         info: 'bg-slate-900 text-white border-slate-700',
@@ -2374,9 +2065,7 @@
       appState.themeMode = target;
       document.documentElement.classList.toggle('dark', target === 'dark');
       const btn = document.getElementById('theme-toggle-btn');
-      if (btn) {
-        btn.textContent = target === 'dark' ? '☀️ Sáng' : '🌙 Tối';
-      }
+      if (btn) btn.textContent = target === 'dark' ? '☀️ Sáng' : '🌙 Tối';
       saveState();
     }
 
@@ -2387,21 +2076,283 @@
     }
 
     // =========================================================================
-    // 3. TOP NAVIGATION & SECTION SWITCHING
+    // 3. USER-ADDED BACKGROUND MUSIC PLAYER (BOTTOM LEFT)
     // =========================================================================
 
-    let selectedPracticeMode = 'section'; // 'section' | 'mock'
+    const CUSTOM_MUSIC_STORAGE_KEY = 'toefl_ibt_custom_music_tracks_v2';
+    let customMusicTracks = [];
+    let selectedMusicTrackId = '';
+    let musicVolume = 0.7;
+
+    function loadCustomMusicTracks() {
+      try {
+        const raw = localStorage.getItem(CUSTOM_MUSIC_STORAGE_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed.filter((t) => t && t.id && t.title && t.url && !t.isLocalBlob) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveCustomMusicTracks() {
+      try {
+        const persistable = customMusicTracks.filter((t) => !t.isLocalBlob);
+        localStorage.setItem(CUSTOM_MUSIC_STORAGE_KEY, JSON.stringify(persistable));
+      } catch (e) {
+        console.warn('Could not save custom music tracks:', e);
+      }
+    }
+
+    function getCustomAudioEl() {
+      return document.getElementById('custom-music-audio');
+    }
+
+    function getCurrentMusicTrack() {
+      return customMusicTracks.find((t) => t.id === selectedMusicTrackId) || null;
+    }
+
+    function renderMusicPresetOptions() {
+      const select = document.getElementById('mini-music-preset');
+      const removeBtn = document.getElementById('mini-music-remove-btn');
+      if (!select) return;
+
+      select.innerHTML = '';
+      if (customMusicTracks.length === 0) {
+        const emptyOpt = document.createElement('option');
+        emptyOpt.value = '';
+        emptyOpt.textContent = '-- Chưa có file/link nhạc nào --';
+        select.appendChild(emptyOpt);
+        selectedMusicTrackId = '';
+      } else {
+        if (!customMusicTracks.some((t) => t.id === selectedMusicTrackId)) {
+          selectedMusicTrackId = customMusicTracks[0].id;
+        }
+        customMusicTracks.forEach((track) => {
+          const opt = document.createElement('option');
+          opt.value = track.id;
+          opt.textContent = `${track.isLocalBlob ? '📁' : '🔗'} ${track.title}`;
+          if (track.id === selectedMusicTrackId) opt.selected = true;
+          select.appendChild(opt);
+        });
+      }
+
+      if (removeBtn) {
+        removeBtn.classList.toggle('hidden', customMusicTracks.length === 0);
+      }
+      updateMiniMusicUI();
+    }
+
+    function updateMiniMusicUI() {
+      const toggleBtn = document.getElementById('mini-music-toggle-btn');
+      const statusEl = document.getElementById('mini-music-status');
+      const audioEl = getCustomAudioEl();
+      const track = getCurrentMusicTrack();
+      const isPlaying = !!(audioEl && !audioEl.paused && track);
+
+      if (toggleBtn) {
+        toggleBtn.textContent = isPlaying ? '⏸ Dừng' : '▶ Phát';
+        toggleBtn.className = isPlaying
+          ? 'px-2.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition'
+          : 'px-2.5 py-1.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white text-xs font-semibold transition';
+      }
+
+      if (statusEl) {
+        if (!track) {
+          statusEl.textContent = 'Bấm ⌄ để tự thêm file nhạc';
+        } else {
+          statusEl.textContent = isPlaying ? `Đang phát: ${track.title}` : `Sẵn sàng: ${track.title}`;
+        }
+      }
+    }
+
+    function toggleMiniMusicExpand() {
+      const details = document.getElementById('mini-music-details');
+      const btn = document.getElementById('mini-music-expand-btn');
+      if (!details || !btn) return;
+      const isHidden = details.classList.contains('hidden');
+      details.classList.toggle('hidden', !isHidden);
+      btn.textContent = isHidden ? '⌃' : '⌄';
+    }
+
+    function toggleMiniMusic() {
+      const audioEl = getCustomAudioEl();
+      const track = getCurrentMusicTrack();
+
+      if (!track) {
+        const details = document.getElementById('mini-music-details');
+        const btn = document.getElementById('mini-music-expand-btn');
+        if (details && details.classList.contains('hidden')) {
+          details.classList.remove('hidden');
+          if (btn) btn.textContent = '⌃';
+        }
+        showToast('Bạn hãy chọn file nhạc từ máy hoặc thêm link nhạc trước nhé!', 'warn');
+        return;
+      }
+
+      if (!audioEl) return;
+
+      if (!audioEl.paused) {
+        audioEl.pause();
+        updateMiniMusicUI();
+        return;
+      }
+
+      if (audioEl.getAttribute('src') !== track.url) {
+        audioEl.setAttribute('src', track.url);
+      }
+      audioEl.loop = true;
+      audioEl.volume = musicVolume;
+      audioEl.play()
+        .then(() => {
+          updateMiniMusicUI();
+        })
+        .catch(() => {
+          updateMiniMusicUI();
+          showToast('Không thể phát file/link nhạc này. Hãy kiểm tra lại định dạng hoặc chọn file từ máy!', 'warn');
+        });
+    }
+
+    function changeMusicPreset(trackId) {
+      selectedMusicTrackId = trackId;
+      const audioEl = getCustomAudioEl();
+      const track = getCurrentMusicTrack();
+      if (audioEl) {
+        const wasPlaying = !audioEl.paused;
+        audioEl.pause();
+        if (track) {
+          audioEl.setAttribute('src', track.url);
+          audioEl.loop = true;
+          audioEl.volume = musicVolume;
+          if (wasPlaying) {
+            audioEl.play().then(updateMiniMusicUI).catch(updateMiniMusicUI);
+            return;
+          }
+        } else {
+          audioEl.removeAttribute('src');
+        }
+      }
+      updateMiniMusicUI();
+    }
+
+    function setMusicVolume(val) {
+      const num = Math.min(100, Math.max(0, Number(val) || 0));
+      musicVolume = num / 100;
+      const label = document.getElementById('mini-music-vol-label');
+      if (label) label.textContent = `${num}%`;
+      const audioEl = getCustomAudioEl();
+      if (audioEl) audioEl.volume = musicVolume;
+    }
+
+    function addCustomMusicByUrl() {
+      const titleInput = document.getElementById('custom-music-title-input');
+      const urlInput = document.getElementById('custom-music-url-input');
+      const rawUrl = (urlInput && urlInput.value ? urlInput.value : '').trim();
+      if (!rawUrl) {
+        showToast('Vui lòng dán đường dẫn file nhạc (.mp3, .wav, .ogg)!', 'warn');
+        return;
+      }
+
+      const rawTitle = (titleInput && titleInput.value ? titleInput.value : '').trim();
+      const trackTitle = rawTitle || `Nhạc thêm #${customMusicTracks.length + 1}`;
+      const newTrack = {
+        id: `track-${Date.now()}`,
+        title: trackTitle,
+        url: rawUrl,
+        isLocalBlob: false
+      };
+
+      customMusicTracks.push(newTrack);
+      selectedMusicTrackId = newTrack.id;
+      saveCustomMusicTracks();
+      renderMusicPresetOptions();
+
+      if (titleInput) titleInput.value = '';
+      if (urlInput) urlInput.value = '';
+
+      const audioEl = getCustomAudioEl();
+      if (audioEl) {
+        audioEl.setAttribute('src', newTrack.url);
+        audioEl.loop = true;
+        audioEl.volume = musicVolume;
+        audioEl.play().then(updateMiniMusicUI).catch(updateMiniMusicUI);
+      }
+      showToast(`Đã thêm "${trackTitle}"!`, 'success');
+    }
+
+    function handleCustomMusicFileUpload(event) {
+      const files = Array.from((event && event.target && event.target.files) || []);
+      if (files.length === 0) return;
+
+      const titleInput = document.getElementById('custom-music-title-input');
+      const customPrefix = (titleInput && titleInput.value ? titleInput.value : '').trim();
+
+      let firstNewTrack = null;
+      files.forEach((file, idx) => {
+        const blobUrl = URL.createObjectURL(file);
+        const cleanFileName = file.name.replace(/\.[^/.]+$/, '');
+        const title = customPrefix
+          ? (files.length > 1 ? `${customPrefix} (${idx + 1})` : customPrefix)
+          : (cleanFileName || `File nhạc #${customMusicTracks.length + 1}`);
+
+        const track = {
+          id: `blob-${Date.now()}-${idx}`,
+          title,
+          url: blobUrl,
+          isLocalBlob: true
+        };
+        customMusicTracks.push(track);
+        if (!firstNewTrack) firstNewTrack = track;
+      });
+
+      if (titleInput) titleInput.value = '';
+      event.target.value = '';
+
+      if (firstNewTrack) {
+        selectedMusicTrackId = firstNewTrack.id;
+        renderMusicPresetOptions();
+        const audioEl = getCustomAudioEl();
+        if (audioEl) {
+          audioEl.setAttribute('src', firstNewTrack.url);
+          audioEl.loop = true;
+          audioEl.volume = musicVolume;
+          audioEl.play().then(updateMiniMusicUI).catch(updateMiniMusicUI);
+        }
+      }
+      showToast(`Đã thêm ${files.length} file nhạc từ máy của bạn!`, 'success');
+    }
+
+    function removeSelectedCustomTrack() {
+      const idx = customMusicTracks.findIndex((t) => t.id === selectedMusicTrackId);
+      if (idx === -1) return;
+      const removed = customMusicTracks[idx];
+      if (removed.isLocalBlob && removed.url) {
+        URL.revokeObjectURL(removed.url);
+      }
+      customMusicTracks.splice(idx, 1);
+      saveCustomMusicTracks();
+
+      const audioEl = getCustomAudioEl();
+      if (audioEl) {
+        audioEl.pause();
+        audioEl.removeAttribute('src');
+      }
+      selectedMusicTrackId = customMusicTracks.length > 0 ? customMusicTracks[0].id : '';
+      renderMusicPresetOptions();
+      showToast(`Đã xóa "${removed.title}".`, 'info');
+    }
+
+    // =========================================================================
+    // 4. TOP NAVIGATION & SECTION SWITCHING
+    // =========================================================================
+
+    let selectedPracticeMode = 'section';
 
     function updatePracticeModeBadge() {
       const badge = document.getElementById('current-practice-mode-badge');
       if (!badge) return;
-      if (selectedPracticeMode === 'mock') {
-        badge.className = 'inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200';
-        badge.textContent = 'Chế độ: Luyện đề thi thử (Đang cập nhật)';
-      } else {
-        badge.className = 'inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-brand-50 text-brand-800 border border-brand-200';
-        badge.textContent = 'Chế độ: Luyện từng phần';
-      }
+      badge.className = 'inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-brand-50 text-brand-800 border border-brand-200';
+      badge.textContent = 'Chế độ: Luyện từng phần';
     }
 
     function openIntroOverlay() {
@@ -2455,11 +2406,23 @@
       showToast('Đã vào chế độ Luyện từng phần. Chọn kỹ năng bạn muốn ôn!', 'info');
     }
 
+    function stopIntegratedAudio() {
+      const audioEl = document.getElementById('integrated-audio-element');
+      const playBtn = document.getElementById('integrated-play-btn');
+      if (audioEl && !audioEl.paused) {
+        audioEl.pause();
+      }
+      if (playBtn) {
+        playBtn.textContent = '▶';
+      }
+    }
+
     function switchSection(sectionName) {
       if (sectionName === 'speaking') {
         showToast('Mục Speaking đang cập nhật nên tạm khóa nha!', 'warn');
         return;
       }
+      stopIntegratedAudio();
       const validSections = ['reading', 'listening', 'writing'];
       const target = validSections.includes(sectionName) ? sectionName : 'reading';
       appState.activeSection = target;
@@ -2468,21 +2431,17 @@
       validSections.forEach((sec) => {
         const sectionEl = document.getElementById(`section-${sec}`);
         const tabEl = document.getElementById(`tab-${sec}`);
-        if (sectionEl) {
-          sectionEl.classList.toggle('hidden', sec !== target);
-        }
+        if (sectionEl) sectionEl.classList.toggle('hidden', sec !== target);
         if (tabEl) {
-          if (sec === target) {
-            tabEl.className = 'nav-tab flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap bg-brand-700 text-white shadow-xs';
-          } else {
-            tabEl.className = 'nav-tab flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap text-slate-600 hover:text-slate-900 hover:bg-white/70';
-          }
+          tabEl.className = sec === target
+            ? 'nav-tab flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap bg-brand-700 text-white shadow-xs'
+            : 'nav-tab flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap text-slate-600 hover:text-slate-900 hover:bg-white/70';
         }
       });
     }
 
     // =========================================================================
-    // 4. READING MODULE (10 PASSAGES, 60 QUESTIONS, TIMER, GRADING)
+    // 5. READING MODULE
     // =========================================================================
 
     let readingTimerInterval = null;
@@ -2503,9 +2462,7 @@
         btn.textContent = 'Tiếp tục';
       } else {
         const currentPassage = getCurrentPassage();
-        if (readingSecondsLeft <= 0) {
-          readingSecondsLeft = (currentPassage.timeMinutes || 18) * 60;
-        }
+        if (readingSecondsLeft <= 0) readingSecondsLeft = (currentPassage.timeMinutes || 18) * 60;
         readingTimerRunning = true;
         btn.textContent = 'Tạm dừng';
         readingTimerInterval = setInterval(() => {
@@ -2567,9 +2524,7 @@
         const option = document.createElement('option');
         option.value = passage.id;
         option.textContent = passage.selectLabel || `Bài ${idx + 1}: ${passage.title}`;
-        if (passage.id === appState.currentPassageId) {
-          option.selected = true;
-        }
+        if (passage.id === appState.currentPassageId) option.selected = true;
         select.appendChild(option);
       });
     }
@@ -2617,9 +2572,7 @@
 
       if (contentEl) {
         contentEl.style.fontSize = `${appState.passageFontSize || 17}px`;
-        contentEl.innerHTML = passage.paragraphs
-          .map((para) => `<p>${para}</p>`)
-          .join('');
+        contentEl.innerHTML = passage.paragraphs.map((para) => `<p>${para}</p>`).join('');
       }
     }
 
@@ -2688,17 +2641,10 @@
                 ${escapeHtmlText(q.type || 'TOEFL Reading')}
               </span>
             </div>
-            <button
-            type="button"
-            onclick="openModeSelectorOnly()"
-            class="px-4 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-sm font-semibold transition"
-          >
-            🔄 Đổi chế độ
-          </button>
-        </div>
-      </div>
-    </section>
-  </main>
+          </div>
+          <p class="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">
+            ${escapeHtmlText(q.prompt)}
+          </p>
         `;
 
         const optionsHtml = Object.entries(q.options)
@@ -2737,7 +2683,7 @@
                 <span class="w-6 h-6 rounded-md border flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${badgeClass}">
                   ${letter}
                 </span>
-                <span class="leading-relaxed">${escapeHtmlText(text)}</span>
+                <span class="flex-1 min-w-0 leading-relaxed">${escapeHtmlText(text)}</span>
               </button>
             `;
           })
@@ -2777,9 +2723,7 @@
       if (!modal) return;
       const willOpen = modal.classList.contains('hidden');
       modal.classList.toggle('hidden', !willOpen);
-      if (willOpen) {
-        renderReadingOverviewBody();
-      }
+      if (willOpen) renderReadingOverviewBody();
     }
 
     function renderReadingOverviewBody() {
@@ -2795,9 +2739,7 @@
       READING_PASSAGES.forEach((passage, pIdx) => {
         passage.questions.forEach((q, qIdx) => {
           const baseType = (q.type || 'General').replace(/\s*\(Q\d+.*?\)/i, '').trim();
-          if (!typeStats[baseType]) {
-            typeStats[baseType] = { checked: 0, correct: 0, total: 0 };
-          }
+          if (!typeStats[baseType]) typeStats[baseType] = { checked: 0, correct: 0, total: 0 };
           typeStats[baseType].total += 1;
 
           const selected = appState.answers[q.globalIndex];
@@ -2896,9 +2838,7 @@
 
     function jumpToWrongQuestion(passageId, globalIndex) {
       toggleReadingOverviewModal();
-      if (appState.currentPassageId !== passageId) {
-        selectReadingPassage(passageId);
-      }
+      if (appState.currentPassageId !== passageId) selectReadingPassage(passageId);
       setTimeout(() => {
         const card = document.getElementById(`question-card-${globalIndex}`);
         if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -2911,25 +2851,13 @@
       renderReadingWorkspace();
     }
 
-    function checkSingleQuestion(globalIndex) {
-      if (!appState.answers[globalIndex]) {
-        showToast('Hãy chọn một đáp án (A, B, C hoặc D) trước khi kiểm tra.', 'warn');
-        return;
-      }
-      appState.checkedQuestions[globalIndex] = true;
-      saveState();
-      renderReadingWorkspace();
-    }
-
     function gradeCurrentPassage() {
       const passage = getCurrentPassage();
       let passageCorrect = 0;
 
       passage.questions.forEach((q) => {
         appState.checkedQuestions[q.globalIndex] = true;
-        if (appState.answers[q.globalIndex] === q.correct) {
-          passageCorrect += 1;
-        }
+        if (appState.answers[q.globalIndex] === q.correct) passageCorrect += 1;
       });
 
       saveState();
@@ -2952,7 +2880,7 @@
     }
 
     // =========================================================================
-    // 5. LISTENING MODULE (WEBSITE LINK BOX + COPY + NOTES + TIMER)
+    // 6. LISTENING MODULE
     // =========================================================================
 
     let listeningTimerInterval = null;
@@ -2960,7 +2888,8 @@
     let listeningTimerRunning = false;
 
     function updateListeningTimerDisplay() {
-      document.getElementById('listening-timer-display').textContent = formatTimeMMSS(listeningSecondsLeft);
+      const el = document.getElementById('listening-timer-display');
+      if (el) el.textContent = formatTimeMMSS(listeningSecondsLeft);
     }
 
     function toggleListeningTimer() {
@@ -3001,9 +2930,7 @@
         linkEl.querySelector('span:first-child').textContent = LISTENING_SOURCE_URL;
       }
       const notesEl = document.getElementById('listening-main-notes');
-      if (notesEl) {
-        notesEl.value = appState.listeningNotesText || '';
-      }
+      if (notesEl) notesEl.value = appState.listeningNotesText || '';
     }
 
     function copyListeningSourceLink() {
@@ -3035,7 +2962,7 @@
     }
 
     // =========================================================================
-    // 6. WRITING MODULE (INDEPENDENT 10 + INTEGRATED 5 + LINK BOX + WORD COUNT)
+    // 7. WRITING MODULE
     // =========================================================================
 
     let writingTimerInterval = null;
@@ -3043,7 +2970,8 @@
     let writingTimerRunning = false;
 
     function updateWritingTimerDisplay() {
-      document.getElementById('writing-timer-display').textContent = formatTimeMMSS(writingSecondsLeft);
+      const el = document.getElementById('writing-timer-display');
+      if (el) el.textContent = formatTimeMMSS(writingSecondsLeft);
     }
 
     function setWritingTimerPreset(secondsStr) {
@@ -3085,6 +3013,7 @@
     }
 
     function switchWritingSubtab(subtab) {
+      stopIntegratedAudio();
       appState.writingSubtab = subtab;
       saveState();
 
@@ -3152,15 +3081,9 @@
 
     function renderIntegratedWorkspace() {
       const set = INTEGRATED_SETS.find((s) => s.id === appState.currentIntegratedId) || INTEGRATED_SETS[0];
-      document.getElementById('integrated-audio-ref-badge').textContent = `3 phút đọc • 20 phút viết`;
+      document.getElementById('integrated-audio-ref-badge').textContent = '3 phút đọc • 20 phút viết';
       document.getElementById('integrated-audio-code-badge').textContent = set.audioLabel;
-      document.getElementById('integrated-link-title').textContent = `Liên kết nguồn bài nghe (${set.audioLabel})`;
       document.getElementById('integrated-audio-caption').textContent = `1. Listen to the lecture — ${set.audioLabel}`;
-
-      const srcEl = document.getElementById('integrated-audio-src-text');
-      if (srcEl) {
-        srcEl.textContent = set.audioSrc || '';
-      }
 
       const audioEl = document.getElementById('integrated-audio-element');
       if (audioEl) {
@@ -3171,10 +3094,6 @@
         document.getElementById('integrated-audio-scrubber').value = 0;
         document.getElementById('integrated-audio-time').textContent = '00:00 / 04:05';
       }
-
-      const anchor = document.getElementById('integrated-audio-anchor');
-      anchor.href = set.audioHref;
-      document.getElementById('integrated-audio-anchor-text').textContent = set.audioLinkText;
 
       document.getElementById('integrated-reading-text').innerHTML = set.readingParagraphs
         .map((p) => `<p>${p}</p>`)
@@ -3197,7 +3116,7 @@
         audioEl.play().then(() => {
           playBtn.textContent = '⏸';
         }).catch(() => {
-          showToast('Chưa tìm thấy file audio tại đường dẫn src hiện tại. Kiểm tra lại src nhé!', 'warn');
+          showToast('Chưa tìm thấy file audio tại đường dẫn hiện tại. Kiểm tra lại thư mục mp3 nhé!', 'warn');
         });
       } else {
         audioEl.pause();
@@ -3251,31 +3170,13 @@
       audioEl.addEventListener('timeupdate', () => {
         if (timeEl && Number.isFinite(audioEl.duration) && audioEl.duration > 0) {
           timeEl.textContent = `${formatTimeMMSS(Math.floor(audioEl.currentTime))} / ${formatTimeMMSS(Math.floor(audioEl.duration))}`;
-          if (scrubber) {
-            scrubber.value = String((audioEl.currentTime / audioEl.duration) * 100);
-          }
+          if (scrubber) scrubber.value = String((audioEl.currentTime / audioEl.duration) * 100);
         }
       });
 
       audioEl.addEventListener('ended', () => {
         if (playBtn) playBtn.textContent = '▶';
       });
-    }
-
-    function copyIntegratedAudioLink() {
-      const set = INTEGRATED_SETS.find((s) => s.id === appState.currentIntegratedId) || INTEGRATED_SETS[0];
-      const valueToCopy = set.audioSrc || set.audioHref;
-      const tempInput = document.createElement('input');
-      tempInput.value = valueToCopy;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      try {
-        document.execCommand('copy');
-        showToast(`Đã sao chép "${valueToCopy}" cho ${set.audioLabel}!`, 'success');
-      } catch (err) {
-        showToast('Không thể sao chép tự động, vui lòng sao chép thủ công.', 'warn');
-      }
-      tempInput.remove();
     }
 
     function toggleIntegratedTranscript() {
@@ -3394,7 +3295,7 @@
     }
 
     // =========================================================================
-    // 7. SAFE HTML ESCAPING & INITIALIZATION
+    // 8. SAFE HTML ESCAPING & INITIALIZATION
     // =========================================================================
 
     function escapeHtmlText(str) {
@@ -3414,6 +3315,16 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       applyThemeMode(appState.themeMode || 'light');
+
+      customMusicTracks = loadCustomMusicTracks();
+      renderMusicPresetOptions();
+      const customAudioEl = getCustomAudioEl();
+      if (customAudioEl) {
+        customAudioEl.addEventListener('play', updateMiniMusicUI);
+        customAudioEl.addEventListener('pause', updateMiniMusicUI);
+        customAudioEl.addEventListener('ended', updateMiniMusicUI);
+      }
+
       populateReadingSelect();
       renderReadingWorkspace();
       updateReadingTimerDisplay();
@@ -3434,4 +3345,4 @@
     });
   </script>
 </body>
-</html></selection-tag>
+</html>
