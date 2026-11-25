@@ -139,7 +139,7 @@
         padding-top 0.32s ease;
     }
     #mini-music-box.is-expanded #mini-music-details {
-      max-height: 280px;
+      max-height: 430px;
       opacity: 1;
       margin-top: 0.65rem;
       padding-top: 0.65rem;
@@ -351,6 +351,33 @@
           onchange="changeMusicPreset(this.value)"
           class="flex-1 min-w-0 rounded-lg border border-slate-300 bg-slate-50 px-2 py-1 text-xs font-medium text-slate-800"
         ></select>
+      </div>
+
+      <div class="p-2 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+        <div class="flex items-center justify-between gap-2">
+          <span id="mini-music-playlist-count" class="text-[11px] font-bold text-slate-700">Danh sách phát (0/0 bài)</span>
+          <div class="flex items-center gap-2 text-[11px] font-semibold">
+            <button
+              type="button"
+              onclick="setAllMusicTracksEnabled(true)"
+              class="text-brand-700 hover:text-brand-900"
+            >
+              Tất cả
+            </button>
+            <span class="text-slate-300">|</span>
+            <button
+              type="button"
+              onclick="setAllMusicTracksEnabled(false)"
+              class="text-slate-500 hover:text-rose-600"
+            >
+              Bỏ chọn
+            </button>
+          </div>
+        </div>
+        <div
+          id="mini-music-playlist-items"
+          class="max-h-28 overflow-y-auto academic-scroll space-y-1 pr-0.5"
+        ></div>
       </div>
 
       <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
@@ -1171,6 +1198,7 @@
 
     let customMusicTracks = [];
     let selectedMusicTrackId = sortTracksAscending(DEFAULT_REPO_TRACKS)[0].id;
+    let enabledMusicTrackIds = new Set(DEFAULT_REPO_TRACKS.map((t) => t.id));
     let musicVolume = 0.7;
 
     function getCustomAudioEl() {
@@ -1203,9 +1231,100 @@
       return sortTracksAscending([...DEFAULT_REPO_TRACKS, ...customMusicTracks]);
     }
 
+    function getEnabledMusicTracks() {
+      const all = getAllMusicTracks();
+      return all.filter((t) => enabledMusicTrackIds.has(t.id));
+    }
+
+    function ensureSelectedTrackValid() {
+      const all = getAllMusicTracks();
+      if (!all.length) return;
+      if (!all.some((t) => t.id === selectedMusicTrackId)) {
+        const enabled = getEnabledMusicTracks();
+        selectedMusicTrackId = (enabled[0] || all[0]).id;
+      }
+    }
+
     function getCurrentMusicTrack() {
       const all = getAllMusicTracks();
       return all.find((t) => t.id === selectedMusicTrackId) || all[0];
+    }
+
+    function renderPlaylistSelector() {
+      const listEl = document.getElementById('mini-music-playlist-items');
+      const countEl = document.getElementById('mini-music-playlist-count');
+      if (!listEl) return;
+
+      const all = getAllMusicTracks();
+      const enabledCount = all.filter((t) => enabledMusicTrackIds.has(t.id)).length;
+      if (countEl) {
+        countEl.textContent = `Danh sách phát (${enabledCount}/${all.length} bài)`;
+      }
+
+      listEl.innerHTML = all
+        .map((track) => {
+          const isChecked = enabledMusicTrackIds.has(track.id);
+          const isCurrent = track.id === selectedMusicTrackId;
+          return `
+            <label class="flex items-center gap-2 px-2 py-1 rounded-lg text-[11px] cursor-pointer transition ${
+              isCurrent ? 'bg-brand-50/90 text-brand-900 font-semibold' : 'hover:bg-slate-100 text-slate-700'
+            }">
+              <input
+                type="checkbox"
+                ${isChecked ? 'checked' : ''}
+                onchange="toggleMusicTrackEnabled('${escapeHtmlText(track.id)}', this.checked)"
+                class="rounded border-slate-300 text-brand-700 focus:ring-brand-600 shrink-0 cursor-pointer"
+              />
+              <span class="flex-1 min-w-0 truncate">${escapeHtmlText(track.title)}</span>
+              ${isCurrent ? '<span class="text-[10px] px-1.5 py-0.2 rounded bg-brand-700 text-white shrink-0">Đang chọn</span>' : ''}
+            </label>
+          `;
+        })
+        .join('');
+    }
+
+    function toggleMusicTrackEnabled(trackId, checked) {
+      if (checked) {
+        enabledMusicTrackIds.add(trackId);
+      } else {
+        enabledMusicTrackIds.delete(trackId);
+      }
+      renderPlaylistSelector();
+    }
+
+    function setAllMusicTracksEnabled(enableAll) {
+      const all = getAllMusicTracks();
+      if (enableAll) {
+        enabledMusicTrackIds = new Set(all.map((t) => t.id));
+      } else {
+        enabledMusicTrackIds = new Set();
+      }
+      renderPlaylistSelector();
+      showToast(
+        enableAll ? 'Đã chọn tất cả bài trong danh sách phát.' : 'Đã bỏ chọn tất cả bài — hãy tick bài bạn muốn phát.',
+        'info'
+      );
+    }
+
+    function renderMusicPresetOptions() {
+      const selectEl = document.getElementById('mini-music-preset');
+      const removeBtn = document.getElementById('mini-music-remove-btn');
+      ensureSelectedTrackValid();
+
+      if (selectEl) {
+        const all = getAllMusicTracks();
+        selectEl.innerHTML = all
+          .map((t) => `<option value="${escapeHtmlText(t.id)}">${escapeHtmlText(t.title)}</option>`)
+          .join('');
+        selectEl.value = selectedMusicTrackId;
+      }
+
+      const current = getCurrentMusicTrack();
+      if (removeBtn) {
+        removeBtn.classList.toggle('hidden', Boolean(current && current.isDefault));
+      }
+
+      renderPlaylistSelector();
     }
 
     function renderMusicPresetOptions() {
@@ -1338,10 +1457,13 @@
         void nextBtn.offsetWidth;
         nextBtn.classList.add('skip-motion-active');
       }
-      const all = getAllMusicTracks();
-      if (!all.length) return;
-      const idx = all.findIndex((t) => t.id === selectedMusicTrackId);
-      const nextTrack = all[(idx + 1) % all.length];
+      const queue = getEnabledMusicTracks();
+      if (!queue.length) {
+        showToast('Chưa có bài nào được tick trong danh sách phát!', 'warn');
+        return;
+      }
+      const idx = queue.findIndex((t) => t.id === selectedMusicTrackId);
+      const nextTrack = queue[(idx + 1) % queue.length];
       selectedMusicTrackId = nextTrack.id;
       renderMusicPresetOptions();
       syncPlayerSourceForTrack(nextTrack, true);
@@ -1359,6 +1481,7 @@
 
     function changeMusicPreset(trackId) {
       selectedMusicTrackId = trackId;
+      enabledMusicTrackIds.add(trackId);
       renderMusicPresetOptions();
       syncPlayerSourceForTrack(getCurrentMusicTrack(), true);
     }
@@ -1378,6 +1501,7 @@
           isLocalBlob: true
         };
         customMusicTracks.push(trackObj);
+        enabledMusicTrackIds.add(trackObj.id);
         lastId = trackObj.id;
       });
 
@@ -1390,12 +1514,14 @@
 
     function removeSelectedCustomTrack() {
       const current = getCurrentMusicTrack();
-      if (current.isDefault) return;
+      if (!current || current.isDefault) return;
       if (current.isLocalBlob && current.url) {
         URL.revokeObjectURL(current.url);
       }
       customMusicTracks = customMusicTracks.filter((t) => t.id !== current.id);
-      const firstSorted = getAllMusicTracks()[0];
+      enabledMusicTrackIds.delete(current.id);
+      const fallbackPool = getEnabledMusicTracks();
+      const firstSorted = fallbackPool[0] || getAllMusicTracks()[0];
       selectedMusicTrackId = firstSorted.id;
       renderMusicPresetOptions();
       syncPlayerSourceForTrack(firstSorted, true);
