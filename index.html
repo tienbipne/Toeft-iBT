@@ -2682,9 +2682,8 @@
       if (btnInd) {
         btnInd.className = isInd
           ? 'px-4 py-2.5 rounded-xl text-sm font-semibold bg-brand-700 text-white shadow-xs transition'
-    function stopWritingAudioOnly() {
-      pauseIntegratedAudioAll();
-    }
+          : 'px-4 py-2.5 rounded-xl text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition';
+      }
       if (btnInt) {
         btnInt.className = !isInd
           ? 'px-4 py-2.5 rounded-xl text-sm font-semibold bg-brand-700 text-white shadow-xs transition'
@@ -2965,50 +2964,6 @@
           updateIntegratedAudioUI();
         });
       }
-    }
-
-    function seekIntegratedAudio(deltaSec) {
-      const audioEl = document.getElementById('integrated-audio-element');
-      if (!audioEl || !Number.isFinite(audioEl.duration)) return;
-      audioEl.currentTime = Math.max(0, Math.min(audioEl.duration, audioEl.currentTime + deltaSec));
-    }
-
-    function toggleIntegratedAudioLoop() {
-      const audioEl = document.getElementById('integrated-audio-element');
-      const btn = document.getElementById('integrated-loop-btn');
-      if (!audioEl) return;
-      audioEl.loop = !audioEl.loop;
-      if (btn) btn.classList.toggle('is-active', audioEl.loop);
-    }
-
-    function scrubIntegratedAudio(percentVal) {
-      const audioEl = document.getElementById('integrated-audio-element');
-      if (!audioEl || !Number.isFinite(audioEl.duration)) return;
-      audioEl.currentTime = (Number(percentVal) / 100) * audioEl.duration;
-    }
-
-    function toggleIntegratedAudioMute() {
-      const audioEl = document.getElementById('integrated-audio-element');
-      const btn = document.getElementById('integrated-mute-btn');
-      if (!audioEl) return;
-      audioEl.muted = !audioEl.muted;
-      if (btn) btn.textContent = audioEl.muted ? '🔇' : '🔊';
-    }
-
-    function initApp() {
-      applyThemeMode(appState.themeMode);
-
-      initReadingSelectors();
-      renderCurrentReadingPassage();
-      updateGlobalScoreSummary();
-
-      const notesEl = document.getElementById('listening-main-notes');
-      if (notesEl) notesEl.value = appState.listeningNotesText || '';
-
-      initWritingSelectors();
-      selectIndependentPrompt(appState.currentIndependentId);
-      selectIntegratedSet(appState.currentIntegratedId);
-      switchWritingSubtab(appState.writingSubtab || 'independent');
 
       renderMusicPresetOptions();
       syncPlayerSourceForTrack(getCurrentMusicTrack(), false, true);
