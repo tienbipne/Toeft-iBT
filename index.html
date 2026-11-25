@@ -3031,8 +3031,9 @@
 
       window.addEventListener('pagehide', stopAllAudioOnPageLeave);
       window.addEventListener('beforeunload', stopAllAudioOnPageLeave);
+      window.addEventListener('blur', stopAllAudioOnPageLeave);
       document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
+        if (document.hidden || document.visibilityState === 'hidden') {
           stopAllAudioOnPageLeave();
         }
       });
