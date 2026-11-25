@@ -1142,6 +1142,22 @@
       return document.getElementById('custom-music-audio');
     }
 
+    function stopAllAudioOnPageLeave() {
+      const customAudioEl = getCustomAudioEl();
+      if (customAudioEl && !customAudioEl.paused) {
+        customAudioEl.pause();
+        updateMiniMusicUI(false);
+        updateMiniMusicProgressUI();
+      }
+
+      const integratedAudioEl = document.getElementById('integrated-audio-element');
+      if (integratedAudioEl && !integratedAudioEl.paused) {
+        integratedAudioEl.pause();
+        const playBtn = document.getElementById('integrated-play-btn');
+        if (playBtn) playBtn.textContent = '▶';
+      }
+    }
+
     function getAllMusicTracks() {
       return sortTracksAscending([...DEFAULT_REPO_TRACKS, ...customMusicTracks]);
     }
@@ -2264,7 +2280,21 @@
       switchSection(appState.activeSection || 'reading');
     }
 
+    // Dừng riêng audio bài giảng Integrated Writing mà không chạm tới nhạc nền (#custom-music-audio)
+    function stopWritingAudioOnly() {
+      const intAudio = document.getElementById('integrated-audio-element');
+      const playBtn = document.getElementById('integrated-play-btn');
+      if (intAudio && !intAudio.paused) {
+        intAudio.pause();
+      }
+      if (playBtn) {
+        playBtn.textContent = '▶';
+      }
+    }
+
     function switchSection(sectionName) {
+      stopWritingAudioOnly();
+
       const target = ['reading', 'listening', 'writing', 'speaking'].includes(sectionName)
         ? sectionName
         : 'reading';
@@ -2689,6 +2719,8 @@
     }
 
     function switchWritingSubtab(subtab) {
+      stopWritingAudioOnly();
+
       appState.writingSubtab = subtab === 'integrated' ? 'integrated' : 'independent';
       saveState();
 
@@ -2783,6 +2815,8 @@
     }
 
     function selectIntegratedSet(id) {
+      stopWritingAudioOnly();
+
       appState.currentIntegratedId = id;
       saveState();
       const setObj = INTEGRATED_SETS.find((s) => s.id === id) || INTEGRATED_SETS[0];
@@ -2978,6 +3012,14 @@
       }
 
       switchSection(appState.activeSection || 'reading');
+
+      window.addEventListener('pagehide', stopAllAudioOnPageLeave);
+      window.addEventListener('beforeunload', stopAllAudioOnPageLeave);
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          stopAllAudioOnPageLeave();
+        }
+      });
     }
 
     window.addEventListener('DOMContentLoaded', initApp);
