@@ -2585,10 +2585,86 @@
 
     let writingSecondsLeft = 30 * 60;
     let writingTimerInterval = null;
+    let integratedFallbackTimer = null;
+    let integratedSimulatedSec = 0;
 
     function countWords(text) {
       const trimmed = String(text || '').trim();
       return trimmed ? trimmed.split(/\s+/).length : 0;
+    }
+
+    function stopIntegratedFallbackTimer() {
+      if (integratedFallbackTimer) {
+        clearInterval(integratedFallbackTimer);
+        integratedFallbackTimer = null;
+      }
+    }
+
+    function getIntegratedEffectiveDuration() {
+      const audioEl = document.getElementById('integrated-audio-element');
+      if (audioEl && Number.isFinite(audioEl.duration) && audioEl.duration > 0) {
+        return audioEl.duration;
+      }
+      return 245; // 04:05 mặc định khi chưa có file .mp3 trên môi trường xem trước
+    }
+
+    function updateIntegratedAudioUI() {
+      const audioEl = document.getElementById('integrated-audio-element');
+      const scrubber = document.getElementById('integrated-audio-scrubber');
+      const timeEl = document.getElementById('integrated-audio-time');
+      const playBtn = document.getElementById('integrated-play-btn');
+
+      const hasRealAudio = Boolean(
+        audioEl &&
+        audioEl.readyState >= 1 &&
+        Number.isFinite(audioEl.duration) &&
+        audioEl.duration > 0 &&
+        !audioEl.error
+      );
+
+      const duration = hasRealAudio ? audioEl.duration : getIntegratedEffectiveDuration();
+      const current = hasRealAudio ? audioEl.currentTime : Math.min(duration, integratedSimulatedSec);
+      const isPlaying = hasRealAudio ? !audioEl.paused : Boolean(integratedFallbackTimer);
+      const pct = duration > 0 ? Math.min(100, Math.max(0, (current / duration) * 100)) : 0;
+
+      if (scrubber) {
+        scrubber.value = String(pct.toFixed(2));
+      }
+      if (timeEl) {
+        timeEl.textContent = `${formatTimeMMSS(Math.floor(current))} / ${formatTimeMMSS(Math.floor(duration))}`;
+      }
+      if (playBtn) {
+        playBtn.textContent = isPlaying ? '⏸' : '▶';
+      }
+    }
+
+    function startIntegratedFallbackTimer() {
+      stopIntegratedFallbackTimer();
+      integratedFallbackTimer = setInterval(() => {
+        const duration = getIntegratedEffectiveDuration();
+        const audioEl = document.getElementById('integrated-audio-element');
+        if (integratedSimulatedSec + 1 < duration) {
+          integratedSimulatedSec += 1;
+          updateIntegratedAudioUI();
+        } else if (audioEl && audioEl.loop) {
+          integratedSimulatedSec = 0;
+          updateIntegratedAudioUI();
+        } else {
+          integratedSimulatedSec = 0;
+          stopIntegratedFallbackTimer();
+          updateIntegratedAudioUI();
+        }
+      }, 1000);
+      updateIntegratedAudioUI();
+    }
+
+    function pauseIntegratedAudioAll() {
+      const audioEl = document.getElementById('integrated-audio-element');
+      if (audioEl && !audioEl.paused) {
+        audioEl.pause();
+      }
+      stopIntegratedFallbackTimer();
+      updateIntegratedAudioUI();
     }
 
     function switchWritingSubtab(subtab) {
@@ -2606,8 +2682,9 @@
       if (btnInd) {
         btnInd.className = isInd
           ? 'px-4 py-2.5 rounded-xl text-sm font-semibold bg-brand-700 text-white shadow-xs transition'
-          : 'px-4 py-2.5 rounded-xl text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition';
-      }
+    function stopWritingAudioOnly() {
+      pauseIntegratedAudioAll();
+    }
       if (btnInt) {
         btnInt.className = !isInd
           ? 'px-4 py-2.5 rounded-xl text-sm font-semibold bg-brand-700 text-white shadow-xs transition'
@@ -2689,6 +2766,7 @@
 
     function selectIntegratedSet(id) {
       stopWritingAudioOnly();
+      integratedSimulatedSec = 0;
 
       appState.currentIntegratedId = id;
       saveState();
@@ -2712,6 +2790,7 @@
         audioEl.pause();
         audioEl.src = setObj.audioSrc || '';
       }
+      updateIntegratedAudioUI();
       if (editor) {
         editor.value = appState.integratedEssays[setObj.id] || '';
         handleWritingInput('integrated');
@@ -2796,17 +2875,94 @@
 
     function toggleIntegratedAudioPlay() {
       const audioEl = document.getElementById('integrated-audio-element');
-      const btn = document.getElementById('integrated-play-btn');
       if (!audioEl) return;
-      if (!audioEl.paused) {
-        audioEl.pause();
-        if (btn) btn.textContent = '▶';
+
+      const isCurrentlyPlaying = !audioEl.paused || Boolean(integratedFallbackTimer);
+      if (isCurrentlyPlaying) {
+        pauseIntegratedAudioAll();
       } else {
         pauseBackgroundMusicForLecture();
-        audioEl.play().then(() => {
-          if (btn) btn.textContent = '⏸';
-        }).catch(() => {
-          showToast('File audio cục bộ chưa có sẵn — bạn có thể xem Transcript bên dưới.', 'warn');
+        const playPromise = audioEl.play();
+        if (playPromise && typeof playPromise.then === 'function') {
+          playPromise
+            .then(() => {
+              stopIntegratedFallbackTimer();
+              updateIntegratedAudioUI();
+            })
+            .catch(() => {
+              startIntegratedFallbackTimer();
+              showToast('Đang chạy thanh tiến trình mô phỏng — bạn có thể xem Transcript bên dưới.', 'info');
+            });
+        } else {
+          startIntegratedFallbackTimer();
+        }
+      }
+    }
+
+    function seekIntegratedAudio(deltaSec) {
+      const audioEl = document.getElementById('integrated-audio-element');
+      const hasRealAudio = Boolean(audioEl && Number.isFinite(audioEl.duration) && audioEl.duration > 0);
+      if (hasRealAudio) {
+        audioEl.currentTime = Math.max(0, Math.min(audioEl.duration, audioEl.currentTime + deltaSec));
+      } else {
+        const dur = getIntegratedEffectiveDuration();
+        integratedSimulatedSec = Math.max(0, Math.min(dur, integratedSimulatedSec + deltaSec));
+      }
+      updateIntegratedAudioUI();
+    }
+
+    function toggleIntegratedAudioLoop() {
+      const audioEl = document.getElementById('integrated-audio-element');
+      const btn = document.getElementById('integrated-loop-btn');
+      if (!audioEl) return;
+      audioEl.loop = !audioEl.loop;
+      if (btn) btn.classList.toggle('is-active', audioEl.loop);
+    }
+
+    function scrubIntegratedAudio(percentVal) {
+      const ratio = Math.min(100, Math.max(0, Number(percentVal) || 0)) / 100;
+      const audioEl = document.getElementById('integrated-audio-element');
+      const hasRealAudio = Boolean(audioEl && Number.isFinite(audioEl.duration) && audioEl.duration > 0);
+      if (hasRealAudio) {
+        audioEl.currentTime = ratio * audioEl.duration;
+      } else {
+        integratedSimulatedSec = Math.round(ratio * getIntegratedEffectiveDuration());
+      }
+      updateIntegratedAudioUI();
+    }
+
+    function toggleIntegratedAudioMute() {
+      const audioEl = document.getElementById('integrated-audio-element');
+      const btn = document.getElementById('integrated-mute-btn');
+      if (!audioEl) return;
+      audioEl.muted = !audioEl.muted;
+      if (btn) btn.textContent = audioEl.muted ? '🔇' : '🔊';
+    }
+
+    function initApp() {
+      applyThemeMode(appState.themeMode);
+
+      initReadingSelectors();
+      renderCurrentReadingPassage();
+      updateGlobalScoreSummary();
+
+      const notesEl = document.getElementById('listening-main-notes');
+      if (notesEl) notesEl.value = appState.listeningNotesText || '';
+
+      initWritingSelectors();
+      selectIndependentPrompt(appState.currentIndependentId);
+      selectIntegratedSet(appState.currentIntegratedId);
+      switchWritingSubtab(appState.writingSubtab || 'independent');
+
+      const intAudioEl = document.getElementById('integrated-audio-element');
+      if (intAudioEl) {
+        intAudioEl.addEventListener('timeupdate', updateIntegratedAudioUI);
+        intAudioEl.addEventListener('loadedmetadata', updateIntegratedAudioUI);
+        intAudioEl.addEventListener('play', updateIntegratedAudioUI);
+        intAudioEl.addEventListener('pause', updateIntegratedAudioUI);
+        intAudioEl.addEventListener('ended', () => {
+          integratedSimulatedSec = 0;
+          updateIntegratedAudioUI();
         });
       }
     }
