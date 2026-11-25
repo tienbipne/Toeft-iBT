@@ -171,13 +171,21 @@
             Chào mừng bạn đến với Web Luyện Thi TOEFL iBT
           </h2>
           <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
-            Trang web được <strong>Ngô Minh Tiến</strong> xây dựng với mục đích <strong>giúp các bạn luyện thi</strong> TOEFL iBT hiệu quả, trọn bộ <strong>Reading</strong> (10 bài đọc / 67 câu hỏi kèm giải thích chi tiết), <strong>Listening</strong> (liên kết trang nghe &amp; ghi chú thông minh) và <strong>Writing</strong> (10 đề Independent + 5 đề Integrated có audio &amp; transcript).
+            Nền tảng luyện thi miễn phí do <strong>Ngô Minh Tiến</strong> biên soạn và duy trì nhằm hỗ trợ cộng đồng học viên ôn tập TOEFL iBT. Bao gồm trọn bộ <strong>Reading</strong> (10 bài đọc / 67 câu hỏi kèm giải thích chi tiết), <strong>Listening</strong> (liên kết trang nghe &amp; ghi chú thông minh) và <strong>Writing</strong> (10 đề Independent + 5 đề Integrated có audio &amp; transcript).
           </p>
           <p class="text-xs sm:text-sm font-medium text-brand-800">
-            Người làm: <strong>Ngô Minh Tiến</strong> • Mục đích: <strong>Hỗ trợ các bạn luyện thi TOEFL iBT</strong>
+            Biên soạn &amp; duy trì: <strong>Ngô Minh Tiến</strong> • Xem thông tin:
+            <a
+              href="https://guns.lol/tienbipne"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="underline underline-offset-4 hover:text-brand-900"
+            >
+              Xem thêm thông tin ↗
+            </a>
           </p>
           <p class="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-xl px-3.5 py-2 leading-relaxed">
-            Đáp án có thể bị sai sót, chủ động kiểm tra để phần luyện tập được trọn vẹn hơn, mọi thắc mắc/feedback lỗi vui lòng liên hệ qua sđt: <strong>0794599501 (ZALO)</strong>
+            Đáp án có thể có sai sót — bạn hãy chủ động đối chiếu để việc ôn luyện hiệu quả hơn. Mọi góp ý hoặc báo lỗi, vui lòng liên hệ Zalo: <strong>0794599501</strong>.
           </p>
         </div>
 
@@ -269,7 +277,7 @@
 
   <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
 
-  <div id="mini-music-box" class="fixed bottom-4 left-4 z-40 w-[305px] sm:w-[330px] bg-white/95 backdrop-blur border border-slate-200 rounded-2xl shadow-lg p-3 transition-all">
+  <div id="mini-music-box" class="fixed bottom-4 left-4 z-40 w-[305px] sm:w-[330px] bg-white/95 backdrop-blur border border-slate-200 rounded-2xl shadow-lg p-3 transition-[bottom,transform,box-shadow,background-color] duration-200">
     <div class="flex items-center justify-between gap-2">
       <div class="flex items-center gap-2 min-w-0">
         <div id="mini-music-icon-box" class="w-8 h-8 rounded-xl bg-brand-50 text-brand-700 border border-brand-200 flex items-center justify-center gap-[2px] shrink-0 transition-colors">
@@ -1148,6 +1156,30 @@
     </section>
   </main>
 
+  <footer id="site-footer" class="border-t border-slate-200 bg-white/90 backdrop-blur py-4 mt-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+      <div class="text-center sm:text-left flex flex-wrap items-center justify-center sm:justify-start gap-x-2 gap-y-1">
+        <span><strong class="text-slate-800">Ngô Minh Tiến</strong> • Hỗ trợ ôn luyện TOEFL iBT • Zalo / góp ý: <strong class="text-slate-800">0794599501</strong></span>
+        <span class="text-slate-300 hidden sm:inline">•</span>
+        <a
+          href="https://guns.lol/tienbipne"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-semibold text-brand-700 hover:text-brand-900 underline underline-offset-4"
+        >
+          Xem thêm thông tin ↗
+        </a>
+      </div>
+      <button
+        type="button"
+        onclick="openIntroOverlay()"
+        class="px-3.5 py-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition whitespace-nowrap"
+      >
+        Giới thiệu &amp; Chế độ
+      </button>
+    </div>
+  </footer>
+
   <script>
     const DEFAULT_REPO_TRACKS = [
       {
@@ -1301,7 +1333,7 @@
       }
       renderPlaylistSelector();
       showToast(
-        enableAll ? 'Đã chọn tất cả bài trong danh sách phát.' : 'Đã bỏ chọn tất cả bài — hãy tick bài bạn muốn phát.',
+        enableAll ? 'Đã chọn tất cả bài trong danh sách phát.' : 'Đã bỏ chọn tất cả — hãy chọn bài bạn muốn nghe.',
         'info'
       );
     }
@@ -1459,7 +1491,7 @@
       }
       const queue = getEnabledMusicTracks();
       if (!queue.length) {
-        showToast('Chưa có bài nào được tick trong danh sách phát!', 'warn');
+        showToast('Chưa có bài nào được chọn trong danh sách phát.', 'warn');
         return;
       }
       const idx = queue.findIndex((t) => t.id === selectedMusicTrackId);
@@ -3066,16 +3098,18 @@
       if (!audioEl) return;
       audioEl.loop = !audioEl.loop;
       if (btn) btn.classList.toggle('is-active', audioEl.loop);
+      showToast(audioEl.loop ? 'Đã bật chế độ lặp lại audio.' : 'Đã tắt chế độ lặp lại audio.', 'info');
     }
 
     function scrubIntegratedAudio(percentVal) {
-      const ratio = Math.min(100, Math.max(0, Number(percentVal) || 0)) / 100;
       const audioEl = document.getElementById('integrated-audio-element');
+      const pct = Math.max(0, Math.min(100, Number(percentVal) || 0));
       const hasRealAudio = Boolean(audioEl && Number.isFinite(audioEl.duration) && audioEl.duration > 0);
       if (hasRealAudio) {
-        audioEl.currentTime = ratio * audioEl.duration;
+        audioEl.currentTime = (pct / 100) * audioEl.duration;
       } else {
-        integratedSimulatedSec = Math.round(ratio * getIntegratedEffectiveDuration());
+        const dur = getIntegratedEffectiveDuration();
+        integratedSimulatedSec = (pct / 100) * dur;
       }
       updateIntegratedAudioUI();
     }
@@ -3085,7 +3119,32 @@
       const btn = document.getElementById('integrated-mute-btn');
       if (!audioEl) return;
       audioEl.muted = !audioEl.muted;
-      if (btn) btn.textContent = audioEl.muted ? '🔇' : '🔊';
+      if (btn) {
+        btn.textContent = audioEl.muted ? '🔇' : '🔊';
+        btn.classList.toggle('is-active', audioEl.muted);
+      }
+    }
+
+    function updateMiniMusicDockAboveFooter() {
+      const box = document.getElementById('mini-music-box');
+      if (!box) return;
+
+      const baseBottomPx = 16; // bottom-4
+      const footer = document.querySelector('footer');
+      if (!footer) {
+        box.style.bottom = `${baseBottomPx}px`;
+        return;
+      }
+
+      const footerRect = footer.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const visibleFooterHeight = Math.max(0, viewportHeight - footerRect.top);
+
+      if (visibleFooterHeight > 0) {
+        box.style.bottom = `${Math.round(visibleFooterHeight + 12)}px`;
+      } else {
+        box.style.bottom = `${baseBottomPx}px`;
+      }
     }
 
     function initApp() {
@@ -3130,6 +3189,9 @@
       }
 
       switchSection(appState.activeSection || 'reading');
+      updateMiniMusicDockAboveFooter();
+      window.addEventListener('scroll', updateMiniMusicDockAboveFooter, { passive: true });
+      window.addEventListener('resize', updateMiniMusicDockAboveFooter, { passive: true });
 
       document.addEventListener('visibilitychange', () => {
         if (document.hidden || document.visibilityState === 'hidden') {
