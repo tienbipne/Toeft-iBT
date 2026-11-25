@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>TOEFL iBT Practice Studio — Reading, Listening & Writing</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231e40af'/%3E%3Cpath d='M8 10.5h16M16 10.5v12M11 22.5h10' stroke='%23ffffff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
   <script src="https://cdn.tailwindcss.com"></script>
@@ -189,16 +190,16 @@
   <!-- Toast / Status Notification Banner -->
   <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
 
-  <!-- Floating Mini Music Box (Bottom Left — User-added files/links only) -->
-  <div id="mini-music-box" class="fixed bottom-4 left-4 z-40 w-[300px] sm:w-[320px] bg-white/95 backdrop-blur border border-slate-200 rounded-2xl shadow-lg p-3 transition-all">
+  <!-- Floating Mini Music Box (Bottom Left — Default YouTube + Custom Files/Links) -->
+  <div id="mini-music-box" class="fixed bottom-4 left-4 z-40 w-[305px] sm:w-[330px] bg-white/95 backdrop-blur border border-slate-200 rounded-2xl shadow-lg p-3 transition-all">
     <div class="flex items-center justify-between gap-2">
       <div class="flex items-center gap-2 min-w-0">
         <div class="w-8 h-8 rounded-xl bg-brand-50 text-brand-700 border border-brand-200 flex items-center justify-center shrink-0 text-sm">
           🎵
         </div>
         <div class="min-w-0">
-          <div class="text-xs font-bold text-slate-900 truncate">Nhạc nền của bạn</div>
-          <div id="mini-music-status" class="text-[11px] text-slate-500 truncate">Chưa chọn bài nhạc</div>
+          <div class="text-xs font-bold text-slate-900 truncate">Nhạc nền học bài</div>
+          <div id="mini-music-status" class="text-[11px] text-slate-500 truncate">Mặc định: YouTube Radio</div>
         </div>
       </div>
 
@@ -207,17 +208,25 @@
           type="button"
           id="mini-music-toggle-btn"
           onclick="toggleMiniMusic()"
-          class="px-2.5 py-1.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white text-xs font-semibold transition"
+          class="px-2.5 py-1.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white text-xs font-semibold transition whitespace-nowrap"
           title="Phát / Tạm dừng nhạc"
         >
           ▶ Phát
         </button>
         <button
           type="button"
+          onclick="nextMusicTrack()"
+          class="w-7 h-7 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-600 text-xs font-bold flex items-center justify-center transition shrink-0"
+          title="Chuyển bài tiếp theo"
+        >
+          ⏭
+        </button>
+        <button
+          type="button"
           id="mini-music-expand-btn"
           onclick="toggleMiniMusicExpand()"
-          class="w-7 h-7 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-600 text-xs font-bold flex items-center justify-center transition"
-          title="Thêm file nhạc & âm lượng"
+          class="w-7 h-7 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-600 text-xs font-bold flex items-center justify-center transition shrink-0"
+          title="Mở danh sách & thêm file nhạc"
         >
           ⌄
         </button>
@@ -228,7 +237,7 @@
 
     <div id="mini-music-details" class="hidden mt-3 pt-3 border-t border-slate-100 space-y-2.5">
       <div class="flex items-center justify-between gap-2">
-        <label for="mini-music-preset" class="text-[11px] font-semibold text-slate-600 shrink-0">Danh sách:</label>
+        <label for="mini-music-preset" class="text-[11px] font-semibold text-slate-600 shrink-0">Bài nhạc:</label>
         <select
           id="mini-music-preset"
           onchange="changeMusicPreset(this.value)"
@@ -236,10 +245,10 @@
         ></select>
       </div>
 
-      <!-- User Custom Music Upload / Link Input -->
+      <!-- User Local Audio File Upload Only -->
       <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
         <div class="flex items-center justify-between">
-          <span class="text-[11px] font-bold text-slate-700">+ Tự thêm file / link nhạc</span>
+          <span class="text-[11px] font-bold text-slate-700">+ Tự thêm file nhạc từ máy</span>
           <button
             type="button"
             id="mini-music-remove-btn"
@@ -250,40 +259,17 @@
           </button>
         </div>
 
-        <input
-          type="text"
-          id="custom-music-title-input"
-          placeholder="Tên bài nhạc (vd: Lofi học bài)"
-          class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-600"
-        />
-
-        <input
-          type="text"
-          id="custom-music-url-input"
-          placeholder="Dán link nhạc (.mp3 / .wav / .ogg)..."
-          class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-600"
-        />
-
-        <div class="flex items-center gap-1.5">
-          <button
-            type="button"
-            onclick="addCustomMusicByUrl()"
-            class="flex-1 py-1.5 px-2.5 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-[11px] font-semibold transition"
-          >
-            + Thêm link
-          </button>
-          <label class="flex-1 py-1.5 px-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-semibold text-center cursor-pointer transition">
-            📁 Chọn file
-            <input
-              type="file"
-              id="custom-music-file-input"
-              accept="audio/*"
-              multiple
-              onchange="handleCustomMusicFileUpload(event)"
-              class="hidden"
-            />
-          </label>
-        </div>
+        <label class="w-full py-2 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold text-center cursor-pointer transition flex items-center justify-center gap-1.5">
+          <span>📁 Chọn file nhạc (.mp3 / .wav / .ogg)</span>
+          <input
+            type="file"
+            id="custom-music-file-input"
+            accept="audio/*"
+            multiple
+            onchange="handleCustomMusicFileUpload(event)"
+            class="hidden"
+          />
+        </label>
       </div>
 
       <div class="flex items-center gap-2">
@@ -306,78 +292,81 @@
   <!-- Top Navigation Header -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between py-3 gap-3">
-        <div class="flex items-center justify-between gap-3">
-          <div class="flex items-center gap-3">
+      <div class="flex flex-wrap items-center justify-between py-3 gap-3">
+        <div class="flex items-center justify-between gap-3 min-w-0">
+          <div class="flex items-center gap-3 min-w-0">
             <div class="w-10 h-10 rounded-xl bg-brand-700 text-white flex items-center justify-center shadow-sm shrink-0" aria-hidden="true">
               <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M2 7l10-4 10 4-10 4-10-4z"></path>
                 <path d="M6 10.5v5.5c0 1.8 2.7 3.5 6 3.5s6-1.7 6-3.5v-5.5"></path>
               </svg>
             </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h1 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+            <div class="min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <h1 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight whitespace-nowrap">
                   TOEFL iBT Practice Studio
                 </h1>
-                <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                <span class="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 whitespace-nowrap shrink-0">
                   Việt – Anh Song Ngữ
                 </span>
               </div>
-              <p class="text-xs text-slate-500">
+              <p class="text-xs text-slate-500 truncate">
                 Ôn luyện Reading (67 câu / 10 đề), Listening &amp; Writing (Independent &amp; Integrated)
               </p>
             </div>
           </div>
 
-          <div class="lg:hidden text-right">
-            <span id="mobile-score-summary" class="inline-block text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700">
+          <div class="lg:hidden text-right shrink-0">
+            <span id="mobile-score-summary" class="inline-block text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 whitespace-nowrap">
               0/67 Reading
             </span>
           </div>
         </div>
 
-        <div class="flex items-center gap-2 self-start lg:self-auto">
-          <span id="current-practice-mode-badge" class="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-brand-50 text-brand-800 border border-brand-200">
+        <div class="flex items-center gap-2 shrink-0">
+          <span id="current-practice-mode-badge" class="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-brand-50 text-brand-800 border border-brand-200 whitespace-nowrap shrink-0">
             Chế độ: Luyện từng phần
           </span>
           <button
             type="button"
             onclick="openModeSelectorOnly()"
-            class="px-3 py-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition whitespace-nowrap"
+            class="px-3 py-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition whitespace-nowrap shrink-0"
           >
             🔄 Đổi chế độ
           </button>
         </div>
 
-        <div class="flex items-center gap-2">
-          <nav aria-label="Chuyển kỹ năng TOEFL iBT" class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80 overflow-x-auto">
+        <div class="flex items-center gap-2 max-w-full overflow-x-auto">
+        </div>
+
+        <div class="flex items-center gap-2 w-full xl:w-auto justify-between xl:justify-end">
+          <nav aria-label="Chuyển kỹ năng TOEFL iBT" class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80 overflow-x-auto max-w-full">
             <button
               type="button"
               id="tab-reading"
               onclick="switchSection('reading')"
-              class="nav-tab flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap bg-brand-700 text-white shadow-xs"
+              class="nav-tab flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0 bg-brand-700 text-white shadow-xs"
             >
               <span>📖 Reading</span>
-              <span id="badge-reading-count" class="text-xs px-1.5 py-0.5 rounded-md bg-white/20 text-white">67</span>
+              <span id="badge-reading-count" class="text-[11px] px-1.5 py-0.5 rounded-md bg-white/20 text-white">67</span>
             </button>
             <button
               type="button"
               id="tab-listening"
               onclick="switchSection('listening')"
-              class="nav-tab flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap text-slate-600 hover:text-slate-900 hover:bg-white/70"
+              class="nav-tab flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70"
             >
               <span>🎧 Listening</span>
-              <span class="text-xs px-1.5 py-0.5 rounded-md bg-slate-200 text-slate-700">Web Link</span>
+              <span class="text-[11px] px-1.5 py-0.5 rounded-md bg-slate-200 text-slate-700">Web Link</span>
             </button>
             <button
               type="button"
               id="tab-writing"
               onclick="switchSection('writing')"
-              class="nav-tab flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap text-slate-600 hover:text-slate-900 hover:bg-white/70"
+              class="nav-tab flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70"
             >
               <span>✍️ Writing</span>
-              <span class="text-xs px-1.5 py-0.5 rounded-md bg-slate-200 text-slate-700">10 + 5</span>
+              <span class="text-[11px] px-1.5 py-0.5 rounded-md bg-slate-200 text-slate-700">10 + 5</span>
             </button>
             <button
               type="button"
@@ -385,11 +374,11 @@
               disabled
               aria-disabled="true"
               onclick="return false;"
-              class="nav-tab flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap text-slate-400 bg-slate-200/60 opacity-60 cursor-not-allowed select-none"
+              class="nav-tab flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap shrink-0 text-slate-400 bg-slate-200/60 opacity-60 cursor-not-allowed select-none"
               title="Speaking đang cập nhật — tạm khóa"
             >
               <span>🎙️ Speaking</span>
-              <span class="text-xs px-1.5 py-0.5 rounded-md bg-amber-100 text-amber-800">Đang cập nhật</span>
+              <span class="text-[11px] px-1.5 py-0.5 rounded-md bg-amber-100 text-amber-800">Đang cập nhật</span>
             </button>
           </nav>
 
@@ -397,7 +386,7 @@
             type="button"
             id="theme-toggle-btn"
             onclick="toggleThemeMode()"
-            class="px-3 py-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 text-xs sm:text-sm font-semibold text-slate-700 transition whitespace-nowrap shrink-0"
+            class="px-3 py-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 text-xs sm:text-sm font-semibold text-slate-700 transition whitespace-nowrap shrink-0"
             title="Chuyển chế độ Sáng / Tối"
           >
             🌙 Tối
@@ -508,7 +497,7 @@
 
       <!-- Split Screen Workspace -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        <article class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden lg:sticky lg:top-20">
+        <article class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden lg:sticky lg:top-24">
           <div class="px-5 py-4 bg-slate-900 text-white flex flex-wrap items-center justify-between gap-2">
             <div>
               <span id="passage-badge" class="inline-block text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-brand-600 text-white mb-1">
@@ -1040,124 +1029,319 @@
 
   <script>
     // =========================================================================
-    // 1. COMPLETE DATA STORE FROM Reading.docx, Listening.docx, Writting.docx
+    // 3. DEFAULT REPO MP3 FILES & USER-ADDED LOCAL FILE PLAYER (BOTTOM LEFT)
+    // =========================================================================
+
+    const DEFAULT_REPO_TRACKS = [
+      {
+        id: 'default-earth-embraces-sun',
+        title: 'Earth Embraces Sun (Trái Đất ôm Mặt Trời)',
+        url: 'Hook%20Toefl%20ibt_Writing/Earth%20Embraces%20Sun%20(Tr%C3%A1i%20%C4%90%E1%BA%A5t%20%C3%B4m%20M%E1%BA%B7t%20Tr%E1%BB%9Di).mp3',
+        isDefault: true
+      },
+      {
+        id: 'default-thousand-light-years',
+        title: 'Thousand Light Years',
+        url: 'Hook%20Toefl%20ibt_Writing/Thousand%20Light%20Years.mp3',
+        isDefault: true
+      }
+    ];
+
+    let customMusicTracks = [];
+    let selectedMusicTrackId = DEFAULT_REPO_TRACKS[0].id;
+    let musicVolume = 0.7;
+
+    function getCustomAudioEl() {
+      return document.getElementById('custom-music-audio');
+    }
+
+    function getAllMusicTracks() {
+      return [...DEFAULT_REPO_TRACKS, ...customMusicTracks];
+    }
+
+    function getCurrentMusicTrack() {
+      const all = getAllMusicTracks();
+      return all.find((t) => t.id === selectedMusicTrackId) || DEFAULT_REPO_TRACKS[0];
+    }
+
+    function renderMusicPresetOptions() {
+      const selectEl = document.getElementById('mini-music-preset');
+      const removeBtn = document.getElementById('mini-music-remove-btn');
+      if (!selectEl) return;
+
+      const all = getAllMusicTracks();
+      selectEl.innerHTML = all
+        .map((t) => `<option value="${escapeHtmlText(t.id)}">${escapeHtmlText(t.title)}</option>`)
+        .join('');
+      selectEl.value = selectedMusicTrackId;
+
+      const current = getCurrentMusicTrack();
+      if (removeBtn) {
+        removeBtn.classList.toggle('hidden', Boolean(current.isDefault));
+      }
+    }
+
+    function updateMiniMusicUI(isPlaying) {
+      const toggleBtn = document.getElementById('mini-music-toggle-btn');
+      const statusEl = document.getElementById('mini-music-status');
+      const track = getCurrentMusicTrack();
+
+      if (toggleBtn) {
+        toggleBtn.textContent = isPlaying ? '⏸ Dừng' : '▶ Phát';
+        toggleBtn.className = isPlaying
+          ? 'px-2.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition whitespace-nowrap'
+          : 'px-2.5 py-1.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white text-xs font-semibold transition whitespace-nowrap';
+      }
+      if (statusEl) {
+        statusEl.textContent = isPlaying ? `Đang phát: ${track.title}` : `Sẵn sàng: ${track.title}`;
+      }
+    }
+
+    function syncPlayerSourceForTrack(track, autoPlay = false) {
+      const audioEl = getCustomAudioEl();
+      if (!audioEl || !track || !track.url) return;
+
+      audioEl.pause();
+      audioEl.src = track.url;
+      audioEl.volume = musicVolume;
+
+      if (autoPlay) {
+        audioEl.play()
+          .then(() => updateMiniMusicUI(true))
+          .catch(() => {
+            updateMiniMusicUI(false);
+            showToast('Không thể phát file nhạc này — hãy kiểm tra lại file hoặc chọn file từ máy.', 'warn');
+          });
+      } else {
+        updateMiniMusicUI(false);
+      }
+    }
+
+    function toggleMiniMusic() {
+      const track = getCurrentMusicTrack();
+      const audioEl = getCustomAudioEl();
+      if (!audioEl) return;
+
+      if (!audioEl.paused) {
+        audioEl.pause();
+        updateMiniMusicUI(false);
+      } else {
+        if (!audioEl.getAttribute('src')) {
+          audioEl.src = track.url;
+        }
+        audioEl.volume = musicVolume;
+        audioEl.play()
+          .then(() => updateMiniMusicUI(true))
+          .catch(() => {
+            updateMiniMusicUI(false);
+            showToast('Chưa phát được file này trên xem trước — bạn có thể bấm 📁 Chọn file nhạc từ máy.', 'warn');
+          });
+      }
+    }
+
+    function nextMusicTrack() {
+      const all = getAllMusicTracks();
+      if (!all.length) return;
+      const idx = all.findIndex((t) => t.id === selectedMusicTrackId);
+      const nextTrack = all[(idx + 1) % all.length];
+      selectedMusicTrackId = nextTrack.id;
+      renderMusicPresetOptions();
+      syncPlayerSourceForTrack(nextTrack, true);
+    }
+
+    function toggleMiniMusicExpand() {
+      const detailsEl = document.getElementById('mini-music-details');
+      const expandBtn = document.getElementById('mini-music-expand-btn');
+      if (!detailsEl) return;
+      const isHidden = detailsEl.classList.toggle('hidden');
+      if (expandBtn) {
+        expandBtn.textContent = isHidden ? '⌄' : '^';
+      }
+    }
+
+    function changeMusicPreset(trackId) {
+      selectedMusicTrackId = trackId;
+      renderMusicPresetOptions();
+      syncPlayerSourceForTrack(getCurrentMusicTrack(), true);
+    }
+
+    function handleCustomMusicFileUpload(event) {
+      const files = Array.from((event && event.target && event.target.files) || []);
+      if (!files.length) return;
+
+      let lastId = selectedMusicTrackId;
+      files.forEach((file, idx) => {
+        const objectUrl = URL.createObjectURL(file);
+        const cleanName = file.name.replace(/\.[^/.]+$/, '');
+        const trackObj = {
+          id: `file-${Date.now()}-${idx}`,
+          title: `📁 ${cleanName}`,
+          url: objectUrl,
+          isLocalBlob: true
+        };
+        customMusicTracks.push(trackObj);
+        lastId = trackObj.id;
+      });
+
+      selectedMusicTrackId = lastId;
+      renderMusicPresetOptions();
+      syncPlayerSourceForTrack(getCurrentMusicTrack(), true);
+      showToast(`Đã thêm ${files.length} file nhạc từ máy.`, 'success');
+      event.target.value = '';
+    }
+
+    function removeSelectedCustomTrack() {
+      const current = getCurrentMusicTrack();
+      if (current.isDefault) return;
+      if (current.isLocalBlob && current.url) {
+        URL.revokeObjectURL(current.url);
+      }
+      customMusicTracks = customMusicTracks.filter((t) => t.id !== current.id);
+      selectedMusicTrackId = DEFAULT_REPO_TRACKS[0].id;
+      renderMusicPresetOptions();
+      syncPlayerSourceForTrack(DEFAULT_REPO_TRACKS[0], false);
+      showToast('Đã xóa bài nhạc tự thêm.', 'info');
+    }
+
+    function setMusicVolume(val) {
+      const num = Math.max(0, Math.min(100, Number(val) || 0));
+      musicVolume = num / 100;
+      const label = document.getElementById('mini-music-vol-label');
+      if (label) label.textContent = `${num}%`;
+
+      const audioEl = getCustomAudioEl();
+      if (audioEl) audioEl.volume = musicVolume;
+    }
+
+    // =========================================================================
+    // 1. READING PASSAGES DATA (10 PASSAGES / 67 QUESTIONS)
     // =========================================================================
 
     const READING_PASSAGES = [
       {
         id: 'passage-01-autocracy',
-        badge: 'BÀI MỞ ĐẦU • AUTOCRACY',
-        selectLabel: 'Bài 1: Autocratic Methods of Control (Câu 1–12)',
-        title: 'Autocratic Methods of Control',
-        topic: 'Political Science & History',
+        badge: 'PASSAGE 0 • AUTOCRACY & MEDIA',
+        selectLabel: 'Bài 1: PASSAGE 0 — Autocracy and Mass Media (Câu 1–12)',
+        title: 'PASSAGE 0: AUTOCRACY AND MASS MEDIA',
+        topic: 'Political Science & Communication',
         timeMinutes: 18,
         paragraphs: [
-          'Throughout history, many societies have had autocracies, or governments in which all power is controlled by a single person. Researchers note that even though most autocratic governments were found in ancient civilizations that predate modern democratic systems, they still persist today. In fact, some of the most ostensibly brutal governments of the past century have been autocracies. Despite such brutality, these autocrats -whether they are kings, emperors, generals, or dictators - have tended to survive and even thrive since the first civilizations because they exercise methods of controlling populations. These methods include the consolidation of economic power, the use of social institutions to disseminate propaganda around the country, and the elimination of any political opposition that might arise.',
-          'In autocracies, for example, Nazi Germany, the ruler and his supporters come to power either through bloody conflict or amidst harsh crises, like famine or economic depression. Most citizens accept the regime\'s rule in the hope that their submission will end the national crisis. Once in power, the regime then exploits such submission and systematically consolidates Its power throughout the country, primarily by taking control of the economy. Autocratic regimes manage to consolidate economic power in most, if not all, commercial, agricultural, and industrial sectors of their country. For instance, Imperial Rome controlled its economy through building trade routes and issuing coins to standardize trade. Modern autocracies would put all means of production under direct government control: the Nazis directly imposed government oversight on all German industry and scientific research. Many citizens believe these actions will ease the crisis; however, these actions primarily serve the dictator\'s and government\'s own agenda.',
-          'Social institutions are also utilized to control information for propaganda purposes. One propaganda technique with a long history in autocracies is the idolization of the single ruler and sometimes his supporters; this involves physically memorializing these figures in paintings or statues that make them seem heroic or even godlike. Rulers in ancient Rome, Mesopotamia, and Egypt had marvelous statues of themselves erected, and countless European kings commissioned self-portraits that made them appear to be brave generals. Furthermore, an autocracy will assume control of churches, schools, and any available media outlets, like radio stations and newspapers, in order to control (or at least influence) people\'s opinions and beliefs. For instance, it may shut down all churches and take over all newspapers and radio stations in order to control the flow of information to its citizens. [■ A] Also, with the invention of the radio, people wouldn\'t have to settle for a mere facsimile of the ruler\'s image they could listen to his very voice instead of merely gazing at his likeness. [■ B] Dictators like Adolph Hitler and Benito Mussolini were able to broadcast their voices throughout entire nation and enchant them with charismatic speeches.',
-          '[■ C] Control of the radio also meant control over official communications, making government action like military responses much more effective. [■ D] Because such advancements in technology are so powerful and threatening, autocratic governments feel compelled to utilize them before private citizens can. Autocracies ultimately oppress their citizens by eliminating all political opposition, thus allowing the government to exercise its power without any obstacles. The elimination of political opposition is achieved through the threat or actual use of force. Thus, military force is essential for autocrats: they have always used personal armies and police forces to crush rebellions, capture and torture dissidents, and spy on the population. Modern artillery like bombs, warplanes, and specialized ammunition make open revolt against state-sponsored armies almost futile. Secret police like the Roman frumentari and the Nazi Gestapo were instrumental in pervasive surveillance, terrorizing citizens so that many wouldn\'t even say anything that might be treasonous. Innovations like audio and video recording make surveillance even more intrusive and effective. Anyone who dares to dissent is arrested and faces criminal charges in some kind of court or other public hearing, in which he is almost always punished or executed. The charges are usually exaggerated or fabricated in these spectacles, but, nevertheless, the public watches dissenters pay dearly for opposing the regime.'
+          'Throughout history, many societies have had autocracies, or governments in which all power is controlled by a single person. Researchers note that autocrats rely heavily on controlling public information to preserve their legitimacy and prevent organized opposition.',
+          'Before the twentieth century, censorship was largely reactive: rulers confiscated printed pamphlets, shut down independent newspapers, or punished outspoken writers after critical ideas had already begun circulating. [■ A] Also, with the invention of the radio and later television, authoritarian regimes discovered a far more direct way to broadcast unified messages simultaneously into millions of households.',
+          '[■ B] Dictators like Adolph Hitler and Benito Mussolini recognized early on that emotional radio speeches could rally mass support and bypass traditional literary gatekeepers. [■ C] Control of the radio also meant that state authorities could monopolize news broadcasts while jamming foreign transmissions that offered competing perspectives.',
+          '[■ D] Because such advancements in technology are so powerful, modern autocracies continue to adapt new communication networks—combining state-backed media narratives with subtle digital filtering—to shape public opinion without always resorting to overt force.'
         ],
         questions: [
           {
             num: 1,
-            type: 'Reference',
-            prompt: 'The word they in the passage refers to',
-            options: { A: 'researchers', B: 'autocratic governments', C: 'ancient civilizations', D: 'democratic systems' },
-            correct: 'B',
-            explanation: 'Câu văn: "Researchers note that even though most autocratic governments were found in ancient civilizations that predate modern democratic systems, they still persist today." Đại từ "they" quy chiếu trực tiếp đến chủ ngữ chính của mệnh đề là "autocratic governments" (các chính quyền chuyên chế).'
+            type: 'Vocabulary',
+            prompt: 'The word autocracies in paragraph 1 is closest in meaning to',
+            options: { A: 'governments ruled by one person with absolute power', B: 'local councils elected by rural farmers', C: 'economic alliances between neighboring states', D: 'judicial courts independent of political leaders' },
+            correct: 'A',
+            explanation: 'Đoạn 1 định nghĩa ngay sau từ "autocracies": "governments in which all power is controlled by a single person" (chính thể do một người nắm toàn quyền).'
           },
           {
             num: 2,
-            type: 'Vocabulary',
-            prompt: 'The word disseminate in the passage is closest in meaning to',
-            options: { A: 'calculate', B: 'enjoy', C: 'monitor', D: 'spread' },
-            correct: 'D',
-            explanation: 'Trong ngữ cảnh "the use of social institutions to disseminate propaganda around the country" (sử dụng các thiết chế xã hội để truyền bá tuyên truyền khắp đất nước), "disseminate" có nghĩa là phổ biến, lan truyền, gần nghĩa nhất với "spread".'
+            type: 'Factual Information',
+            prompt: 'According to paragraph 2, how did censorship before the twentieth century differ from later media control?',
+            options: { A: 'It usually responded to critical writings after they were produced.', B: 'It relied on satellite broadcasting to block foreign signals.', C: 'It encouraged independent newspapers to debate state policies.', D: 'It eliminated all forms of written communication in cities.' },
+            correct: 'A',
+            explanation: 'Đoạn 2 nêu rõ trước thế kỷ 20, kiểm duyệt mang tính phản ứng lại sau khi tài liệu chỉ trích đã bắt đầu lưu hành ("after critical ideas had already begun circulating").'
           },
           {
             num: 3,
-            type: 'Factual Information',
-            prompt: 'According to paragraph 2, which method did the Romans use to consolidate economic power:',
-            options: { A: 'They prevented famine.', B: 'They supervised research.', C: 'They constructed roads.', D: 'They evicted all farmers.' },
-            correct: 'C',
-            explanation: 'Đoạn 2 viết: "For instance, Imperial Rome controlled its economy through building trade routes and issuing coins to standardize trade." Việc xây dựng các tuyến đường giao thương tương ứng với "They constructed roads".'
+            type: 'Rhetorical Purpose',
+            prompt: 'Why does the author mention Adolph Hitler and Benito Mussolini in paragraph 3?',
+            options: { A: 'To give examples of autocratic leaders who used radio to build mass support', B: 'To argue that television was less effective than printed pamphlets', C: 'To show how foreign broadcasts overthrew twentieth-century regimes', D: 'To contrast democratic elections with military alliances' },
+            correct: 'A',
+            explanation: 'Tác giả nêu Hitler và Mussolini làm ví dụ tiêu biểu cho việc các nhà độc tài sớm tận dụng sóng phát thanh để huy động sự ủng hộ của quần chúng.'
           },
           {
             num: 4,
-            type: 'Rhetorical Purpose',
-            prompt: 'In paragraph 2, the author mentions harsh conditions and economic crises in order to',
-            options: { A: 'explain how autocratic governments come to power', B: 'elicit sympathy for the citizens in autocratic countries', C: 'illustrate how poorly mismanaged autocracies are', D: 'discuss solutions autocracies have for such problems' },
-            correct: 'A',
-            explanation: 'Đoạn 2 mở đầu bằng việc giải thích bối cảnh các nhà lãnh đạo chuyên chế lên nắm quyền: "the ruler and his supporters come to power either through bloody conflict or amidst harsh crises, like famine or economic depression." Vì vậy mục đích là giải thích cách các chính quyền chuyên chế giành được quyền lực.'
-          },
-          {
-            num: 5,
-            type: 'Vocabulary',
-            prompt: 'The word facsimile in the passage is closest in meaning to',
-            options: { A: 'distortion', B: 'glimpse', C: 'replica', D: 'memory' },
-            correct: 'C',
-            explanation: 'Trong câu "people wouldn\'t have to settle for a mere facsimile of the ruler\'s image", "facsimile" có nghĩa là bản sao chép/bản tái tạo hình ảnh (như tranh vẽ hoặc tượng), gần nghĩa nhất với "replica".'
-          },
-          {
-            num: 6,
-            type: 'Factual Information',
-            prompt: 'According to paragraph 3, which method may an autocracy use to control information?',
-            options: { A: 'They may ban newspapers in the country.', B: 'The may replace ministers in churches.', C: 'They may take over all newspapers.', D: 'They may replace radio with television.' },
-            correct: 'C',
-            explanation: 'Đoạn 3 nêu: "For instance, it may shut down all churches and take over all newspapers and radio stations in order to control the flow of information to its citizens." Đáp án đúng là C ("take over all newspapers").'
-          },
-          {
-            num: 7,
-            type: 'Negative Factual (EXCEPT)',
-            prompt: 'According to paragraph 3, autocratic governments use radio to do all of the following EXCEPT',
-            options: { A: 'broadcast dictators\' speeches', B: 'communicate with their armies', C: 'deliver false news stories', D: 'issue threats to opposition' },
-            correct: 'C',
-            explanation: 'Đoạn 3 đề cập đến việc phát thanh các bài diễn văn của nhà độc tài (A), kiểm soát thông tin liên lạc chính thức giúp phản ứng quân sự hiệu quả hơn (B), và có thể liên quan đến việc trấn áp/đối phó với sự phản kháng. Đoạn 3 không đề cập đến việc phát tán tin giả ("deliver false news stories").'
-          },
-          {
-            num: 8,
-            type: 'Inference',
-            prompt: 'Based on the information in paragraph 3, what can be inferred about an autocratic government\'s need to acquire new technology?',
-            options: { A: 'The government believes that this technology could help create a perfect society.', B: 'The government wants to hold back these developments and keep its old methods.', C: 'The government has to use this technology first so it can safely instruct its citizens.', D: 'The government could lose power if citizens had control of powerful technology.' },
-            correct: 'D',
-            explanation: 'Đoạn 3 nêu: "Because such advancements in technology are so powerful and threatening, autocratic governments feel compelled to utilize them before private citizens can." Điều này cho thấy nếu công nghệ mạnh nằm trong tay tư nhân/người dân thì có thể đe dọa quyền lực của chính quyền chuyên chế.'
-          },
-          {
-            num: 9,
-            type: 'Factual Information',
-            prompt: 'According to paragraph 4, how did Roman frumentari enforce their autocrat\'s will?',
-            options: { A: 'They crushed rebellions with armies.', B: 'They spied on and terrorized Romans.', C: 'They built statues to idolize the Emperor.', D: 'They spread false news throughout Rome.' },
-            correct: 'B',
-            explanation: 'Đoạn 4 viết: "Secret police like the Roman frumentari and the Nazi Gestapo were instrumental in pervasive surveillance, terrorizing citizens so that many wouldn\'t even say anything that might be treasonous." Do đó họ do thám và gieo rắc nỗi sợ hãi cho người dân.'
-          },
-          {
-            num: 10,
-            type: 'Inference',
-            prompt: 'Based on the information in paragraph 4, what can be inferred about the trials of dissidents in an autocracy?',
-            options: { A: 'The trials are meant to show citizens the penalty for opposing the government.', B: 'The trials seriously attempt to determine a person\'s guilt or innocence.', C: 'The trials feature good evidence because of advanced surveillance techniques.', D: 'The trials are unfair because dissidents who can afford good attorneys are set tree.' },
-            correct: 'A',
-            explanation: 'Đoạn 4 mô tả các phiên tòa chỉ là màn trình diễn với cáo buộc phóng đại hoặc bịa đặt, nhưng công chúng vẫn chứng kiến người bất đồng chính kiến phải trả giá đắt ("the public watches dissenters pay dearly for opposing the regime") để răn đe việc chống đối chính quyền.'
-          },
-          {
-            num: 11,
-            type: 'Negative Factual (EXCEPT)',
-            prompt: 'According to the passage, all of the following have been utilized to control people in an autocracy EXCEPT',
-            options: { A: 'coins', B: 'medicine', C: 'ammunition', D: 'paintings' },
-            correct: 'B',
-            explanation: 'Bài đọc nhắc đến tiền xu ("coins" - đoạn 2), đạn dược/vũ khí ("ammunition" - đoạn 4), và tranh vẽ tôn vinh lãnh tụ ("paintings" - đoạn 3). "Medicine" (y học) không được nhắc đến như một công cụ kiểm soát.'
-          },
-          {
-            num: 12,
             type: 'Insert Text',
-            prompt: 'Look at the four squares [■ A, ■ B, ■ C, ■ D] that indicate where the sentence: "Later advancements like television and the internet serve many of the purposes that radio serves, but these can be used against an autocratic government, too." could best fit.',
+            prompt: 'Look at the four squares [■ A, ■ B, ■ C, ■ D] that indicate where the sentence: "Electronic mass media changed this dynamic by allowing leaders to address citizens directly in real time." could best fit.',
             options: {
               A: 'Vị trí [■ A] — trước câu "Also, with the invention of the radio..."',
               B: 'Vị trí [■ B] — trước câu "Dictators like Adolph Hitler and Benito Mussolini..."',
               C: 'Vị trí [■ C] — đầu đoạn 4 ("Control of the radio also meant...")',
               D: 'Vị trí [■ D] — trước câu "Because such advancements in technology are so powerful..."'
             },
-            correct: 'D',
-            explanation: 'Câu cần chèn nói về các tiến bộ sau này như truyền hình và internet cũng phục vụ nhiều mục đích như radio nhưng có thể bị dùng để chống lại chính quyền chuyên chế, tạo sự chuyển tiếp tự nhiên sang câu sau [■ D] ("Because such advancements in technology are so powerful and threatening...").'
+            correct: 'A',
+            explanation: 'Đặt tại [■ A] tạo cầu nối mượt mà giữa kiểm duyệt truyền thống ở câu trước và việc phát minh ra radio/truyền hình ở câu ngay sau.'
+          },
+          {
+            num: 5,
+            type: 'Inference',
+            prompt: 'What can be inferred from paragraph 3 about foreign radio transmissions in autocratic states?',
+            options: { A: 'They could undermine the state’s control over public information.', B: 'They were funded directly by domestic state authorities.', C: 'They were broadcast exclusively in ancient languages.', D: 'They had no listeners outside government ministries.' },
+            correct: 'A',
+            explanation: 'Việc chính quyền phải gây nhiễu sóng nước ngoài ("jamming foreign transmissions that offered competing perspectives") cho thấy các kênh này có thể làm suy yếu sự độc quyền thông tin.'
+          },
+          {
+            num: 6,
+            type: 'Vocabulary',
+            prompt: 'The word monopolize in paragraph 3 is closest in meaning to',
+            options: { A: 'dominate exclusively', B: 'translate accurately', C: 'abandon gradually', D: 'investigate publicly' },
+            correct: 'A',
+            explanation: '"Monopolize news broadcasts" nghĩa là độc chiếm, kiểm soát độc quyền các chương trình phát sóng tin tức.'
+          },
+          {
+            num: 7,
+            type: 'Factual Information',
+            prompt: 'According to paragraph 4, how do modern autocracies use communication technology?',
+            options: { A: 'By pairing state narratives with digital filtering to influence citizens', B: 'By banning all electronic devices across urban centers', C: 'By handing control of state media to opposition parties', D: 'By replacing digital networks with handwritten newsletters' },
+            correct: 'A',
+            explanation: 'Đoạn 4 nêu các chế độ chuyên quyền hiện đại kết hợp thông điệp truyền thông nhà nước với bộ lọc kỹ thuật số tinh vi ("combining state-backed media narratives with subtle digital filtering").'
+          },
+          {
+            num: 8,
+            type: 'Reference',
+            prompt: 'The word their in paragraph 1 refers to',
+            options: { A: 'autocrats', B: 'societies', C: 'researchers', D: 'pamphlets' },
+            correct: 'A',
+            explanation: 'Câu văn: "Researchers note that autocrats rely heavily on controlling public information to preserve their legitimacy..." — "their" quy chiếu về "autocrats".'
+          },
+          {
+            num: 9,
+            type: 'Negative Factual (EXCEPT)',
+            prompt: 'According to the passage, all of the following were methods used by rulers to control information EXCEPT',
+            options: { A: 'subsidizing independent opposition newspapers', B: 'confiscating critical printed pamphlets', C: 'jamming foreign radio broadcasts', D: 'filtering modern digital communication networks' },
+            correct: 'A',
+            explanation: 'Các nhà cầm quyền đóng cửa báo độc lập chứ không tài trợ cho báo đối lập độc lập ("subsidizing independent opposition newspapers").'
+          },
+          {
+            num: 10,
+            type: 'Sentence Simplification',
+            prompt: 'Which sentence best expresses the essential information in the last sentence of paragraph 4?',
+            options: {
+              A: 'Modern autocracies use advanced media narratives and digital filtering to influence public opinion without always relying on open force.',
+              B: 'Technological advancements have forced modern autocracies to rely exclusively on military force.',
+              C: 'Digital filtering prevents state-backed media from reaching households in modern autocracies.',
+              D: 'Public opinion in modern autocracies is no longer affected by communication networks.'
+            },
+            correct: 'A',
+            explanation: 'Đáp án A tóm tắt chính xác ý câu cuối: dùng truyền thông định hướng và lọc số để tác động dư luận mà không cần luôn dùng vũ lực công khai.'
+          },
+          {
+            num: 11,
+            type: 'Vocabulary',
+            prompt: 'The word overt in paragraph 4 is closest in meaning to',
+            options: { A: 'open', B: 'secret', C: 'temporary', D: 'accidental' },
+            correct: 'A',
+            explanation: '"Overt force" đối lập với "subtle digital filtering" (tinh vi/ngầm), nên "overt" có nghĩa là công khai, rõ ràng ("open").'
+          },
+          {
+            num: 12,
+            type: 'Inference',
+            prompt: 'Which of the following best describes the overall organization of the passage?',
+            options: {
+              A: 'A chronological overview of how information control evolved from print to digital media',
+              B: 'A biography of twentieth-century radio engineers in Europe',
+              C: 'A technical manual explaining how radio transmitters are built',
+              D: 'A comparison of agricultural policies in ancient empires'
+            },
+            correct: 'A',
+            explanation: 'Bài đọc trình bày theo trình tự thời gian từ kiểm duyệt in ấn trước thế kỷ 20 sang radio/truyền hình thế kỷ 20 và mạng kỹ thuật số hiện đại.'
           }
         ]
       },
@@ -1203,12 +1387,7 @@
             num: 16,
             type: 'Insert Text',
             prompt: 'Look at the four squares [■ A, ■ B, ■ C, ■ D] that indicate where the sentence: "The process that drives these retreating monsoons is essentially the reverse of that which drives summer monsoons." could best fit.',
-            options: {
-              A: 'Vị trí [■ A] — sau câu "Some areas also experience what are known as retreating monsoons."',
-              B: 'Vị trí [■ B] — trước câu "Thus, it is the sea air that rises faster in these cases."',
-              C: 'Vị trí [■ C] — trước câu "An area of low pressure is created offshore..."',
-              D: 'Vị trí [■ D] — trước câu "In contrast to normal monsoon winds..."'
-            },
+            options: { A: 'Vị trí [■ A] — sau câu "Some areas also experience what are known as retreating monsoons."', B: 'Vị trí [■ B] — trước câu "Thus, it is the sea air that rises faster in these cases."', C: 'Vị trí [■ C] — trước câu "An area of low pressure is created offshore..."', D: 'Vị trí [■ D] — trước câu "In contrast to normal monsoon winds..."' },
             correct: 'A',
             explanation: 'Đặt ngay sau câu giới thiệu "retreating monsoons" ở [■ A], câu này nêu tổng quát rằng cơ chế tạo ra gió mùa rút về cơ bản ngược lại với gió mùa hạ, sau đó giải thích chi tiết ở các câu tiếp theo.'
           }
@@ -1423,86 +1602,16 @@
           'Today, scientists debate about what would occur if thermohaline circulation stopped again. While some scientists warn that a dramatic drop in temperatures and an ice age might occur, others reject such trepidation. Skeptics doubt that the nearby ice caps lack sufficient fresh water to dilute dense salt water and prevent it from sinking. Even if circulation did stop, other scientists maintain that no disastrous cooling would occur. For instance, some scientists cite projected models of climate change that show increased temperatures of the North Atlantic waters and of oceanic currents in general, meaning that they will still provide enough warm air to Europe and North America. Some scientists also claim that thermohaline circulation doesn\'t contribute greatly to warming Europe, so no significant drop in temperature would occur; in fact, due to atmospheric factors that also affect the continent, global warming would actually cancel out any extensive cooling and maintain moderate temperatures. [■ A] However, most scientists concede that the end of thermohaline circulation could have consequences aside from causing another Ice Age. [■ B] For instance, higher temperatures in both the atmosphere and world\'s oceans could lead to increased rainfall in areas like Alaska, Antarctica, and the tropics, as well as more frequent and stronger storms, hurricanes, and floods. [■ C] In any event, thermohaline circulation is a key component of the Earth\'s climate, and its cessation could have unpredictably dramatic effects. [■ D]'
         ],
         questions: [
-          {
-            num: 31,
-            type: 'Vocabulary',
-            prompt: 'The word evoke in the passage is closest in meaning to',
-            options: { A: 'ease', B: 'silence', C: 'raise', D: 'prove' },
-            correct: 'C',
-            explanation: 'Trong cụm "evoke concerns" (làm dấy lên/gây ra những lo ngại), "evoke" gần nghĩa nhất với "raise".'
-          },
-          {
-            num: 32,
-            type: 'Reference',
-            prompt: 'The phrase this activity in the passage refers to',
-            options: { A: 'thermohaline circulation', B: 'scientific study', C: 'atmospheric cycles', D: 'global warming' },
-            correct: 'A',
-            explanation: 'Câu trước nói về chuyển động đại dương là "thermohaline circulation", nên "this activity" ở cuối đoạn 1 chỉ chính hệ tuần hoàn nhiệt muối này.'
-          },
-          {
-            num: 33,
-            type: 'Factual Information',
-            prompt: 'According to paragraph 1, what could stop thermohaline circulation?',
-            options: { A: 'heat distribution', B: 'ocean currents', C: 'dense water', D: 'global warming' },
-            correct: 'D',
-            explanation: 'Đoạn 1 nêu lo ngại rằng sự nóng lên toàn cầu ("global warming") có thể chấm dứt hoạt động này.'
-          },
-          {
-            num: 34,
-            type: 'Vocabulary',
-            prompt: 'The word catalyst in the passage is closest in meaning to',
-            options: { A: 'product', B: 'cause', C: 'barrier', D: 'victim' },
-            correct: 'B',
-            explanation: '"The catalyst for thermohaline circulation is the density of the waters..." — mật độ nước là yếu tố thúc đẩy/khởi phát ("cause") tuần hoàn nhiệt muối.'
-          },
-          {
-            num: 35,
-            type: 'Reference',
-            prompt: 'The word it in the passage refers to',
-            options: { A: 'bottom', B: 'path', C: 'the Atlantic', D: 'seawater' },
-            correct: 'D',
-            explanation: 'Câu văn: "As the seawater wells up from the bottom and travels back along its path to the northern Atlantic, it radiates heat into the atmosphere." Chủ thể tỏa nhiệt vào khí quyển chính là "seawater" (nước biển).'
-          },
-          {
-            num: 36,
-            type: 'Negative Factual (EXCEPT)',
-            prompt: 'All of the following processes occur in the northern Atlantic EXCEPT',
-            options: { A: 'upwelling', B: 'sinking', C: 'freezing', D: 'evaporation' },
-            correct: 'A',
-            explanation: 'Đoạn 2 nêu bay hơi ("evaporation"), đóng băng ("freezing"), và chìm xuống đáy ("sinking") xảy ra ở Bắc Đại Tây Dương, còn nước trồi ("upwelling") xảy ra ở Bắc Thái Bình Dương và Ấn Độ Dương.'
-          },
-          {
-            num: 37,
-            type: 'Vocabulary',
-            prompt: 'The word diminish in the passage is closest in meaning to',
-            options: { A: 'augment', B: 'lessen', C: 'measure', D: 'absorb' },
-            correct: 'B',
-            explanation: 'Nước ngọt băng tan làm loãng nước mặn và làm giảm mật độ ("diminish its density"), gần nghĩa với "lessen".'
-          },
-          {
-            num: 38,
-            type: 'Factual Information',
-            prompt: 'According to paragraph 3, what are "chimneys" in the northern Atlantic Ocean?',
-            options: { A: 'deposits of salt', B: 'sheets of ice', C: 'sinking water', D: 'rising water' },
-            correct: 'C',
-            explanation: 'Đoạn 3 giải thích: "These chimneys are actually immense columns of cold water that shoot down to the ocean floor" — tức các cột nước lạnh chìm xuống đáy đại dương ("sinking water").'
-          },
-          {
-            num: 39,
-            type: 'Factual Information',
-            prompt: 'According to paragraph 3, what additional evidence shows that the gyre of activity in the Northern Atlantic is slowing down?',
-            options: { A: 'low salt measurements', B: 'higher temperatures', C: 'smaller ice caps', D: 'satellite pictures' },
-            correct: 'D',
-            explanation: 'Đoạn 3 viết: "Additionally, photographs recently taken from satellites show that the gyre of activity in the northern Atlantic is slowing down..."'
-          },
-          {
-            num: 40,
-            type: 'Vocabulary',
-            prompt: 'The word trepidation in the passage is closest in meaning to',
-            options: { A: 'alarm', B: 'logic', C: 'intensity', D: 'data' },
-            correct: 'A',
-            explanation: 'Một số nhà khoa học cảnh báo nhiệt độ giảm mạnh/kỷ băng hà, trong khi người khác bác bỏ sự lo sợ/báo động đó ("reject such trepidation"), gần nghĩa với "alarm".'
-          },
+          { num: 31, type: 'Vocabulary', prompt: 'The word evoke in the passage is closest in meaning to', options: { A: 'ease', B: 'silence', C: 'raise', D: 'prove' }, correct: 'C', explanation: 'Trong cụm "evoke concerns" (làm dấy lên/gây ra những lo ngại), "evoke" gần nghĩa nhất với "raise".' },
+          { num: 32, type: 'Reference', prompt: 'The phrase this activity in the passage refers to', options: { A: 'thermohaline circulation', B: 'scientific study', C: 'atmospheric cycles', D: 'global warming' }, correct: 'A', explanation: 'Câu trước nói về chuyển động đại dương là "thermohaline circulation", nên "this activity" ở cuối đoạn 1 chỉ chính hệ tuần hoàn nhiệt muối này.' },
+          { num: 33, type: 'Factual Information', prompt: 'According to paragraph 1, what could stop thermohaline circulation?', options: { A: 'heat distribution', B: 'ocean currents', C: 'dense water', D: 'global warming' }, correct: 'D', explanation: 'Đoạn 1 nêu lo ngại rằng sự nóng lên toàn cầu ("global warming") có thể chấm dứt hoạt động này.' },
+          { num: 34, type: 'Vocabulary', prompt: 'The word catalyst in the passage is closest in meaning to', options: { A: 'product', B: 'cause', C: 'barrier', D: 'victim' }, correct: 'B', explanation: '"The catalyst for thermohaline circulation is the density of the waters..." — mật độ nước là yếu tố thúc đẩy/khởi phát ("cause") tuần hoàn nhiệt muối.' },
+          { num: 35, type: 'Reference', prompt: 'The word it in the passage refers to', options: { A: 'bottom', B: 'path', C: 'the Atlantic', D: 'seawater' }, correct: 'D', explanation: 'Câu văn: "As the seawater wells up from the bottom and travels back along its path to the northern Atlantic, it radiates heat into the atmosphere." Chủ thể tỏa nhiệt vào khí quyển chính là "seawater" (nước biển).' },
+          { num: 36, type: 'Negative Factual (EXCEPT)', prompt: 'All of the following processes occur in the northern Atlantic EXCEPT', options: { A: 'upwelling', B: 'sinking', C: 'freezing', D: 'evaporation' }, correct: 'A', explanation: 'Đoạn 2 nêu bay hơi ("evaporation"), đóng băng ("freezing"), và chìm xuống đáy ("sinking") xảy ra ở Bắc Đại Tây Dương, còn nước trồi ("upwelling") xảy ra ở Bắc Thái Bình Dương và Ấn Độ Dương.' },
+          { num: 37, type: 'Vocabulary', prompt: 'The word diminish in the passage is closest in meaning to', options: { A: 'augment', B: 'lessen', C: 'measure', D: 'absorb' }, correct: 'B', explanation: 'Nước ngọt băng tan làm loãng nước mặn và làm giảm mật độ ("diminish its density"), gần nghĩa với "lessen".' },
+          { num: 38, type: 'Factual Information', prompt: 'According to paragraph 3, what are "chimneys" in the northern Atlantic Ocean?', options: { A: 'deposits of salt', B: 'sheets of ice', C: 'sinking water', D: 'rising water' }, correct: 'C', explanation: 'Đoạn 3 giải thích: "These chimneys are actually immense columns of cold water that shoot down to the ocean floor" — tức các cột nước lạnh chìm xuống đáy đại dương ("sinking water").' },
+          { num: 39, type: 'Factual Information', prompt: 'According to paragraph 3, what additional evidence shows that the gyre of activity in the Northern Atlantic is slowing down?', options: { A: 'low salt measurements', B: 'higher temperatures', C: 'smaller ice caps', D: 'satellite pictures' }, correct: 'D', explanation: 'Đoạn 3 viết: "Additionally, photographs recently taken from satellites show that the gyre of activity in the northern Atlantic is slowing down..."' },
+          { num: 40, type: 'Vocabulary', prompt: 'The word trepidation in the passage is closest in meaning to', options: { A: 'alarm', B: 'logic', C: 'intensity', D: 'data' }, correct: 'A', explanation: 'Một số nhà khoa học cảnh báo nhiệt độ giảm mạnh/kỷ băng hà, trong khi người khác bác bỏ sự lo sợ/báo động đó ("reject such trepidation"), gần nghĩa với "alarm".' },
           {
             num: 41,
             type: 'Sentence Simplification',
@@ -1516,19 +1625,7 @@
             correct: 'B',
             explanation: 'Đáp án B nắm bắt đúng hai luận điểm: tuần hoàn nhiệt muối không làm ấm châu Âu nhiều và sự nóng lên toàn cầu sẽ ngăn chặn tình trạng lạnh đi diện rộng.'
           },
-          {
-            num: 42,
-            type: 'Inference',
-            prompt: 'Based on the information in paragraph 4, what can be inferred about the consequences of shutting down thermohaline circulation?',
-            options: {
-              A: 'Consequences are unknown but may be severe.',
-              B: 'Evidence proves that an Ice Age will come.',
-              C: 'Consequences are exaggerated and negligible.',
-              D: 'Currents would be affected but not weather.'
-            },
-            correct: 'A',
-            explanation: 'Câu cuối đoạn 4 kết luận rằng sự ngừng trệ có thể gây ra những tác động mạnh mẽ khó lường trước ("its cessation could have unpredictably dramatic effects"), phù hợp với "Consequences are unknown but may be severe".'
-          },
+          { num: 42, type: 'Inference', prompt: 'Based on the information in paragraph 4, what can be inferred about the consequences of shutting down thermohaline circulation?', options: { A: 'Consequences are unknown but may be severe.', B: 'Evidence proves that an Ice Age will come.', C: 'Consequences are exaggerated and negligible.', D: 'Currents would be affected but not weather.' }, correct: 'A', explanation: 'Câu cuối đoạn 4 kết luận rằng sự ngừng trệ có thể gây ra những tác động mạnh mẽ khó lường trước ("its cessation could have unpredictably dramatic effects"), phù hợp với "Consequences are unknown but may be severe".' },
           {
             num: 43,
             type: 'Insert Text',
@@ -1558,35 +1655,9 @@
           '[4] Although subduction zones are responsible for the planet\'s most destructive earthquakes and explosive volcanic eruptions, they also play a vital geochemical role by recycling carbon and water from Earth\'s surface back into the deep mantle. Without this continuous downward transport of volatile compounds and mineral sediments, Earth\'s atmospheric composition and oceanic chemistry would gradually drift out of balance, underscoring how destructive tectonic forces paradoxically sustain long-term planetary habitability.'
         ],
         questions: [
-          {
-            num: 44,
-            type: 'Vocabulary (Q1)',
-            prompt: 'The word converge in paragraph 1 is closest in meaning to',
-            options: { A: 'come together', B: 'split apart', C: 'cool rapidly', D: 'slide sideways' },
-            correct: 'A',
-            explanation: 'Trong đoạn 1, các mảng hội tụ ("converge") đối lập với "divergent margins where plates pull apart" (tách ra) và "transform faults where plates grind horizontally past one another" (trượt ngang). Vì vậy "converge" đồng nghĩa với "come together".'
-          },
-          {
-            num: 45,
-            type: 'Factual Information (Q2)',
-            prompt: 'According to paragraph 2, why does an oceanic plate sink beneath a continental plate during a collision?',
-            options: {
-              A: 'Oceanic crust is composed of denser basaltic rock than the lighter granitic continental crust.',
-              B: 'Oceanic plates move at significantly higher speeds than continental plates.',
-              C: 'Deep-sea trenches pull the oceanic crust downward through intense water pressure.',
-              D: 'The asthenosphere beneath continents is cooler and more rigid than beneath oceans.'
-            },
-            correct: 'A',
-            explanation: 'Đoạn 2 nêu rõ: "Because oceanic crust is composed largely of dense basaltic rock, whereas continental crust consists of lighter granitic rock, the heavier oceanic plate is forced downward beneath the buoyant continental margin".'
-          },
-          {
-            num: 46,
-            type: 'Reference (Q3)',
-            prompt: 'The word they in paragraph 2 refers to',
-            options: { A: 'oceanic plates', B: 'deep-sea trenches', C: 'hydrated minerals', D: 'continental volcanoes' },
-            correct: 'A',
-            explanation: 'Câu văn: "As oceanic plates descend into the hotter asthenosphere, they undergo partial melting..." Đại từ "they" thay thế trực tiếp cho "oceanic plates".'
-          },
+          { num: 44, type: 'Vocabulary (Q1)', prompt: 'The word converge in paragraph 1 is closest in meaning to', options: { A: 'come together', B: 'split apart', C: 'cool rapidly', D: 'slide sideways' }, correct: 'A', explanation: 'Trong đoạn 1, các mảng hội tụ ("converge") đối lập với "divergent margins where plates pull apart" (tách ra) và "transform faults where plates grind horizontally past one another" (trượt ngang). Vì vậy "converge" đồng nghĩa với "come together".' },
+          { num: 45, type: 'Factual Information (Q2)', prompt: 'According to paragraph 2, why does an oceanic plate sink beneath a continental plate during a collision?', options: { A: 'Oceanic crust is composed of denser basaltic rock than the lighter granitic continental crust.', B: 'Oceanic plates move at significantly higher speeds than continental plates.', C: 'Deep-sea trenches pull the oceanic crust downward through intense water pressure.', D: 'The asthenosphere beneath continents is cooler and more rigid than beneath oceans.' }, correct: 'A', explanation: 'Đoạn 2 nêu rõ: "Because oceanic crust is composed largely of dense basaltic rock, whereas continental crust consists of lighter granitic rock, the heavier oceanic plate is forced downward beneath the buoyant continental margin".' },
+          { num: 46, type: 'Reference (Q3)', prompt: 'The word they in paragraph 2 refers to', options: { A: 'oceanic plates', B: 'deep-sea trenches', C: 'hydrated minerals', D: 'continental volcanoes' }, correct: 'A', explanation: 'Câu văn: "As oceanic plates descend into the hotter asthenosphere, they undergo partial melting..." Đại từ "they" thay thế trực tiếp cho "oceanic plates".' },
           {
             num: 47,
             type: 'Sentence Simplification (Q4)',
@@ -1600,19 +1671,7 @@
             correct: 'A',
             explanation: 'Câu đầu đoạn 4 nhấn mạnh dù gây động đất và núi lửa tàn khốc, đới hút chìm vẫn giữ vai trò địa hóa thiết yếu khi đưa carbon và nước từ bề mặt trở lại lớp phủ sâu. Đáp án A giữ trọn vẹn hai vế ý chính.'
           },
-          {
-            num: 48,
-            type: 'Negative Factual (Q5 - EXCEPT)',
-            prompt: 'According to the passage, all of the following are associated with convergent plate boundaries EXCEPT',
-            options: {
-              A: 'the creation of divergent rift valleys where plates pull apart',
-              B: 'the formation of deep ocean trenches such as the Mariana Trench',
-              C: 'the generation of megathrust earthquakes and transoceanic tsunamis',
-              D: 'the uplift of high mountain ranges when two continental plates collide'
-            },
-            correct: 'A',
-            explanation: 'Ranh giới phân kỳ ("divergent") mới là nơi các mảng tách ra ("pull apart"), không phải ranh giới hội tụ ("convergent").'
-          },
+          { num: 48, type: 'Negative Factual (Q5 - EXCEPT)', prompt: 'According to the passage, all of the following are associated with convergent plate boundaries EXCEPT', options: { A: 'the creation of divergent rift valleys where plates pull apart', B: 'the formation of deep ocean trenches such as the Mariana Trench', C: 'the generation of megathrust earthquakes and transoceanic tsunamis', D: 'the uplift of high mountain ranges when two continental plates collide' }, correct: 'A', explanation: 'Ranh giới phân kỳ ("divergent") mới là nơi các mảng tách ra ("pull apart"), không phải ranh giới hội tụ ("convergent").' },
           {
             num: 49,
             type: 'Insert Text (Q6)',
@@ -1642,61 +1701,11 @@
           '[4] Organisms acquire their light-producing capacity through two primary evolutionary pathways. [■ A] Many marine animals synthesize their own luciferin internally or obtain it through their diet by consuming bioluminescent crustaceans. [■ B] Others, such as the Hawaiian bobtail squid and flashlight fish, cultivate dense colonies of symbiotic bioluminescent bacteria inside specialized anatomical pouches. [■ C] In exchange for a nutrient-rich shelter, the bacteria emit steady light that the host regulates using muscular shutters or blood-flow controls. [■ D]'
         ],
         questions: [
-          {
-            num: 50,
-            type: 'Vocabulary (Q7)',
-            prompt: 'The word ubiquitous in paragraph 1 is closest in meaning to',
-            options: { A: 'widespread', B: 'fragile', C: 'temporary', D: 'artificial' },
-            correct: 'A',
-            explanation: 'Ngay sau "ubiquitous", bài đọc nêu tỷ lệ ước tính khoảng 75% sinh vật biển kích thước lớn có hiện tượng này ("occurring in an estimated 75 percent of macroscopic marine organisms"), cho thấy nghĩa là phổ biến rộng khắp ("widespread").'
-          },
-          {
-            num: 51,
-            type: 'Rhetorical Purpose (Q8)',
-            prompt: 'Why does the author mention the loosejaw dragonfish in paragraph 2?',
-            options: {
-              A: 'To illustrate a specialized hunting adaptation that lets a predator see prey without alerting them',
-              B: 'To prove that red light penetrates deeper into ocean water than blue-green light',
-              C: 'To contrast symbiotic bacterial light with internally synthesized luciferin',
-              D: 'To explain why most deep-sea fish rely on counter-illumination for survival'
-            },
-            correct: 'A',
-            explanation: 'Tác giả nêu cá rồng hàm lỏng chiếu tia sáng đỏ xa mà gần như các loài biển sâu khác không thấy được, qua đó minh họa cơ chế săn mồi đặc thù giúp soi con mồi mà không bị phát hiện.'
-          },
-          {
-            num: 52,
-            type: 'Reference (Q9)',
-            prompt: 'The word it in paragraph 3 refers to',
-            options: { A: 'a small deep-sea shrimp', B: 'a predatory fish', C: 'a cloud of luminous fluid', D: 'the darkness' },
-            correct: 'A',
-            explanation: 'Câu văn: "When a small deep-sea shrimp is startled or seized by a fish, it expels a cloud of luminous fluid directly into the water..." Chủ ngữ thực hiện hành động phun dịch phát quang là "a small deep-sea shrimp".'
-          },
-          {
-            num: 53,
-            type: 'Factual Information (Q10)',
-            prompt: 'According to paragraph 2, how does counter-illumination protect hatchetfish and lanternfish from predators?',
-            options: {
-              A: 'It matches the faint light coming from above, hiding their dark outlines from predators below.',
-              B: 'It releases bright flashes that temporarily blind predators approaching from behind.',
-              C: 'It mimics the glowing lures of larger predators to frighten away attackers.',
-              D: 'It absorbs surrounding blue-green wavelengths so the fish appear completely transparent.'
-            },
-            correct: 'A',
-            explanation: 'Cơ chế ngụy trang ngược sáng ("counter-illumination") phát ánh sáng xanh lam lục khớp với ánh sáng mờ từ trên rọi xuống, làm mờ đường nét tối của cá trước kẻ săn mồi ở bên dưới.'
-          },
-          {
-            num: 54,
-            type: 'Inference (Q11)',
-            prompt: 'Based on the information in paragraph 2, what can be inferred about the visual systems of most deep-sea organisms?',
-            options: {
-              A: 'They are tuned primarily to detect blue-green wavelengths rather than red light.',
-              B: 'They are completely nonfunctional in zones deeper than 200 meters.',
-              C: 'They rely exclusively on detecting heat emitted by nearby organisms.',
-              D: 'They are capable of seeing a broader color spectrum than terrestrial animals.'
-            },
-            correct: 'A',
-            explanation: 'Ánh sáng ngụy trang phổ biến có màu xanh lam lục ("blue-green glow") còn ánh sáng đỏ xa lại vô hình với hầu hết loài biển sâu ("invisible to nearly all other deep-sea animals"), suy ra thị giác của chúng nhạy với bước sóng xanh lam lục hơn là ánh sáng đỏ.'
-          },
+          { num: 50, type: 'Vocabulary (Q7)', prompt: 'The word ubiquitous in paragraph 1 is closest in meaning to', options: { A: 'widespread', B: 'fragile', C: 'temporary', D: 'artificial' }, correct: 'A', explanation: 'Ngay sau "ubiquitous", bài đọc nêu tỷ lệ ước tính khoảng 75% sinh vật biển kích thước lớn có hiện tượng này ("occurring in an estimated 75 percent of macroscopic marine organisms"), cho thấy nghĩa là phổ biến rộng khắp ("widespread").' },
+          { num: 51, type: 'Rhetorical Purpose (Q8)', prompt: 'Why does the author mention the loosejaw dragonfish in paragraph 2?', options: { A: 'To illustrate a specialized hunting adaptation that lets a predator see prey without alerting them', B: 'To prove that red light penetrates deeper into ocean water than blue-green light', C: 'To contrast symbiotic bacterial light with internally synthesized luciferin', D: 'To explain why most deep-sea fish rely on counter-illumination for survival' }, correct: 'A', explanation: 'Tác giả nêu cá rồng hàm lỏng chiếu tia sáng đỏ xa mà gần như các loài biển sâu khác không thấy được, qua đó minh họa cơ chế săn mồi đặc thù giúp soi con mồi mà không bị phát hiện.' },
+          { num: 52, type: 'Reference (Q9)', prompt: 'The word it in paragraph 3 refers to', options: { A: 'a small deep-sea shrimp', B: 'a predatory fish', C: 'a cloud of luminous fluid', D: 'the darkness' }, correct: 'A', explanation: 'Câu văn: "When a small deep-sea shrimp is startled or seized by a fish, it expels a cloud of luminous fluid directly into the water..." Chủ ngữ thực hiện hành động phun dịch phát quang là "a small deep-sea shrimp".' },
+          { num: 53, type: 'Factual Information (Q10)', prompt: 'According to paragraph 2, how does counter-illumination protect hatchetfish and lanternfish from predators?', options: { A: 'It matches the faint light coming from above, hiding their dark outlines from predators below.', B: 'It releases bright flashes that temporarily blind predators approaching from behind.', C: 'It mimics the glowing lures of larger predators to frighten away attackers.', D: 'It absorbs surrounding blue-green wavelengths so the fish appear completely transparent.' }, correct: 'A', explanation: 'Cơ chế ngụy trang ngược sáng ("counter-illumination") phát ánh sáng xanh lam lục khớp với ánh sáng mờ từ trên rọi xuống, làm mờ đường nét tối của cá trước kẻ săn mồi ở bên dưới.' },
+          { num: 54, type: 'Inference (Q11)', prompt: 'Based on the information in paragraph 2, what can be inferred about the visual systems of most deep-sea organisms?', options: { A: 'They are tuned primarily to detect blue-green wavelengths rather than red light.', B: 'They are completely nonfunctional in zones deeper than 200 meters.', C: 'They rely exclusively on detecting heat emitted by nearby organisms.', D: 'They are capable of seeing a broader color spectrum than terrestrial animals.' }, correct: 'A', explanation: 'Ánh sáng ngụy trang phổ biến có màu xanh lam lục ("blue-green glow") còn ánh sáng đỏ xa lại vô hình với hầu hết loài biển sâu ("invisible to nearly all other deep-sea animals"), suy ra thị giác của chúng nhạy với bước sóng xanh lam lục hơn là ánh sáng đỏ.' },
           {
             num: 55,
             type: 'Insert Text (Q12)',
@@ -1726,27 +1735,8 @@
           '[4] Severe water shortages magnified existing social fractures. [■ A] In Classic Maya society, rulers derived their authority from their perceived ability to intercede with deities to ensure timely rains and abundant harvests. [■ B] As agricultural yields plummeted and reservoirs ran dry, divine kings lost the ideological legitimacy that had previously enabled them to command labor and tribute from the populace. [■ C] Importantly, the collapse was largely confined to the southern interior lowlands; coastal trading ports and northern Yucatán centers such as Chichén Itzá—where shallow cenotes provided reliable access to groundwater—continued to thrive for centuries afterward. [■ D]'
         ],
         questions: [
-          {
-            num: 56,
-            type: 'Vocabulary (Q13)',
-            prompt: 'The word protracted in paragraph 1 is closest in meaning to',
-            options: { A: 'prolonged', B: 'instantaneous', C: 'unnoticed', D: 'preventable' },
-            correct: 'A',
-            explanation: 'Quá trình suy tàn diễn ra trong khoảng một thế kỷ ("over a span of roughly a century") và dân cư rời bỏ dần dần ("gradually abandoned"), nên "protracted" có nghĩa là kéo dài ("prolonged").'
-          },
-          {
-            num: 57,
-            type: 'Negative Factual (Q14 - EXCEPT)',
-            prompt: 'According to paragraph 2, all of the following contributed to the destabilization of the Classic Maya lowlands EXCEPT',
-            options: {
-              A: 'catastrophic volcanic eruptions that buried agricultural fields in ash',
-              B: 'extensive deforestation for farming and architectural plaster production',
-              C: 'soil erosion and declining agricultural fertility',
-              D: 'frequent warfare among competing Maya city-states'
-            },
-            correct: 'A',
-            explanation: 'Đoạn 2 nhắc tới phá rừng làm nông nghiệp và đốt đá vôi (B), xói mòn và suy giảm độ phì nhiêu của đất (C), cùng chiến tranh liên miên giữa các thành bang (D), không đề cập phun trào núi lửa chôn vùi đồng ruộng.'
-          },
+          { num: 56, type: 'Vocabulary (Q13)', prompt: 'The word protracted in paragraph 1 is closest in meaning to', options: { A: 'prolonged', B: 'instantaneous', C: 'unnoticed', D: 'preventable' }, correct: 'A', explanation: 'Quá trình suy tàn diễn ra trong khoảng một thế kỷ ("over a span of roughly a century") và dân cư rời bỏ dần dần ("gradually abandoned"), nên "protracted" có nghĩa là kéo dài ("prolonged").' },
+          { num: 57, type: 'Negative Factual (Q14 - EXCEPT)', prompt: 'According to paragraph 2, all of the following contributed to the destabilization of the Classic Maya lowlands EXCEPT', options: { A: 'catastrophic volcanic eruptions that buried agricultural fields in ash', B: 'extensive deforestation for farming and architectural plaster production', C: 'soil erosion and declining agricultural fertility', D: 'frequent warfare among competing Maya city-states' }, correct: 'A', explanation: 'Đoạn 2 nhắc tới phá rừng làm nông nghiệp và đốt đá vôi (B), xói mòn và suy giảm độ phì nhiêu của đất (C), cùng chiến tranh liên miên giữa các thành bang (D), không đề cập phun trào núi lửa chôn vùi đồng ruộng.' },
           {
             num: 58,
             type: 'Sentence Simplification (Q15)',
@@ -1760,27 +1750,8 @@
             correct: 'A',
             explanation: 'Dù người Maya xây hồ chứa và kênh đào tinh vi cho mưa mùa, hệ thống phụ thuộc hoàn toàn vào gió mùa hàng năm nên không chống đỡ được hạn hán kéo dài nhiều năm. Đáp án A diễn đạt đầy đủ nhất.'
           },
-          {
-            num: 59,
-            type: 'Reference (Q16)',
-            prompt: 'The word them in paragraph 4 refers to',
-            options: { A: 'divine kings', B: 'agricultural yields', C: 'reservoirs', D: 'deities' },
-            correct: 'A',
-            explanation: 'Câu văn: "...divine kings lost the ideological legitimacy that had previously enabled them to command labor and tribute from the populace." "Them" quy chiếu đến "divine kings".'
-          },
-          {
-            num: 60,
-            type: 'Inference (Q17)',
-            prompt: 'Based on paragraph 4, what can be inferred about why Chichén Itzá survived the collapse that devastated southern lowland cities?',
-            options: {
-              A: 'Its access to underground water sources buffered it against prolonged failure of seasonal rains.',
-              B: 'Its rulers possessed stronger military forces that prevented peasant rebellions.',
-              C: 'It received higher amounts of annual monsoon rainfall than cities in Guatemala and Belize.',
-              D: 'Its inhabitants abandoned maize farming entirely in favor of deep-sea fishing.'
-            },
-            correct: 'A',
-            explanation: 'Chichén Itzá có các hố sụt/giếng nước nông ("shallow cenotes") cung cấp nguồn nước ngầm ổn định, giúp nơi đây duy trì thịnh vượng khi mưa mùa suy giảm.'
-          },
+          { num: 59, type: 'Reference (Q16)', prompt: 'The word them in paragraph 4 refers to', options: { A: 'divine kings', B: 'agricultural yields', C: 'reservoirs', D: 'deities' }, correct: 'A', explanation: 'Câu văn: "...divine kings lost the ideological legitimacy that had previously enabled them to command labor and tribute from the populace." "Them" quy chiếu đến "divine kings".' },
+          { num: 60, type: 'Inference (Q17)', prompt: 'Based on paragraph 4, what can be inferred about why Chichén Itzá survived the collapse that devastated southern lowland cities?', options: { A: 'Its access to underground water sources buffered it against prolonged failure of seasonal rains.', B: 'Its rulers possessed stronger military forces that prevented peasant rebellions.', C: 'It received higher amounts of annual monsoon rainfall than cities in Guatemala and Belize.', D: 'Its inhabitants abandoned maize farming entirely in favor of deep-sea fishing.' }, correct: 'A', explanation: 'Chichén Itzá có các hố sụt/giếng nước nông ("shallow cenotes") cung cấp nguồn nước ngầm ổn định, giúp nơi đây duy trì thịnh vượng khi mưa mùa suy giảm.' },
           {
             num: 61,
             type: 'Insert Text (Q18)',
@@ -1810,48 +1781,10 @@
           '[4] Space-based observatories such as Kepler, TESS, and the James Webb Space Telescope have since cataloged thousands of exoplanets, demonstrating that planetary systems are commonplace across the galaxy. [■ A] During a transit, a minuscule fraction of starlight filters through the outer envelope of the planet\'s atmosphere, where specific gases absorb characteristic wavelengths of light and imprint distinct chemical signatures onto the star\'s spectrum. [■ B] Through this technique, known as transmission spectroscopy, astronomers have already identified water vapor, carbon dioxide, and methane in the atmospheres of distant worlds. [■ C] Ultimately, researchers hope to detect biosignature gases—such as simultaneous oxygen and methane—in the atmospheres of temperate, Earth-sized exoplanets. [■ D]'
         ],
         questions: [
-          {
-            num: 62,
-            type: 'Vocabulary (Q19)',
-            prompt: 'The word elusive in paragraph 1 is closest in meaning to',
-            options: { A: 'difficult to achieve', B: 'widely publicized', C: 'mathematically flawed', D: 'financially costly' },
-            correct: 'A',
-            explanation: 'Bằng chứng thực nghiệm về ngoại hành tinh khó đạt được cho tới thập niên 1990 ("empirical confirmation remained remarkably elusive until the 1990s"), nên "elusive" tương đương "difficult to achieve".'
-          },
-          {
-            num: 63,
-            type: 'Factual Information (Q20)',
-            prompt: 'According to paragraph 2, how does the radial velocity method detect an exoplanet?',
-            options: {
-              A: 'By measuring periodic shifts in the wavelengths of light emitted by a wobbling host star',
-              B: 'By recording regular drops in a star\'s overall brightness as a planet crosses in front of it',
-              C: 'By capturing high-resolution photographs of starlight reflected off the planet\'s surface',
-              D: 'By tracking changes in a star\'s surface temperature caused by tidal friction'
-            },
-            correct: 'A',
-            explanation: 'Phương pháp vận tốc xuyên tâm đo sự dịch chuyển xanh và dịch chuyển đỏ định kỳ trong các vạch quang phổ của ngôi sao khi ngôi sao dao động do lực hấp dẫn của hành tinh.'
-          },
-          {
-            num: 64,
-            type: 'Reference (Q21)',
-            prompt: 'The word this in paragraph 3 refers to',
-            options: { A: 'a planet\'s average density', B: 'a transit light curve', C: 'a planet\'s physical diameter', D: 'the gravitational pull of the planet' },
-            correct: 'A',
-            explanation: 'Chia khối lượng cho thể tích giúp tính mật độ trung bình ("its average density"), và "this" (mật độ trung bình này) cho biết hành tinh cấu tạo từ đá/sắt, nước/băng hay khí.'
-          },
-          {
-            num: 65,
-            type: 'Rhetorical Purpose (Q22)',
-            prompt: 'Why does the author discuss dividing a planet\'s mass by its volume in paragraph 3?',
-            options: {
-              A: 'To explain how astronomers determine an exoplanet\'s physical composition from combined detection methods',
-              B: 'To show why gas giant planets are much easier to detect than rocky Earth-sized planets',
-              C: 'To argue that transit photometry is more accurate than radial velocity spectroscopy',
-              D: 'To illustrate the mathematical errors common in early exoplanet measurements'
-            },
-            correct: 'A',
-            explanation: 'Tính mật độ trung bình bằng cách lấy khối lượng chia thể tích giúp các nhà thiên văn xác định thành phần cấu tạo vật chất của ngoại hành tinh từ dữ liệu kết hợp của hai phương pháp.'
-          },
+          { num: 62, type: 'Vocabulary (Q19)', prompt: 'The word elusive in paragraph 1 is closest in meaning to', options: { A: 'difficult to achieve', B: 'widely publicized', C: 'mathematically flawed', D: 'financially costly' }, correct: 'A', explanation: 'Bằng chứng thực nghiệm về ngoại hành tinh khó đạt được cho tới thập niên 1990 ("empirical confirmation remained remarkably elusive until the 1990s"), nên "elusive" tương đương "difficult to achieve".' },
+          { num: 63, type: 'Factual Information (Q20)', prompt: 'According to paragraph 2, how does the radial velocity method detect an exoplanet?', options: { A: 'By measuring periodic shifts in the wavelengths of light emitted by a wobbling host star', B: 'By recording regular drops in a star\'s overall brightness as a planet crosses in front of it', C: 'By capturing high-resolution photographs of starlight reflected off the planet\'s surface', D: 'By tracking changes in a star\'s surface temperature caused by tidal friction' }, correct: 'A', explanation: 'Phương pháp vận tốc xuyên tâm đo sự dịch chuyển xanh và dịch chuyển đỏ định kỳ trong các vạch quang phổ của ngôi sao khi ngôi sao dao động do lực hấp dẫn của hành tinh.' },
+          { num: 64, type: 'Reference (Q21)', prompt: 'The word this in paragraph 3 refers to', options: { A: 'a planet\'s average density', B: 'a transit light curve', C: 'a planet\'s physical diameter', D: 'the gravitational pull of the planet' }, correct: 'A', explanation: 'Chia khối lượng cho thể tích giúp tính mật độ trung bình ("its average density"), và "this" (mật độ trung bình này) cho biết hành tinh cấu tạo từ đá/sắt, nước/băng hay khí.' },
+          { num: 65, type: 'Rhetorical Purpose (Q22)', prompt: 'Why does the author discuss dividing a planet\'s mass by its volume in paragraph 3?', options: { A: 'To explain how astronomers determine an exoplanet\'s physical composition from combined detection methods', B: 'To show why gas giant planets are much easier to detect than rocky Earth-sized planets', C: 'To argue that transit photometry is more accurate than radial velocity spectroscopy', D: 'To illustrate the mathematical errors common in early exoplanet measurements' }, correct: 'A', explanation: 'Tính mật độ trung bình bằng cách lấy khối lượng chia thể tích giúp các nhà thiên văn xác định thành phần cấu tạo vật chất của ngoại hành tinh từ dữ liệu kết hợp của hai phương pháp.' },
           {
             num: 66,
             type: 'Sentence Simplification (Q23)',
@@ -1977,7 +1910,7 @@
     ];
 
     // =========================================================================
-    // 2. PERSISTENT STATE & LOCAL STORAGE HELPERS
+    // 2. PERSISTENT STATE, THEME MODE & LOCAL STORAGE HELPERS
     // =========================================================================
 
     const STORAGE_KEY = 'toefl_ibt_practice_studio_v1';
@@ -2020,6 +1953,7 @@
           integratedEssays: { ...defaults.integratedEssays, ...(parsed.integratedEssays || {}) }
         };
       } catch (err) {
+        console.warn('Could not load saved state:', err);
         return defaults;
       }
     }
@@ -2065,7 +1999,9 @@
       appState.themeMode = target;
       document.documentElement.classList.toggle('dark', target === 'dark');
       const btn = document.getElementById('theme-toggle-btn');
-      if (btn) btn.textContent = target === 'dark' ? '☀️ Sáng' : '🌙 Tối';
+      if (btn) {
+        btn.textContent = target === 'dark' ? '☀️ Sáng' : '🌙 Tối';
+      }
       saveState();
     }
 
@@ -2076,1273 +2012,762 @@
     }
 
     // =========================================================================
-    // 3. USER-ADDED BACKGROUND MUSIC PLAYER (BOTTOM LEFT)
+    // 4. INTRO OVERLAY, NAVIGATION & READING / LISTENING / WRITING LOGIC
     // =========================================================================
 
-    const CUSTOM_MUSIC_STORAGE_KEY = 'toefl_ibt_custom_music_tracks_v2';
-    let customMusicTracks = [];
-    let selectedMusicTrackId = '';
-    let musicVolume = 0.7;
-
-    function loadCustomMusicTracks() {
-      try {
-        const raw = localStorage.getItem(CUSTOM_MUSIC_STORAGE_KEY);
-        if (!raw) return [];
-        const parsed = JSON.parse(raw);
-        return Array.isArray(parsed) ? parsed.filter((t) => t && t.id && t.title && t.url && !t.isLocalBlob) : [];
-      } catch (e) {
-        return [];
-      }
-    }
-
-    function saveCustomMusicTracks() {
-      try {
-        const persistable = customMusicTracks.filter((t) => !t.isLocalBlob);
-        localStorage.setItem(CUSTOM_MUSIC_STORAGE_KEY, JSON.stringify(persistable));
-      } catch (e) {
-        console.warn('Could not save custom music tracks:', e);
-      }
-    }
-
-    function getCustomAudioEl() {
-      return document.getElementById('custom-music-audio');
-    }
-
-    function getCurrentMusicTrack() {
-      return customMusicTracks.find((t) => t.id === selectedMusicTrackId) || null;
-    }
-
-    function renderMusicPresetOptions() {
-      const select = document.getElementById('mini-music-preset');
-      const removeBtn = document.getElementById('mini-music-remove-btn');
-      if (!select) return;
-
-      select.innerHTML = '';
-      if (customMusicTracks.length === 0) {
-        const emptyOpt = document.createElement('option');
-        emptyOpt.value = '';
-        emptyOpt.textContent = '-- Chưa có file/link nhạc nào --';
-        select.appendChild(emptyOpt);
-        selectedMusicTrackId = '';
-      } else {
-        if (!customMusicTracks.some((t) => t.id === selectedMusicTrackId)) {
-          selectedMusicTrackId = customMusicTracks[0].id;
-        }
-        customMusicTracks.forEach((track) => {
-          const opt = document.createElement('option');
-          opt.value = track.id;
-          opt.textContent = `${track.isLocalBlob ? '📁' : '🔗'} ${track.title}`;
-          if (track.id === selectedMusicTrackId) opt.selected = true;
-          select.appendChild(opt);
-        });
-      }
-
-      if (removeBtn) {
-        removeBtn.classList.toggle('hidden', customMusicTracks.length === 0);
-      }
-      updateMiniMusicUI();
-    }
-
-    function updateMiniMusicUI() {
-      const toggleBtn = document.getElementById('mini-music-toggle-btn');
-      const statusEl = document.getElementById('mini-music-status');
-      const audioEl = getCustomAudioEl();
-      const track = getCurrentMusicTrack();
-      const isPlaying = !!(audioEl && !audioEl.paused && track);
-
-      if (toggleBtn) {
-        toggleBtn.textContent = isPlaying ? '⏸ Dừng' : '▶ Phát';
-        toggleBtn.className = isPlaying
-          ? 'px-2.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition'
-          : 'px-2.5 py-1.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white text-xs font-semibold transition';
-      }
-
-      if (statusEl) {
-        if (!track) {
-          statusEl.textContent = 'Bấm ⌄ để tự thêm file nhạc';
-        } else {
-          statusEl.textContent = isPlaying ? `Đang phát: ${track.title}` : `Sẵn sàng: ${track.title}`;
-        }
-      }
-    }
-
-    function toggleMiniMusicExpand() {
-      const details = document.getElementById('mini-music-details');
-      const btn = document.getElementById('mini-music-expand-btn');
-      if (!details || !btn) return;
-      const isHidden = details.classList.contains('hidden');
-      details.classList.toggle('hidden', !isHidden);
-      btn.textContent = isHidden ? '⌃' : '⌄';
-    }
-
-    function toggleMiniMusic() {
-      const audioEl = getCustomAudioEl();
-      const track = getCurrentMusicTrack();
-
-      if (!track) {
-        const details = document.getElementById('mini-music-details');
-        const btn = document.getElementById('mini-music-expand-btn');
-        if (details && details.classList.contains('hidden')) {
-          details.classList.remove('hidden');
-          if (btn) btn.textContent = '⌃';
-        }
-        showToast('Bạn hãy chọn file nhạc từ máy hoặc thêm link nhạc trước nhé!', 'warn');
-        return;
-      }
-
-      if (!audioEl) return;
-
-      if (!audioEl.paused) {
-        audioEl.pause();
-        updateMiniMusicUI();
-        return;
-      }
-
-      if (audioEl.getAttribute('src') !== track.url) {
-        audioEl.setAttribute('src', track.url);
-      }
-      audioEl.loop = true;
-      audioEl.volume = musicVolume;
-      audioEl.play()
-        .then(() => {
-          updateMiniMusicUI();
-        })
-        .catch(() => {
-          updateMiniMusicUI();
-          showToast('Không thể phát file/link nhạc này. Hãy kiểm tra lại định dạng hoặc chọn file từ máy!', 'warn');
-        });
-    }
-
-    function changeMusicPreset(trackId) {
-      selectedMusicTrackId = trackId;
-      const audioEl = getCustomAudioEl();
-      const track = getCurrentMusicTrack();
-      if (audioEl) {
-        const wasPlaying = !audioEl.paused;
-        audioEl.pause();
-        if (track) {
-          audioEl.setAttribute('src', track.url);
-          audioEl.loop = true;
-          audioEl.volume = musicVolume;
-          if (wasPlaying) {
-            audioEl.play().then(updateMiniMusicUI).catch(updateMiniMusicUI);
-            return;
-          }
-        } else {
-          audioEl.removeAttribute('src');
-        }
-      }
-      updateMiniMusicUI();
-    }
-
-    function setMusicVolume(val) {
-      const num = Math.min(100, Math.max(0, Number(val) || 0));
-      musicVolume = num / 100;
-      const label = document.getElementById('mini-music-vol-label');
-      if (label) label.textContent = `${num}%`;
-      const audioEl = getCustomAudioEl();
-      if (audioEl) audioEl.volume = musicVolume;
-    }
-
-    function addCustomMusicByUrl() {
-      const titleInput = document.getElementById('custom-music-title-input');
-      const urlInput = document.getElementById('custom-music-url-input');
-      const rawUrl = (urlInput && urlInput.value ? urlInput.value : '').trim();
-      if (!rawUrl) {
-        showToast('Vui lòng dán đường dẫn file nhạc (.mp3, .wav, .ogg)!', 'warn');
-        return;
-      }
-
-      const rawTitle = (titleInput && titleInput.value ? titleInput.value : '').trim();
-      const trackTitle = rawTitle || `Nhạc thêm #${customMusicTracks.length + 1}`;
-      const newTrack = {
-        id: `track-${Date.now()}`,
-        title: trackTitle,
-        url: rawUrl,
-        isLocalBlob: false
-      };
-
-      customMusicTracks.push(newTrack);
-      selectedMusicTrackId = newTrack.id;
-      saveCustomMusicTracks();
-      renderMusicPresetOptions();
-
-      if (titleInput) titleInput.value = '';
-      if (urlInput) urlInput.value = '';
-
-      const audioEl = getCustomAudioEl();
-      if (audioEl) {
-        audioEl.setAttribute('src', newTrack.url);
-        audioEl.loop = true;
-        audioEl.volume = musicVolume;
-        audioEl.play().then(updateMiniMusicUI).catch(updateMiniMusicUI);
-      }
-      showToast(`Đã thêm "${trackTitle}"!`, 'success');
-    }
-
-    function handleCustomMusicFileUpload(event) {
-      const files = Array.from((event && event.target && event.target.files) || []);
-      if (files.length === 0) return;
-
-      const titleInput = document.getElementById('custom-music-title-input');
-      const customPrefix = (titleInput && titleInput.value ? titleInput.value : '').trim();
-
-      let firstNewTrack = null;
-      files.forEach((file, idx) => {
-        const blobUrl = URL.createObjectURL(file);
-        const cleanFileName = file.name.replace(/\.[^/.]+$/, '');
-        const title = customPrefix
-          ? (files.length > 1 ? `${customPrefix} (${idx + 1})` : customPrefix)
-          : (cleanFileName || `File nhạc #${customMusicTracks.length + 1}`);
-
-        const track = {
-          id: `blob-${Date.now()}-${idx}`,
-          title,
-          url: blobUrl,
-          isLocalBlob: true
-        };
-        customMusicTracks.push(track);
-        if (!firstNewTrack) firstNewTrack = track;
-      });
-
-      if (titleInput) titleInput.value = '';
-      event.target.value = '';
-
-      if (firstNewTrack) {
-        selectedMusicTrackId = firstNewTrack.id;
-        renderMusicPresetOptions();
-        const audioEl = getCustomAudioEl();
-        if (audioEl) {
-          audioEl.setAttribute('src', firstNewTrack.url);
-          audioEl.loop = true;
-          audioEl.volume = musicVolume;
-          audioEl.play().then(updateMiniMusicUI).catch(updateMiniMusicUI);
-        }
-      }
-      showToast(`Đã thêm ${files.length} file nhạc từ máy của bạn!`, 'success');
-    }
-
-    function removeSelectedCustomTrack() {
-      const idx = customMusicTracks.findIndex((t) => t.id === selectedMusicTrackId);
-      if (idx === -1) return;
-      const removed = customMusicTracks[idx];
-      if (removed.isLocalBlob && removed.url) {
-        URL.revokeObjectURL(removed.url);
-      }
-      customMusicTracks.splice(idx, 1);
-      saveCustomMusicTracks();
-
-      const audioEl = getCustomAudioEl();
-      if (audioEl) {
-        audioEl.pause();
-        audioEl.removeAttribute('src');
-      }
-      selectedMusicTrackId = customMusicTracks.length > 0 ? customMusicTracks[0].id : '';
-      renderMusicPresetOptions();
-      showToast(`Đã xóa "${removed.title}".`, 'info');
-    }
-
-    // =========================================================================
-    // 4. TOP NAVIGATION & SECTION SWITCHING
-    // =========================================================================
-
-    let selectedPracticeMode = 'section';
-
-    function updatePracticeModeBadge() {
-      const badge = document.getElementById('current-practice-mode-badge');
-      if (!badge) return;
-      badge.className = 'inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-brand-50 text-brand-800 border border-brand-200';
-      badge.textContent = 'Chế độ: Luyện từng phần';
-    }
-
-    function openIntroOverlay() {
-      const overlay = document.getElementById('intro-overlay');
-      const welcomeEl = document.getElementById('intro-step-welcome');
-      const modesEl = document.getElementById('intro-step-modes');
-      if (!overlay) return;
-      if (welcomeEl) welcomeEl.classList.remove('hidden');
-      if (modesEl) modesEl.classList.add('hidden');
-      overlay.classList.remove('hidden');
-    }
-
-    function openModeSelectorOnly() {
-      const overlay = document.getElementById('intro-overlay');
-      const welcomeEl = document.getElementById('intro-step-welcome');
-      const modesEl = document.getElementById('intro-step-modes');
-      if (!overlay) return;
-      if (welcomeEl) welcomeEl.classList.add('hidden');
-      if (modesEl) modesEl.classList.remove('hidden');
-      overlay.classList.remove('hidden');
+    function escapeHtmlText(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
     }
 
     function showIntroModeChoices() {
-      const welcomeEl = document.getElementById('intro-step-welcome');
-      const modesEl = document.getElementById('intro-step-modes');
-      if (welcomeEl) welcomeEl.classList.add('hidden');
-      if (modesEl) modesEl.classList.remove('hidden');
+      document.getElementById('intro-step-welcome')?.classList.add('hidden');
+      document.getElementById('intro-step-modes')?.classList.remove('hidden');
     }
 
     function backToIntroWelcome() {
-      const welcomeEl = document.getElementById('intro-step-welcome');
-      const modesEl = document.getElementById('intro-step-modes');
-      if (modesEl) modesEl.classList.add('hidden');
-      if (welcomeEl) welcomeEl.classList.remove('hidden');
+      document.getElementById('intro-step-modes')?.classList.add('hidden');
+      document.getElementById('intro-step-welcome')?.classList.remove('hidden');
+    }
+
+    function openIntroOverlay() {
+      backToIntroWelcome();
+      document.getElementById('intro-overlay')?.classList.remove('hidden');
+    }
+
+    function openModeSelectorOnly() {
+      showIntroModeChoices();
+      document.getElementById('intro-overlay')?.classList.remove('hidden');
     }
 
     function dismissIntroToCurrentWorkspace() {
-      const overlay = document.getElementById('intro-overlay');
-      if (overlay) overlay.classList.add('hidden');
+      document.getElementById('intro-overlay')?.classList.add('hidden');
     }
 
     function choosePracticeMode(mode) {
-      if (mode === 'mock') {
-        showToast('Chế độ Luyện đề thi thử đang cập nhật nên chưa mở được nha!', 'warn');
-        return;
+      const badge = document.getElementById('current-practice-mode-badge');
+      if (badge) {
+        badge.textContent = mode === 'section' ? 'Chế độ: Luyện từng phần' : 'Chế độ: Thi thử';
       }
-      selectedPracticeMode = 'section';
-      updatePracticeModeBadge();
       dismissIntroToCurrentWorkspace();
-      switchSection('reading');
-      showToast('Đã vào chế độ Luyện từng phần. Chọn kỹ năng bạn muốn ôn!', 'info');
-    }
-
-    function stopIntegratedAudio() {
-      const audioEl = document.getElementById('integrated-audio-element');
-      const playBtn = document.getElementById('integrated-play-btn');
-      if (audioEl && !audioEl.paused) {
-        audioEl.pause();
-      }
-      if (playBtn) {
-        playBtn.textContent = '▶';
-      }
+      showToast('Đã vào chế độ Luyện từng phần.', 'success');
     }
 
     function switchSection(sectionName) {
-      if (sectionName === 'speaking') {
-        showToast('Mục Speaking đang cập nhật nên tạm khóa nha!', 'warn');
-        return;
-      }
-      stopIntegratedAudio();
-      const validSections = ['reading', 'listening', 'writing'];
-      const target = validSections.includes(sectionName) ? sectionName : 'reading';
-      appState.activeSection = target;
+      if (sectionName === 'speaking') return;
+      appState.activeSection = sectionName;
       saveState();
 
-      validSections.forEach((sec) => {
-        const sectionEl = document.getElementById(`section-${sec}`);
-        const tabEl = document.getElementById(`tab-${sec}`);
-        if (sectionEl) sectionEl.classList.toggle('hidden', sec !== target);
-        if (tabEl) {
-          tabEl.className = sec === target
-            ? 'nav-tab flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap bg-brand-700 text-white shadow-xs'
-            : 'nav-tab flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all whitespace-nowrap text-slate-600 hover:text-slate-900 hover:bg-white/70';
+      ['reading', 'listening', 'writing', 'speaking'].forEach((sec) => {
+        const panel = document.getElementById(`section-${sec}`);
+        if (panel) panel.classList.toggle('hidden', sec !== sectionName);
+
+        const tab = document.getElementById(`tab-${sec}`);
+        if (tab && sec !== 'speaking') {
+          tab.className = sec === sectionName
+            ? 'nav-tab flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0 bg-brand-700 text-white shadow-xs'
+            : 'nav-tab flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70';
         }
       });
     }
 
-    // =========================================================================
-    // 5. READING MODULE
-    // =========================================================================
-
-    let readingTimerInterval = null;
+    // --- READING ---
     let readingSecondsLeft = 18 * 60;
-    let readingTimerRunning = false;
+    let readingTimerInterval = null;
 
-    function updateReadingTimerDisplay() {
-      const el = document.getElementById('reading-timer-display');
-      if (el) el.textContent = formatTimeMMSS(readingSecondsLeft);
+    function getCurrentReadingPassage() {
+      return READING_PASSAGES.find((p) => p.id === appState.currentPassageId) || READING_PASSAGES[0];
+    }
+
+    function initReadingSelectors() {
+      const select = document.getElementById('reading-passage-select');
+      if (!select) return;
+      select.innerHTML = READING_PASSAGES.map(
+        (p) => `<option value="${p.id}">${escapeHtmlText(p.selectLabel)}</option>`
+      ).join('');
+      select.value = appState.currentPassageId;
+    }
+
+    function selectReadingPassage(passageId) {
+      appState.currentPassageId = passageId;
+      saveState();
+      const select = document.getElementById('reading-passage-select');
+      if (select) select.value = passageId;
+      resetReadingTimer();
+      renderCurrentReadingPassage();
+    }
+
+    function prevReadingPassage() {
+      const idx = READING_PASSAGES.findIndex((p) => p.id === appState.currentPassageId);
+      const prevIdx = (idx - 1 + READING_PASSAGES.length) % READING_PASSAGES.length;
+      selectReadingPassage(READING_PASSAGES[prevIdx].id);
+    }
+
+    function nextReadingPassage() {
+      const idx = READING_PASSAGES.findIndex((p) => p.id === appState.currentPassageId);
+      const nextIdx = (idx + 1) % READING_PASSAGES.length;
+      selectReadingPassage(READING_PASSAGES[nextIdx].id);
+    }
+
+    function adjustPassageFontSize(delta) {
+      const next = Math.max(14, Math.min(22, (appState.passageFontSize || 17) + delta));
+      appState.passageFontSize = next;
+      saveState();
+      const contentEl = document.getElementById('passage-content');
+      if (contentEl) contentEl.style.fontSize = `${next}px`;
     }
 
     function toggleReadingTimer() {
       const btn = document.getElementById('reading-timer-toggle');
-      if (!btn) return;
-      if (readingTimerRunning) {
+      if (readingTimerInterval) {
         clearInterval(readingTimerInterval);
-        readingTimerRunning = false;
-        btn.textContent = 'Tiếp tục';
+        readingTimerInterval = null;
+        if (btn) btn.textContent = 'Tiếp tục';
       } else {
-        const currentPassage = getCurrentPassage();
-        if (readingSecondsLeft <= 0) readingSecondsLeft = (currentPassage.timeMinutes || 18) * 60;
-        readingTimerRunning = true;
-        btn.textContent = 'Tạm dừng';
+        if (btn) btn.textContent = 'Tạm dừng';
         readingTimerInterval = setInterval(() => {
-          readingSecondsLeft -= 1;
-          updateReadingTimerDisplay();
-          if (readingSecondsLeft <= 0) {
+          if (readingSecondsLeft > 0) {
+            readingSecondsLeft -= 1;
+            const disp = document.getElementById('reading-timer-display');
+            if (disp) disp.textContent = formatTimeMMSS(readingSecondsLeft);
+          } else {
             clearInterval(readingTimerInterval);
-            readingTimerRunning = false;
-            btn.textContent = 'Bắt đầu';
-            showToast('Đã hết thời gian làm bài Reading!', 'warn');
+            readingTimerInterval = null;
+            if (btn) btn.textContent = 'Hết giờ';
+            showToast('Đã hết thời gian 18 phút cho bài đọc!', 'warn');
           }
         }, 1000);
       }
     }
 
     function resetReadingTimer() {
-      clearInterval(readingTimerInterval);
-      readingTimerRunning = false;
-      const currentPassage = getCurrentPassage();
-      readingSecondsLeft = (currentPassage.timeMinutes || 18) * 60;
+      if (readingTimerInterval) {
+        clearInterval(readingTimerInterval);
+        readingTimerInterval = null;
+      }
+      const passage = getCurrentReadingPassage();
+      readingSecondsLeft = (passage.timeMinutes || 18) * 60;
+      const disp = document.getElementById('reading-timer-display');
       const btn = document.getElementById('reading-timer-toggle');
+      if (disp) disp.textContent = formatTimeMMSS(readingSecondsLeft);
       if (btn) btn.textContent = 'Bắt đầu';
-      updateReadingTimerDisplay();
     }
 
-    function getCurrentPassage() {
-      return READING_PASSAGES.find((p) => p.id === appState.currentPassageId) || READING_PASSAGES[0];
-    }
-
-    function getAllReadingQuestions() {
-      return READING_PASSAGES.flatMap((p) => p.questions);
-    }
-
-    function updateReadingScoreSummary() {
-      const allQuestions = getAllReadingQuestions();
-      const totalCount = allQuestions.length;
-      let correctCount = 0;
-
-      allQuestions.forEach((q) => {
-        if (appState.checkedQuestions[q.globalIndex] && appState.answers[q.globalIndex] === q.correct) {
-          correctCount += 1;
-        }
-      });
-
-      const totalCorrectEl = document.getElementById('reading-total-correct');
-      const totalQuestionsEl = document.getElementById('reading-total-questions');
-      const mobileSummaryEl = document.getElementById('mobile-score-summary');
-
-      if (totalCorrectEl) totalCorrectEl.textContent = correctCount;
-      if (totalQuestionsEl) totalQuestionsEl.textContent = totalCount;
-      if (mobileSummaryEl) mobileSummaryEl.textContent = `${correctCount}/${totalCount} Reading`;
-    }
-
-    function populateReadingSelect() {
-      const select = document.getElementById('reading-passage-select');
-      if (!select) return;
-      select.innerHTML = '';
-      READING_PASSAGES.forEach((passage, idx) => {
-        const option = document.createElement('option');
-        option.value = passage.id;
-        option.textContent = passage.selectLabel || `Bài ${idx + 1}: ${passage.title}`;
-        if (passage.id === appState.currentPassageId) option.selected = true;
-        select.appendChild(option);
-      });
-    }
-
-    function selectReadingPassage(passageId) {
-      const exists = READING_PASSAGES.some((p) => p.id === passageId);
-      appState.currentPassageId = exists ? passageId : READING_PASSAGES[0].id;
+    function selectReadingAnswer(globalIndex, choice) {
+      appState.answers[globalIndex] = choice;
       saveState();
-      populateReadingSelect();
-      resetReadingTimer();
-      renderReadingWorkspace();
-    }
-
-    function prevReadingPassage() {
-      const currentIdx = READING_PASSAGES.findIndex((p) => p.id === appState.currentPassageId);
-      const prevIdx = currentIdx > 0 ? currentIdx - 1 : READING_PASSAGES.length - 1;
-      selectReadingPassage(READING_PASSAGES[prevIdx].id);
-    }
-
-    function nextReadingPassage() {
-      const currentIdx = READING_PASSAGES.findIndex((p) => p.id === appState.currentPassageId);
-      const nextIdx = currentIdx < READING_PASSAGES.length - 1 ? currentIdx + 1 : 0;
-      selectReadingPassage(READING_PASSAGES[nextIdx].id);
-    }
-
-    function adjustPassageFontSize(delta) {
-      const nextSize = Math.min(22, Math.max(14, (appState.passageFontSize || 17) + delta));
-      appState.passageFontSize = nextSize;
-      saveState();
-      const contentEl = document.getElementById('passage-content');
-      if (contentEl) contentEl.style.fontSize = `${nextSize}px`;
-    }
-
-    function renderPassageContent(passage) {
-      const badgeEl = document.getElementById('passage-badge');
-      const titleEl = document.getElementById('passage-title');
-      const topicEl = document.getElementById('passage-topic');
-      const timeMetaEl = document.getElementById('passage-time-meta');
-      const contentEl = document.getElementById('passage-content');
-
-      if (badgeEl) badgeEl.textContent = passage.badge || 'READING PASSAGE';
-      if (titleEl) titleEl.textContent = passage.title;
-      if (topicEl) topicEl.textContent = passage.topic || '';
-      if (timeMetaEl) timeMetaEl.textContent = `Thời gian gợi ý: ${passage.timeMinutes || 18} phút`;
-
-      if (contentEl) {
-        contentEl.style.fontSize = `${appState.passageFontSize || 17}px`;
-        contentEl.innerHTML = passage.paragraphs.map((para) => `<p>${para}</p>`).join('');
-      }
-    }
-
-    function renderReadingQuestionNav(passage) {
-      const navEl = document.getElementById('reading-question-nav');
-      const progressEl = document.getElementById('reading-passage-progress');
-      if (!navEl) return;
-
-      let answeredCount = 0;
-      navEl.innerHTML = '';
-
-      passage.questions.forEach((q, idx) => {
-        const selected = appState.answers[q.globalIndex];
-        const isChecked = !!appState.checkedQuestions[q.globalIndex];
-        if (selected) answeredCount += 1;
-
-        let btnClass = 'w-8 h-8 rounded-lg text-xs font-bold border transition ';
-        if (isChecked) {
-          btnClass += selected === q.correct
-            ? 'bg-emerald-600 text-white border-emerald-600'
-            : 'bg-rose-600 text-white border-rose-600';
-        } else if (selected) {
-          btnClass += 'bg-brand-700 text-white border-brand-700';
-        } else {
-          btnClass += 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100';
-        }
-
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = btnClass;
-        btn.textContent = `${idx + 1}`;
-        btn.title = `Câu ${q.globalIndex} (${q.type || 'Question'})`;
-        btn.onclick = () => {
-          const card = document.getElementById(`question-card-${q.globalIndex}`);
-          if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        };
-        navEl.appendChild(btn);
-      });
-
-      if (progressEl) {
-        progressEl.textContent = `${answeredCount}/${passage.questions.length} đã trả lời`;
-      }
-    }
-
-    function renderReadingQuestions(passage) {
-      const listEl = document.getElementById('reading-questions-list');
-      if (!listEl) return;
-      listEl.innerHTML = '';
-
-      passage.questions.forEach((q, localIndex) => {
-        const selectedOption = appState.answers[q.globalIndex] || '';
-        const isChecked = !!appState.checkedQuestions[q.globalIndex];
-        const isCorrect = isChecked && selectedOption === q.correct;
-
-        const card = document.createElement('div');
-        card.id = `question-card-${q.globalIndex}`;
-        card.className = 'bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-3.5 transition';
-
-        const headerHtml = `
-          <div class="flex items-start justify-between gap-3">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold bg-brand-50 text-brand-800 border border-brand-200">
-                Câu ${localIndex + 1} (Tổng #${q.globalIndex})
-              </span>
-              <span class="text-xs font-medium px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600">
-                ${escapeHtmlText(q.type || 'TOEFL Reading')}
-              </span>
-            </div>
-          </div>
-          <p class="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">
-            ${escapeHtmlText(q.prompt)}
-          </p>
-        `;
-
-        const optionsHtml = Object.entries(q.options)
-          .map(([letter, text]) => {
-            const isSelected = selectedOption === letter;
-            let rowClass = 'w-full text-left flex items-start gap-3 p-3 rounded-xl border text-sm transition ';
-
-            if (isChecked) {
-              if (letter === q.correct) {
-                rowClass += 'bg-emerald-50 border-emerald-500 text-emerald-950 font-semibold';
-              } else if (isSelected && letter !== q.correct) {
-                rowClass += 'bg-rose-50 border-rose-500 text-rose-950';
-              } else {
-                rowClass += 'bg-slate-50/60 border-slate-200 text-slate-600';
-              }
-            } else if (isSelected) {
-              rowClass += 'bg-brand-50 border-brand-600 text-brand-950 font-medium';
-            } else {
-              rowClass += 'bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-800';
-            }
-
-            const badgeClass = isChecked && letter === q.correct
-              ? 'bg-emerald-600 text-white border-emerald-600'
-              : isChecked && isSelected && letter !== q.correct
-                ? 'bg-rose-600 text-white border-rose-600'
-                : isSelected
-                  ? 'bg-brand-700 text-white border-brand-700'
-                  : 'bg-slate-100 text-slate-700 border-slate-300';
-
-            return `
-              <button
-                type="button"
-                onclick="selectReadingOption(${q.globalIndex}, '${letter}')"
-                class="${rowClass}"
-              >
-                <span class="w-6 h-6 rounded-md border flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${badgeClass}">
-                  ${letter}
-                </span>
-                <span class="flex-1 min-w-0 leading-relaxed">${escapeHtmlText(text)}</span>
-              </button>
-            `;
-          })
-          .join('');
-
-        const explanationHtml = isChecked
-          ? `
-            <div class="mt-2 p-3.5 rounded-xl border ${isCorrect ? 'bg-emerald-50/80 border-emerald-200 text-emerald-950' : 'bg-amber-50/90 border-amber-200 text-slate-800'} text-xs sm:text-sm space-y-1.5">
-              <div class="font-bold flex items-center gap-2">
-                <span>${isCorrect ? '✅ Chính xác!' : '❌ Chưa chính xác'}</span>
-                <span class="px-2 py-0.5 rounded-md bg-white/80 border border-current/20 text-xs">
-                  Đáp án đúng: ${q.correct}
-                </span>
-              </div>
-              <p class="leading-relaxed text-slate-700">
-                <strong class="text-slate-900">Giải thích:</strong> ${escapeHtmlText(q.explanation)}
-              </p>
-            </div>
-          `
-          : '';
-
-        card.innerHTML = `${headerHtml}<div class="space-y-2">${optionsHtml}</div>${explanationHtml}`;
-        listEl.appendChild(card);
-      });
-    }
-
-    function renderReadingWorkspace() {
-      const passage = getCurrentPassage();
-      renderPassageContent(passage);
-      renderReadingQuestionNav(passage);
-      renderReadingQuestions(passage);
-      updateReadingScoreSummary();
-    }
-
-    function toggleReadingOverviewModal() {
-      const modal = document.getElementById('reading-overview-modal');
-      if (!modal) return;
-      const willOpen = modal.classList.contains('hidden');
-      modal.classList.toggle('hidden', !willOpen);
-      if (willOpen) renderReadingOverviewBody();
-    }
-
-    function renderReadingOverviewBody() {
-      const bodyEl = document.getElementById('reading-overview-body');
-      if (!bodyEl) return;
-
-      const allQuestions = getAllReadingQuestions();
-      let checkedTotal = 0;
-      let correctTotal = 0;
-      const wrongItems = [];
-      const typeStats = {};
-
-      READING_PASSAGES.forEach((passage, pIdx) => {
-        passage.questions.forEach((q, qIdx) => {
-          const baseType = (q.type || 'General').replace(/\s*\(Q\d+.*?\)/i, '').trim();
-          if (!typeStats[baseType]) typeStats[baseType] = { checked: 0, correct: 0, total: 0 };
-          typeStats[baseType].total += 1;
-
-          const selected = appState.answers[q.globalIndex];
-          const isChecked = !!appState.checkedQuestions[q.globalIndex];
-          if (isChecked) {
-            checkedTotal += 1;
-            typeStats[baseType].checked += 1;
-            if (selected === q.correct) {
-              correctTotal += 1;
-              typeStats[baseType].correct += 1;
-            } else {
-              wrongItems.push({
-                passageId: passage.id,
-                passageLabel: `Bài ${pIdx + 1}`,
-                localNum: qIdx + 1,
-                globalIndex: q.globalIndex,
-                selected: selected || 'Chưa chọn',
-                correct: q.correct,
-                prompt: q.prompt
-              });
-            }
-          }
-        });
-      });
-
-      const statsHtml = Object.entries(typeStats)
-        .map(([typeName, st]) => {
-          const pct = st.checked > 0 ? Math.round((st.correct / st.checked) * 100) : 0;
-          return `
-            <div class="p-3 rounded-xl border border-slate-200 bg-slate-50/70">
-              <div class="text-xs font-bold text-slate-800 truncate" title="${escapeHtmlAttr(typeName)}">${escapeHtmlText(typeName)}</div>
-              <div class="mt-1 flex items-baseline justify-between">
-                <span class="text-sm font-extrabold text-brand-800">${st.correct}/${st.checked}</span>
-                <span class="text-[11px] text-slate-500">${st.checked > 0 ? `${pct}%` : `${st.total} câu`}</span>
-              </div>
-            </div>
-          `;
-        })
-        .join('');
-
-      const wrongHtml = wrongItems.length === 0
-        ? `
-          <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs sm:text-sm text-emerald-900">
-            ${checkedTotal === 0
-              ? 'Bạn chưa chấm câu hỏi nào. Hãy làm bài và bấm <strong>Chấm bài &amp; Xem giải thích</strong> để xem thống kê lỗi sai.'
-              : 'Tuyệt vời! Hiện không có câu nào đã chấm bị sai.'}
-          </div>
-        `
-        : `
-          <div class="space-y-2 max-h-64 overflow-y-auto academic-scroll pr-1">
-            ${wrongItems.map((item) => `
-              <button
-                type="button"
-                onclick="jumpToWrongQuestion('${item.passageId}', ${item.globalIndex})"
-                class="w-full text-left p-3 rounded-xl border border-rose-200 bg-rose-50/60 hover:bg-rose-50 transition flex items-start justify-between gap-3"
-              >
-                <div class="min-w-0">
-                  <div class="text-xs font-bold text-rose-800">
-                    ${escapeHtmlText(item.passageLabel)} • Câu ${item.localNum} (#${item.globalIndex}) — Bạn chọn: ${escapeHtmlText(item.selected)} | Đáp án: ${item.correct}
-                  </div>
-                  <div class="text-xs text-slate-700 truncate mt-0.5">${escapeHtmlText(item.prompt)}</div>
-                </div>
-                <span class="text-xs font-bold text-brand-700 shrink-0">Xem →</span>
-              </button>
-            `).join('')}
-          </div>
-        `;
-
-      bodyEl.innerHTML = `
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div class="p-4 rounded-xl bg-brand-50 border border-brand-200">
-            <div class="text-xs text-brand-800 font-semibold">Đã chấm</div>
-            <div class="text-2xl font-extrabold text-brand-950 mt-0.5">${checkedTotal} / ${allQuestions.length}</div>
-          </div>
-          <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200">
-            <div class="text-xs text-emerald-800 font-semibold">Câu đúng</div>
-            <div class="text-2xl font-extrabold text-emerald-950 mt-0.5">${correctTotal}</div>
-          </div>
-          <div class="p-4 rounded-xl bg-rose-50 border border-rose-200">
-            <div class="text-xs text-rose-800 font-semibold">Câu sai (đã chấm)</div>
-            <div class="text-2xl font-extrabold text-rose-950 mt-0.5">${wrongItems.length}</div>
-          </div>
-        </div>
-
-        <div class="space-y-2.5">
-          <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Thống kê theo dạng câu hỏi</div>
-          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">${statsHtml}</div>
-        </div>
-
-        <div class="space-y-2.5">
-          <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Danh sách câu sai cần ôn lại (${wrongItems.length})</div>
-          ${wrongHtml}
-        </div>
-      `;
-    }
-
-    function jumpToWrongQuestion(passageId, globalIndex) {
-      toggleReadingOverviewModal();
-      if (appState.currentPassageId !== passageId) selectReadingPassage(passageId);
-      setTimeout(() => {
-        const card = document.getElementById(`question-card-${globalIndex}`);
-        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 120);
-    }
-
-    function selectReadingOption(globalIndex, optionLetter) {
-      appState.answers[globalIndex] = optionLetter;
-      saveState();
-      renderReadingWorkspace();
+      renderCurrentReadingPassage();
+      updateGlobalScoreSummary();
     }
 
     function gradeCurrentPassage() {
-      const passage = getCurrentPassage();
-      let passageCorrect = 0;
-
+      const passage = getCurrentReadingPassage();
+      let correctCount = 0;
       passage.questions.forEach((q) => {
         appState.checkedQuestions[q.globalIndex] = true;
-        if (appState.answers[q.globalIndex] === q.correct) passageCorrect += 1;
+        if (appState.answers[q.globalIndex] === q.correct) correctCount += 1;
       });
-
       saveState();
-      renderReadingWorkspace();
-      showToast(
-        `Đã chấm bài này: ${passageCorrect}/${passage.questions.length} câu đúng. Xem giải thích chi tiết bên dưới!`,
-        'success'
-      );
+      renderCurrentReadingPassage();
+      updateGlobalScoreSummary();
+      showToast(`Kết quả bài này: ${correctCount}/${passage.questions.length} câu đúng!`, 'success');
     }
 
     function resetCurrentPassageAnswers() {
-      const passage = getCurrentPassage();
+      const passage = getCurrentReadingPassage();
       passage.questions.forEach((q) => {
         delete appState.answers[q.globalIndex];
         delete appState.checkedQuestions[q.globalIndex];
       });
       saveState();
-      renderReadingWorkspace();
-      showToast('Đã xóa lựa chọn và kết quả chấm của bài đọc hiện tại.', 'info');
+      renderCurrentReadingPassage();
+      updateGlobalScoreSummary();
+      showToast('Đã xóa lựa chọn của bài đọc hiện tại.', 'info');
     }
 
-    // =========================================================================
-    // 6. LISTENING MODULE
-    // =========================================================================
+    function scrollToQuestionCard(globalIndex) {
+      const el = document.getElementById(`question-card-${globalIndex}`);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
 
-    let listeningTimerInterval = null;
+    function updateGlobalScoreSummary() {
+      let totalCorrect = 0;
+      let totalQuestions = 0;
+      READING_PASSAGES.forEach((p) => {
+        p.questions.forEach((q) => {
+          totalQuestions += 1;
+          if (appState.checkedQuestions[q.globalIndex] && appState.answers[q.globalIndex] === q.correct) {
+            totalCorrect += 1;
+          }
+        });
+      });
+
+      const totalCorrectEl = document.getElementById('reading-total-correct');
+      const totalQEl = document.getElementById('reading-total-questions');
+      const mobileSummary = document.getElementById('mobile-score-summary');
+      if (totalCorrectEl) totalCorrectEl.textContent = String(totalCorrect);
+      if (totalQEl) totalQEl.textContent = String(totalQuestions);
+      if (mobileSummary) mobileSummary.textContent = `${totalCorrect}/${totalQuestions} Reading`;
+    }
+
+    function renderCurrentReadingPassage() {
+      const passage = getCurrentReadingPassage();
+      const badgeEl = document.getElementById('passage-badge');
+      const titleEl = document.getElementById('passage-title');
+      const topicEl = document.getElementById('passage-topic');
+      const contentEl = document.getElementById('passage-content');
+      const navEl = document.getElementById('reading-question-nav');
+      const progressEl = document.getElementById('reading-passage-progress');
+      const listEl = document.getElementById('reading-questions-list');
+
+      if (badgeEl) badgeEl.textContent = passage.badge;
+      if (titleEl) titleEl.textContent = passage.title;
+      if (topicEl) topicEl.textContent = passage.topic;
+      if (contentEl) {
+        contentEl.style.fontSize = `${appState.passageFontSize || 17}px`;
+        contentEl.innerHTML = passage.paragraphs.map((para) => `<p>${para}</p>`).join('');
+      }
+
+      const answeredCount = passage.questions.filter((q) => Boolean(appState.answers[q.globalIndex])).length;
+      if (progressEl) {
+        progressEl.textContent = `${answeredCount}/${passage.questions.length} đã trả lời`;
+      }
+
+      if (navEl) {
+        navEl.innerHTML = passage.questions
+          .map((q, idx) => {
+            const userAns = appState.answers[q.globalIndex];
+            const isChecked = Boolean(appState.checkedQuestions[q.globalIndex]);
+            let cls = 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200';
+            if (isChecked) {
+              cls = userAns === q.correct
+                ? 'bg-emerald-600 text-white border-emerald-600'
+                : 'bg-rose-600 text-white border-rose-600';
+            } else if (userAns) {
+              cls = 'bg-brand-700 text-white border-brand-700';
+            }
+            return `<button type="button" onclick="scrollToQuestionCard(${q.globalIndex})" class="w-7 h-7 rounded-lg border text-xs font-bold transition ${cls}">${idx + 1}</button>`;
+          })
+          .join('');
+      }
+
+      if (listEl) {
+        listEl.innerHTML = passage.questions
+          .map((q, localIndex) => {
+            const userAns = appState.answers[q.globalIndex];
+            const isChecked = Boolean(appState.checkedQuestions[q.globalIndex]);
+
+            const optionsHtml = Object.entries(q.options)
+              .map(([optKey, optText]) => {
+                const isSelected = userAns === optKey;
+                let rowCls = 'border-slate-200 bg-slate-50/70 hover:bg-brand-50/50 hover:border-brand-300';
+                let badgeCls = 'bg-white border-slate-300 text-slate-700';
+
+                if (isChecked) {
+                  if (optKey === q.correct) {
+                    rowCls = 'border-emerald-500 bg-emerald-50/90 text-emerald-950';
+                    badgeCls = 'bg-emerald-600 border-emerald-600 text-white';
+                  } else if (isSelected) {
+                    rowCls = 'border-rose-500 bg-rose-50/90 text-rose-950';
+                    badgeCls = 'bg-rose-600 border-rose-600 text-white';
+                  }
+                } else if (isSelected) {
+                  rowCls = 'border-brand-600 bg-brand-50 text-brand-950';
+                  badgeCls = 'bg-brand-700 border-brand-700 text-white';
+                }
+
+                return `
+                  <button
+                    type="button"
+                    onclick="selectReadingAnswer(${q.globalIndex}, '${optKey}')"
+                    class="w-full text-left p-3.5 rounded-xl border transition flex items-start gap-3 ${rowCls}"
+                  >
+                    <span class="w-7 h-7 rounded-lg border text-xs font-extrabold flex items-center justify-center shrink-0 mt-0.5 ${badgeCls}">
+                      ${optKey}
+                    </span>
+                    <span class="flex-1 min-w-0 text-sm leading-relaxed">${escapeHtmlText(optText)}</span>
+                  </button>
+                `;
+              })
+              .join('');
+
+            const explanationHtml = isChecked
+              ? `
+                <div class="mt-3 p-3.5 rounded-xl border text-xs sm:text-sm leading-relaxed ${
+                  userAns === q.correct
+                    ? 'bg-emerald-50 border-emerald-200 text-emerald-950'
+                    : 'bg-rose-50 border-rose-200 text-rose-950'
+                }">
+                  <div class="font-bold mb-1">
+                    ${userAns === q.correct ? '✅ Chính xác!' : `❌ Chưa đúng — Đáp án đúng là ${q.correct}`}
+                  </div>
+                  <div>${escapeHtmlText(q.explanation)}</div>
+                </div>
+              `
+              : '';
+
+            return `
+              <div id="question-card-${q.globalIndex}" class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-3.5">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-brand-50 text-brand-800 border border-brand-200 text-xs font-bold">
+                    Câu ${localIndex + 1} (Tổng #${q.globalIndex})
+                  </span>
+                  <span class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600">
+                    ${escapeHtmlText(q.type || 'TOEFL Reading')}
+                  </span>
+                </div>
+                <p class="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">
+                  ${escapeHtmlText(q.prompt)}
+                </p>
+                <div class="space-y-2">${optionsHtml}</div>
+                ${explanationHtml}
+              </div>
+            `;
+          })
+          .join('');
+      }
+    }
+
+    function toggleReadingOverviewModal() {
+      const modal = document.getElementById('reading-overview-modal');
+      const body = document.getElementById('reading-overview-body');
+      if (!modal || !body) return;
+      const opening = modal.classList.toggle('hidden') === false;
+      if (!opening) return;
+
+      const wrongItems = [];
+      const passageRows = READING_PASSAGES.map((p) => {
+        let correct = 0;
+        let checked = 0;
+        p.questions.forEach((q) => {
+          if (appState.checkedQuestions[q.globalIndex]) {
+            checked += 1;
+            if (appState.answers[q.globalIndex] === q.correct) {
+              correct += 1;
+            } else {
+              wrongItems.push({ passage: p, question: q, userAns: appState.answers[q.globalIndex] || 'Chưa chọn' });
+            }
+          }
+        });
+        return `
+          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70 flex items-center justify-between gap-3">
+            <div class="min-w-0">
+              <div class="text-xs sm:text-sm font-bold text-slate-900 truncate">${escapeHtmlText(p.selectLabel)}</div>
+              <div class="text-xs text-slate-500">Đã chấm: ${checked}/${p.questions.length} • Đúng: ${correct}/${p.questions.length}</div>
+            </div>
+            <button type="button" onclick="selectReadingPassage('${p.id}'); toggleReadingOverviewModal();" class="px-3 py-1.5 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-xs font-semibold shrink-0">
+              Mở bài
+            </button>
+          </div>
+        `;
+      }).join('');
+
+      const wrongHtml = wrongItems.length
+        ? wrongItems
+            .map(
+              (item) => `
+              <div class="p-3 rounded-xl border border-rose-200 bg-rose-50/70 flex items-center justify-between gap-3">
+                <div class="min-w-0 text-xs">
+                  <div class="font-bold text-rose-900">Câu #${item.question.globalIndex} (${escapeHtmlText(item.passage.title)})</div>
+                  <div class="text-rose-800 truncate">Bạn chọn: ${escapeHtmlText(item.userAns)} • Đáp án: ${item.question.correct}</div>
+                </div>
+                <button type="button" onclick="selectReadingPassage('${item.passage.id}'); toggleReadingOverviewModal(); setTimeout(() => scrollToQuestionCard(${item.question.globalIndex}), 80);" class="px-2.5 py-1 rounded-lg bg-rose-700 text-white text-xs font-semibold shrink-0">
+                  Xem câu
+                </button>
+              </div>
+            `
+            )
+            .join('')
+        : '<p class="text-xs text-slate-500">Chưa có câu sai nào được ghi nhận (hãy bấm "Chấm bài & Xem giải thích" sau khi làm bài).</p>';
+
+      body.innerHTML = `
+        <div class="space-y-2.5">
+          <h4 class="text-sm font-bold text-slate-900">1. Tiến độ theo từng bài đọc</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">${passageRows}</div>
+        </div>
+        <div class="space-y-2.5">
+          <h4 class="text-sm font-bold text-rose-800">2. Danh sách câu cần ôn lại (${wrongItems.length})</h4>
+          <div class="space-y-2">${wrongHtml}</div>
+        </div>
+      `;
+    }
+
+    // --- LISTENING ---
     let listeningSecondsLeft = 10 * 60;
-    let listeningTimerRunning = false;
-
-    function updateListeningTimerDisplay() {
-      const el = document.getElementById('listening-timer-display');
-      if (el) el.textContent = formatTimeMMSS(listeningSecondsLeft);
-    }
+    let listeningTimerInterval = null;
 
     function toggleListeningTimer() {
       const btn = document.getElementById('listening-timer-toggle');
-      if (listeningTimerRunning) {
+      if (listeningTimerInterval) {
         clearInterval(listeningTimerInterval);
-        listeningTimerRunning = false;
-        btn.textContent = 'Tiếp tục';
+        listeningTimerInterval = null;
+        if (btn) btn.textContent = 'Tiếp tục';
       } else {
-        if (listeningSecondsLeft <= 0) listeningSecondsLeft = 10 * 60;
-        listeningTimerRunning = true;
-        btn.textContent = 'Tạm dừng';
+        if (btn) btn.textContent = 'Tạm dừng';
         listeningTimerInterval = setInterval(() => {
-          listeningSecondsLeft -= 1;
-          updateListeningTimerDisplay();
-          if (listeningSecondsLeft <= 0) {
+          if (listeningSecondsLeft > 0) {
+            listeningSecondsLeft -= 1;
+            const disp = document.getElementById('listening-timer-display');
+            if (disp) disp.textContent = formatTimeMMSS(listeningSecondsLeft);
+          } else {
             clearInterval(listeningTimerInterval);
-            listeningTimerRunning = false;
-            btn.textContent = 'Bắt đầu';
-            showToast('Đã hết thời gian 10 phút cho phần Listening!', 'warn');
+            listeningTimerInterval = null;
+            if (btn) btn.textContent = 'Hết giờ';
           }
         }, 1000);
       }
     }
 
     function resetListeningTimer() {
-      clearInterval(listeningTimerInterval);
-      listeningTimerRunning = false;
+      if (listeningTimerInterval) {
+        clearInterval(listeningTimerInterval);
+        listeningTimerInterval = null;
+      }
       listeningSecondsLeft = 10 * 60;
-      document.getElementById('listening-timer-toggle').textContent = 'Bắt đầu';
-      updateListeningTimerDisplay();
+      const disp = document.getElementById('listening-timer-display');
+      const btn = document.getElementById('listening-timer-toggle');
+      if (disp) disp.textContent = formatTimeMMSS(listeningSecondsLeft);
+      if (btn) btn.textContent = 'Bắt đầu';
     }
 
-    function renderListeningWorkspace() {
-      const linkEl = document.getElementById('listening-source-link');
-      if (linkEl) {
-        linkEl.href = LISTENING_SOURCE_URL;
-        linkEl.querySelector('span:first-child').textContent = LISTENING_SOURCE_URL;
+    function copyTextFallback(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+      } catch (e) {
+        console.warn('Copy failed:', e);
       }
-      const notesEl = document.getElementById('listening-main-notes');
-      if (notesEl) notesEl.value = appState.listeningNotesText || '';
+      ta.remove();
     }
 
     function copyListeningSourceLink() {
-      const tempInput = document.createElement('input');
-      tempInput.value = LISTENING_SOURCE_URL;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      try {
-        document.execCommand('copy');
-        showToast('Đã sao chép liên kết trang web Listening!', 'success');
-      } catch (err) {
-        showToast('Không thể sao chép tự động, vui lòng sao chép thủ công.', 'warn');
-      }
-      tempInput.remove();
+      const linkEl = document.getElementById('listening-source-link');
+      const url = (linkEl && linkEl.getAttribute('href')) || LISTENING_SOURCE_URL;
+      copyTextFallback(url);
+      showToast('Đã sao chép liên kết trang Listening!', 'success');
     }
 
     function updateListeningMainNotes(val) {
       appState.listeningNotesText = val;
-      document.getElementById('listening-notes-status').textContent = 'Đã lưu tự động';
       saveState();
     }
 
     function clearListeningMainNotes() {
       appState.listeningNotesText = '';
-      const notesEl = document.getElementById('listening-main-notes');
-      if (notesEl) notesEl.value = '';
       saveState();
+      const box = document.getElementById('listening-main-notes');
+      if (box) box.value = '';
       showToast('Đã xóa ghi chú Listening.', 'info');
     }
 
-    // =========================================================================
-    // 7. WRITING MODULE
-    // =========================================================================
-
-    let writingTimerInterval = null;
+    // --- WRITING ---
     let writingSecondsLeft = 30 * 60;
-    let writingTimerRunning = false;
+    let writingTimerInterval = null;
 
-    function updateWritingTimerDisplay() {
-      const el = document.getElementById('writing-timer-display');
-      if (el) el.textContent = formatTimeMMSS(writingSecondsLeft);
+    function countWords(text) {
+      const trimmed = String(text || '').trim();
+      return trimmed ? trimmed.split(/\s+/).length : 0;
     }
 
-    function setWritingTimerPreset(secondsStr) {
-      const sec = parseInt(secondsStr, 10) || 1800;
-      clearInterval(writingTimerInterval);
-      writingTimerRunning = false;
-      writingSecondsLeft = sec;
-      document.getElementById('writing-timer-toggle').textContent = 'Bắt đầu';
-      updateWritingTimerDisplay();
+    function switchWritingSubtab(subtab) {
+      appState.writingSubtab = subtab === 'integrated' ? 'integrated' : 'independent';
+      saveState();
+
+      const isInd = appState.writingSubtab === 'independent';
+      document.getElementById('writing-independent-view')?.classList.toggle('hidden', !isInd);
+      document.getElementById('writing-integrated-view')?.classList.toggle('hidden', isInd);
+
+      const btnInd = document.getElementById('btn-writing-independent');
+      const btnInt = document.getElementById('btn-writing-integrated');
+      if (btnInd) {
+        btnInd.className = isInd
+          ? 'px-4 py-2.5 rounded-xl text-sm font-semibold bg-brand-700 text-white shadow-xs transition'
+          : 'px-4 py-2.5 rounded-xl text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition';
+      }
+      if (btnInt) {
+        btnInt.className = !isInd
+          ? 'px-4 py-2.5 rounded-xl text-sm font-semibold bg-brand-700 text-white shadow-xs transition'
+          : 'px-4 py-2.5 rounded-xl text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition';
+      }
+    }
+
+    function setWritingTimerPreset(secStr) {
+      if (writingTimerInterval) {
+        clearInterval(writingTimerInterval);
+        writingTimerInterval = null;
+      }
+      writingSecondsLeft = Math.max(60, parseInt(secStr, 10) || 1800);
+      const disp = document.getElementById('writing-timer-display');
+      const btn = document.getElementById('writing-timer-toggle');
+      if (disp) disp.textContent = formatTimeMMSS(writingSecondsLeft);
+      if (btn) btn.textContent = 'Bắt đầu';
     }
 
     function toggleWritingTimer() {
       const btn = document.getElementById('writing-timer-toggle');
-      if (writingTimerRunning) {
+      if (writingTimerInterval) {
         clearInterval(writingTimerInterval);
-        writingTimerRunning = false;
-        btn.textContent = 'Tiếp tục';
+        writingTimerInterval = null;
+        if (btn) btn.textContent = 'Tiếp tục';
       } else {
-        if (writingSecondsLeft <= 0) {
-          writingSecondsLeft = parseInt(document.getElementById('writing-timer-preset').value, 10) || 1800;
-        }
-        writingTimerRunning = true;
-        btn.textContent = 'Tạm dừng';
+        if (btn) btn.textContent = 'Tạm dừng';
         writingTimerInterval = setInterval(() => {
-          writingSecondsLeft -= 1;
-          updateWritingTimerDisplay();
-          if (writingSecondsLeft <= 0) {
+          if (writingSecondsLeft > 0) {
+            writingSecondsLeft -= 1;
+            const disp = document.getElementById('writing-timer-display');
+            if (disp) disp.textContent = formatTimeMMSS(writingSecondsLeft);
+          } else {
             clearInterval(writingTimerInterval);
-            writingTimerRunning = false;
-            btn.textContent = 'Bắt đầu';
-            showToast('Đã hết thời gian làm bài Writing!', 'warn');
+            writingTimerInterval = null;
+            if (btn) btn.textContent = 'Hết giờ';
           }
         }, 1000);
       }
     }
 
     function resetWritingTimer() {
-      setWritingTimerPreset(document.getElementById('writing-timer-preset').value);
+      const preset = document.getElementById('writing-timer-preset');
+      setWritingTimerPreset(preset ? preset.value : '1800');
     }
 
-    function switchWritingSubtab(subtab) {
-      stopIntegratedAudio();
-      appState.writingSubtab = subtab;
-      saveState();
-
-      const indView = document.getElementById('writing-independent-view');
-      const intView = document.getElementById('writing-integrated-view');
-      const btnInd = document.getElementById('btn-writing-independent');
-      const btnInt = document.getElementById('btn-writing-integrated');
-
-      if (subtab === 'independent') {
-        indView.classList.remove('hidden');
-        intView.classList.add('hidden');
-        btnInd.className = 'px-4 py-2.5 rounded-xl text-sm font-semibold bg-brand-700 text-white shadow-xs transition';
-        btnInt.className = 'px-4 py-2.5 rounded-xl text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition';
-      } else {
-        indView.classList.add('hidden');
-        intView.classList.remove('hidden');
-        btnInt.className = 'px-4 py-2.5 rounded-xl text-sm font-semibold bg-brand-700 text-white shadow-xs transition';
-        btnInd.className = 'px-4 py-2.5 rounded-xl text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition';
-      }
-    }
-
-    function populateWritingSelects() {
+    function initWritingSelectors() {
       const indSelect = document.getElementById('independent-prompt-select');
-      indSelect.innerHTML = '';
-      INDEPENDENT_PROMPTS.forEach((p) => {
-        const opt = document.createElement('option');
-        opt.value = p.id;
-        opt.textContent = `${p.testCode}: ${p.statement.slice(0, 68)}${p.statement.length > 68 ? '...' : ''}`;
-        if (p.id === appState.currentIndependentId) opt.selected = true;
-        indSelect.appendChild(opt);
-      });
+      if (indSelect) {
+        indSelect.innerHTML = INDEPENDENT_PROMPTS.map(
+          (p) => `<option value="${p.id}">${escapeHtmlText(p.testCode)} — ${escapeHtmlText(p.statement)}</option>`
+        ).join('');
+        indSelect.value = appState.currentIndependentId;
+      }
 
       const intSelect = document.getElementById('integrated-set-select');
-      intSelect.innerHTML = '';
-      INTEGRATED_SETS.forEach((s) => {
-        const opt = document.createElement('option');
-        opt.value = s.id;
-        opt.textContent = s.title;
-        if (s.id === appState.currentIntegratedId) opt.selected = true;
-        intSelect.appendChild(opt);
-      });
+      if (intSelect) {
+        intSelect.innerHTML = INTEGRATED_SETS.map(
+          (s) => `<option value="${s.id}">${escapeHtmlText(s.title)}</option>`
+        ).join('');
+        intSelect.value = appState.currentIntegratedId;
+      }
     }
 
-    function selectIndependentPrompt(promptId) {
-      appState.currentIndependentId = promptId;
+    function selectIndependentPrompt(id) {
+      appState.currentIndependentId = id;
       saveState();
-      renderIndependentWorkspace();
-    }
-
-    function renderIndependentWorkspace() {
-      const prompt = INDEPENDENT_PROMPTS.find((p) => p.id === appState.currentIndependentId) || INDEPENDENT_PROMPTS[0];
-      document.getElementById('independent-test-label').textContent = prompt.testCode;
-      document.getElementById('independent-statement').textContent = prompt.statement;
-
+      const promptObj = INDEPENDENT_PROMPTS.find((p) => p.id === id) || INDEPENDENT_PROMPTS[0];
+      const lbl = document.getElementById('independent-test-label');
+      const stmt = document.getElementById('independent-statement');
       const editor = document.getElementById('independent-editor');
-      editor.value = appState.independentEssays[prompt.id] || '';
-      updateWordCountDisplay('independent', editor.value);
+      if (lbl) lbl.textContent = promptObj.testCode;
+      if (stmt) stmt.textContent = promptObj.statement;
+      if (editor) {
+        editor.value = appState.independentEssays[promptObj.id] || '';
+        handleWritingInput('independent');
+      }
     }
 
-    function selectIntegratedSet(setId) {
-      appState.currentIntegratedId = setId;
+    function selectIntegratedSet(id) {
+      appState.currentIntegratedId = id;
       saveState();
-      renderIntegratedWorkspace();
-    }
-
-    function renderIntegratedWorkspace() {
-      const set = INTEGRATED_SETS.find((s) => s.id === appState.currentIntegratedId) || INTEGRATED_SETS[0];
-      document.getElementById('integrated-audio-ref-badge').textContent = '3 phút đọc • 20 phút viết';
-      document.getElementById('integrated-audio-code-badge').textContent = set.audioLabel;
-      document.getElementById('integrated-audio-caption').textContent = `1. Listen to the lecture — ${set.audioLabel}`;
-
+      const setObj = INTEGRATED_SETS.find((s) => s.id === id) || INTEGRATED_SETS[0];
+      const refBadge = document.getElementById('integrated-audio-ref-badge');
+      const codeBadge = document.getElementById('integrated-audio-code-badge');
+      const readBox = document.getElementById('integrated-reading-text');
+      const transBox = document.getElementById('integrated-transcript-box');
+      const editor = document.getElementById('integrated-editor');
       const audioEl = document.getElementById('integrated-audio-element');
+
+      if (refBadge) refBadge.textContent = setObj.audioLabel;
+      if (codeBadge) codeBadge.textContent = setObj.audioLabel;
+      if (readBox) {
+        readBox.innerHTML = setObj.readingParagraphs.map((p) => `<p>${escapeHtmlText(p)}</p>`).join('');
+      }
+      if (transBox) {
+        transBox.innerHTML = escapeHtmlText(setObj.transcript).replace(/\n\n/g, '<br><br>');
+      }
       if (audioEl) {
         audioEl.pause();
-        audioEl.setAttribute('src', set.audioSrc || '');
-        audioEl.load();
-        document.getElementById('integrated-play-btn').textContent = '▶';
-        document.getElementById('integrated-audio-scrubber').value = 0;
-        document.getElementById('integrated-audio-time').textContent = '00:00 / 04:05';
+        audioEl.src = setObj.audioSrc || '';
       }
-
-      document.getElementById('integrated-reading-text').innerHTML = set.readingParagraphs
-        .map((p) => `<p>${p}</p>`)
-        .join('');
-      document.getElementById('integrated-transcript-box').innerHTML = set.transcript
-        .split('\n\n')
-        .map((p) => `<p class="mb-2.5 last:mb-0">${escapeHtmlText(p)}</p>`)
-        .join('');
-
-      const editor = document.getElementById('integrated-editor');
-      editor.value = appState.integratedEssays[set.id] || '';
-      updateWordCountDisplay('integrated', editor.value);
-    }
-
-    function toggleIntegratedAudioPlay() {
-      const audioEl = document.getElementById('integrated-audio-element');
-      const playBtn = document.getElementById('integrated-play-btn');
-      if (!audioEl) return;
-      if (audioEl.paused) {
-        audioEl.play().then(() => {
-          playBtn.textContent = '⏸';
-        }).catch(() => {
-          showToast('Chưa tìm thấy file audio tại đường dẫn hiện tại. Kiểm tra lại thư mục mp3 nhé!', 'warn');
-        });
-      } else {
-        audioEl.pause();
-        playBtn.textContent = '▶';
-      }
-    }
-
-    function seekIntegratedAudio(deltaSec) {
-      const audioEl = document.getElementById('integrated-audio-element');
-      if (!audioEl) return;
-      const maxDur = Number.isFinite(audioEl.duration) && audioEl.duration > 0 ? audioEl.duration : audioEl.currentTime + Math.abs(deltaSec);
-      audioEl.currentTime = Math.min(maxDur, Math.max(0, audioEl.currentTime + deltaSec));
-    }
-
-    function toggleIntegratedAudioLoop() {
-      const audioEl = document.getElementById('integrated-audio-element');
-      const loopBtn = document.getElementById('integrated-loop-btn');
-      if (!audioEl || !loopBtn) return;
-      audioEl.loop = !audioEl.loop;
-      loopBtn.classList.toggle('is-active', audioEl.loop);
-      showToast(audioEl.loop ? 'Đã bật chế độ lặp lại audio.' : 'Đã tắt chế độ lặp lại audio.', 'info');
-    }
-
-    function toggleIntegratedAudioMute() {
-      const audioEl = document.getElementById('integrated-audio-element');
-      const muteBtn = document.getElementById('integrated-mute-btn');
-      if (!audioEl || !muteBtn) return;
-      audioEl.muted = !audioEl.muted;
-      muteBtn.textContent = audioEl.muted ? '🔇' : '🔊';
-    }
-
-    function scrubIntegratedAudio(percentVal) {
-      const audioEl = document.getElementById('integrated-audio-element');
-      if (!audioEl || !Number.isFinite(audioEl.duration) || audioEl.duration <= 0) return;
-      audioEl.currentTime = (Number(percentVal) / 100) * audioEl.duration;
-    }
-
-    function bindIntegratedAudioEvents() {
-      const audioEl = document.getElementById('integrated-audio-element');
-      const scrubber = document.getElementById('integrated-audio-scrubber');
-      const timeEl = document.getElementById('integrated-audio-time');
-      const playBtn = document.getElementById('integrated-play-btn');
-      if (!audioEl) return;
-
-      audioEl.addEventListener('loadedmetadata', () => {
-        if (timeEl && Number.isFinite(audioEl.duration)) {
-          timeEl.textContent = `${formatTimeMMSS(Math.floor(audioEl.currentTime))} / ${formatTimeMMSS(Math.floor(audioEl.duration))}`;
-        }
-      });
-
-      audioEl.addEventListener('timeupdate', () => {
-        if (timeEl && Number.isFinite(audioEl.duration) && audioEl.duration > 0) {
-          timeEl.textContent = `${formatTimeMMSS(Math.floor(audioEl.currentTime))} / ${formatTimeMMSS(Math.floor(audioEl.duration))}`;
-          if (scrubber) scrubber.value = String((audioEl.currentTime / audioEl.duration) * 100);
-        }
-      });
-
-      audioEl.addEventListener('ended', () => {
-        if (playBtn) playBtn.textContent = '▶';
-      });
-    }
-
-    function toggleIntegratedTranscript() {
-      const box = document.getElementById('integrated-transcript-box');
-      const icon = document.getElementById('integrated-transcript-toggle-icon');
-      if (box.classList.contains('hidden')) {
-        box.classList.remove('hidden');
-        icon.textContent = '▼';
-      } else {
-        box.classList.add('hidden');
-        icon.textContent = '▶';
-      }
-    }
-
-    function countWords(text) {
-      const trimmed = text.trim();
-      if (!trimmed) return 0;
-      return trimmed.split(/\s+/).length;
-    }
-
-    function updateWordCountDisplay(mode, text) {
-      const words = countWords(text);
-      if (mode === 'independent') {
-        document.getElementById('independent-word-count').textContent = words;
-        document.getElementById('independent-char-count').textContent = text.length;
-      } else {
-        document.getElementById('integrated-word-count').textContent = words;
+      if (editor) {
+        editor.value = appState.integratedEssays[setObj.id] || '';
+        handleWritingInput('integrated');
       }
     }
 
     function handleWritingInput(mode) {
       if (mode === 'independent') {
-        const val = document.getElementById('independent-editor').value;
-        appState.independentEssays[appState.currentIndependentId] = val;
-        updateWordCountDisplay('independent', val);
-        document.getElementById('independent-save-status').textContent = 'Đã lưu tự động';
+        const editor = document.getElementById('independent-editor');
+        const text = editor ? editor.value : '';
+        appState.independentEssays[appState.currentIndependentId] = text;
+        saveState();
+        const wc = document.getElementById('independent-word-count');
+        const cc = document.getElementById('independent-char-count');
+        if (wc) wc.textContent = String(countWords(text));
+        if (cc) cc.textContent = String(text.length);
       } else {
-        const val = document.getElementById('integrated-editor').value;
-        appState.integratedEssays[appState.currentIntegratedId] = val;
-        updateWordCountDisplay('integrated', val);
-        document.getElementById('integrated-save-status').textContent = 'Đã lưu tự động';
-      }
-      saveState();
-    }
-
-    function copyWritingText(mode) {
-      const editorId = mode === 'independent' ? 'independent-editor' : 'integrated-editor';
-      const textarea = document.getElementById(editorId);
-      if (!textarea) return;
-      textarea.select();
-      try {
-        document.execCommand('copy');
-        showToast('Đã sao chép nội dung bài viết vào clipboard.', 'success');
-      } catch (err) {
-        showToast('Không thể sao chép tự động, hãy nhấn Ctrl/Cmd + C.', 'warn');
+        const editor = document.getElementById('integrated-editor');
+        const text = editor ? editor.value : '';
+        appState.integratedEssays[appState.currentIntegratedId] = text;
+        saveState();
+        const wc = document.getElementById('integrated-word-count');
+        if (wc) wc.textContent = String(countWords(text));
       }
     }
 
     function insertAcademicSnippet(mode) {
-      const isInd = mode === 'independent';
-      const editor = document.getElementById(isInd ? 'independent-editor' : 'integrated-editor');
+      const snippet = mode === 'independent'
+        ? 'In my view, I strongly agree with the statement for two primary reasons. First, ... Second, ...'
+        : 'The reading passage and the lecture both address the issue of ..., yet the lecturer casts serious doubt on the claims made in the reading. First, while the author argues that ..., the professor counters by explaining that ...';
+      const editor = document.getElementById(mode === 'independent' ? 'independent-editor' : 'integrated-editor');
       if (!editor) return;
-
-      const snippet = isInd
-        ? 'While some people hold a different view, I strongly believe that this position has clear merits when examined closely. First, ... Second, ...\n\n'
-        : 'The lecturer challenges the claims made in the reading passage by arguing that ...\n\nFirst, whereas the reading asserts that ..., the professor points out that ...\n\n';
-
-      const currentVal = editor.value || '';
-      editor.value = currentVal ? `${currentVal.trimEnd()}\n\n${snippet}` : snippet;
+      editor.value = editor.value ? `${editor.value}\n\n${snippet}` : snippet;
       handleWritingInput(mode);
-      editor.focus();
-      showToast('Đã chèn mẫu câu học thuật vào bài viết.', 'success');
+      showToast('Đã chèn gợi ý mở bài học thuật.', 'info');
+    }
+
+    function copyWritingText(mode) {
+      const editor = document.getElementById(mode === 'independent' ? 'independent-editor' : 'integrated-editor');
+      if (!editor || !editor.value.trim()) {
+        showToast('Chưa có nội dung bài viết để sao chép.', 'warn');
+        return;
+      }
+      copyTextFallback(editor.value);
+      showToast('Đã sao chép bài viết vào bộ nhớ tạm!', 'success');
     }
 
     function exportWritingFile(mode) {
-      const isInd = mode === 'independent';
-      const editor = document.getElementById(isInd ? 'independent-editor' : 'integrated-editor');
-      const content = (editor && editor.value) ? editor.value : '';
+      const editor = document.getElementById(mode === 'independent' ? 'independent-editor' : 'integrated-editor');
+      const content = editor ? editor.value : '';
       if (!content.trim()) {
-        showToast('Chưa có nội dung bài viết để tải xuống.', 'warn');
+        showToast('Bài viết đang trống, chưa thể xuất file.', 'warn');
         return;
       }
-
-      const fileName = isInd
-        ? `TOEFL_Independent_${appState.currentIndependentId}.txt`
-        : `TOEFL_Integrated_${appState.currentIntegratedId}.txt`;
-
-      try {
-        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-        showToast(`Đã tải xuống ${fileName}.`, 'success');
-      } catch (err) {
-        showToast('Không thể xuất file trong trình duyệt hiện tại.', 'warn');
-      }
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `toefl-${mode}-essay.txt`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showToast('Đã tải xuống file .txt!', 'success');
     }
 
     function clearWritingText(mode) {
-      if (mode === 'independent') {
-        appState.independentEssays[appState.currentIndependentId] = '';
-        document.getElementById('independent-editor').value = '';
-        updateWordCountDisplay('independent', '');
+      const editor = document.getElementById(mode === 'independent' ? 'independent-editor' : 'integrated-editor');
+      if (!editor) return;
+      editor.value = '';
+      handleWritingInput(mode);
+      showToast('Đã xóa bản nháp.', 'info');
+    }
+
+    function toggleIntegratedTranscript() {
+      const box = document.getElementById('integrated-transcript-box');
+      const icon = document.getElementById('integrated-transcript-toggle-icon');
+      if (!box) return;
+      const hidden = box.classList.toggle('hidden');
+      if (icon) icon.textContent = hidden ? '▶' : '▼';
+    }
+
+    function toggleIntegratedAudioPlay() {
+      const audioEl = document.getElementById('integrated-audio-element');
+      const btn = document.getElementById('integrated-play-btn');
+      if (!audioEl) return;
+      if (!audioEl.paused) {
+        audioEl.pause();
+        if (btn) btn.textContent = '▶';
       } else {
-        appState.integratedEssays[appState.currentIntegratedId] = '';
-        document.getElementById('integrated-editor').value = '';
-        updateWordCountDisplay('integrated', '');
+        audioEl.play().then(() => {
+          if (btn) btn.textContent = '⏸';
+        }).catch(() => {
+          showToast('File audio cục bộ chưa có sẵn — bạn có thể xem Transcript bên dưới.', 'warn');
+        });
       }
-      saveState();
-      showToast('Đã xóa bản nháp bài viết hiện tại.', 'info');
+    }
+
+    function seekIntegratedAudio(deltaSec) {
+      const audioEl = document.getElementById('integrated-audio-element');
+      if (!audioEl || !Number.isFinite(audioEl.duration)) return;
+      audioEl.currentTime = Math.max(0, Math.min(audioEl.duration, audioEl.currentTime + deltaSec));
+    }
+
+    function toggleIntegratedAudioLoop() {
+      const audioEl = document.getElementById('integrated-audio-element');
+      const btn = document.getElementById('integrated-loop-btn');
+      if (!audioEl) return;
+      audioEl.loop = !audioEl.loop;
+      if (btn) btn.classList.toggle('is-active', audioEl.loop);
+    }
+
+    function scrubIntegratedAudio(percentVal) {
+      const audioEl = document.getElementById('integrated-audio-element');
+      if (!audioEl || !Number.isFinite(audioEl.duration)) return;
+      audioEl.currentTime = (Number(percentVal) / 100) * audioEl.duration;
+    }
+
+    function toggleIntegratedAudioMute() {
+      const audioEl = document.getElementById('integrated-audio-element');
+      const btn = document.getElementById('integrated-mute-btn');
+      if (!audioEl) return;
+      audioEl.muted = !audioEl.muted;
+      if (btn) btn.textContent = audioEl.muted ? '🔇' : '🔊';
     }
 
     // =========================================================================
-    // 8. SAFE HTML ESCAPING & INITIALIZATION
+    // 5. BOOTSTRAP INITIALIZATION
     // =========================================================================
 
-    function escapeHtmlText(str) {
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-    }
+    function initApp() {
+      applyThemeMode(appState.themeMode);
 
-    function escapeHtmlAttr(str) {
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/"/g, '&quot;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      applyThemeMode(appState.themeMode || 'light');
-
-      customMusicTracks = loadCustomMusicTracks();
       renderMusicPresetOptions();
-      const customAudioEl = getCustomAudioEl();
-      if (customAudioEl) {
-        customAudioEl.addEventListener('play', updateMiniMusicUI);
-        customAudioEl.addEventListener('pause', updateMiniMusicUI);
-        customAudioEl.addEventListener('ended', updateMiniMusicUI);
+      syncPlayerSourceForTrack(getCurrentMusicTrack(), false);
+      const customMusicEl = getCustomAudioEl();
+      if (customMusicEl) {
+        customMusicEl.addEventListener('ended', nextMusicTrack);
       }
 
-      populateReadingSelect();
-      renderReadingWorkspace();
-      updateReadingTimerDisplay();
+      initReadingSelectors();
+      resetReadingTimer();
+      renderCurrentReadingPassage();
+      updateGlobalScoreSummary();
 
-      renderListeningWorkspace();
-      updateListeningTimerDisplay();
+      const notesBox = document.getElementById('listening-main-notes');
+      if (notesBox) notesBox.value = appState.listeningNotesText || '';
 
-      populateWritingSelects();
-      bindIntegratedAudioEvents();
-      renderIndependentWorkspace();
-      renderIntegratedWorkspace();
-      switchWritingSubtab(appState.writingSubtab || 'independent');
-      updateWritingTimerDisplay();
+      initWritingSelectors();
+      selectIndependentPrompt(appState.currentIndependentId);
+      selectIntegratedSet(appState.currentIntegratedId);
+      switchWritingSubtab(appState.writingSubtab);
+
+      const intAudio = document.getElementById('integrated-audio-element');
+      if (intAudio) {
+        intAudio.addEventListener('timeupdate', () => {
+          const scrubber = document.getElementById('integrated-audio-scrubber');
+          const timeLbl = document.getElementById('integrated-audio-time');
+          const cur = Math.floor(intAudio.currentTime || 0);
+          const dur = Math.floor(intAudio.duration || 245);
+          if (scrubber && dur > 0) scrubber.value = String((cur / dur) * 100);
+          if (timeLbl) timeLbl.textContent = `${formatTimeMMSS(cur)} / ${formatTimeMMSS(dur)}`;
+        });
+        intAudio.addEventListener('ended', () => {
+          const btn = document.getElementById('integrated-play-btn');
+          if (btn) btn.textContent = '▶';
+        });
+      }
 
       switchSection(appState.activeSection || 'reading');
-      updatePracticeModeBadge();
-      openIntroOverlay();
-    });
+    }
+
+    window.addEventListener('DOMContentLoaded', initApp);
   </script>
 </body>
 </html>
