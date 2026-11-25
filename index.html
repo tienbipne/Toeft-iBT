@@ -51,32 +51,51 @@
     .toefl-audio-caption { padding: 12px 14px; font-size: 14px; color: #334155; background: #ededed; }
 
     html.dark body { background-color: #0b1120; color: #e2e8f0; }
-    html.dark header { background-color: rgba(15, 23, 42, 0.95); border-color: #1e293b; }
+    html.dark header { background-color: rgba(15, 23, 42, 0.96); border-color: #1e293b; }
     html.dark .bg-white { background-color: #0f172a; border-color: #1e293b; color: #e2e8f0; }
     html.dark .bg-white\/95 { background-color: rgba(15, 23, 42, 0.96); border-color: #334155; color: #e2e8f0; }
     html.dark .bg-slate-50, html.dark .bg-slate-50\/50, html.dark .bg-slate-50\/60, html.dark .bg-slate-50\/70, html.dark .bg-slate-50\/80 { background-color: #131c31; border-color: #1e293b; color: #e2e8f0; }
+    html.dark .bg-slate-100 { background-color: #1e293b; border-color: #334155; color: #e2e8f0; }
+    html.dark .bg-slate-200, html.dark .bg-slate-200\/60 { background-color: #263349; border-color: #334155; color: #cbd5e1; }
     html.dark .border-slate-200, html.dark .border-slate-300, html.dark .border-slate-100 { border-color: #1e293b; }
     html.dark .text-slate-900, html.dark .text-slate-800 { color: #f1f5f9; }
     html.dark .text-slate-700, html.dark .text-slate-600 { color: #cbd5e1; }
-    html.dark .text-slate-500 { color: #94a3b8; }
+    html.dark .text-slate-500, html.dark .text-slate-400 { color: #94a3b8; }
+
+    /* Fix light/pastel pill badges & score boxes in Dark Mode */
+    html.dark .bg-brand-50, html.dark .bg-brand-50\/60, html.dark .bg-brand-50\/70 { background-color: rgba(30, 64, 175, 0.24); border-color: rgba(96, 165, 250, 0.35); color: #bfdbfe; }
+    html.dark .text-brand-900, html.dark .text-brand-800, html.dark .text-brand-700 { color: #93c5fd; }
+    html.dark .bg-emerald-50 { background-color: rgba(16, 185, 129, 0.16); border-color: rgba(52, 211, 153, 0.35); color: #6ee7b7; }
+    html.dark .text-emerald-950, html.dark .text-emerald-900, html.dark .text-emerald-800, html.dark .text-emerald-700 { color: #6ee7b7; }
+    html.dark .bg-indigo-50 { background-color: rgba(99, 102, 241, 0.18); border-color: rgba(129, 140, 248, 0.35); color: #c7d2fe; }
+    html.dark .text-indigo-700 { color: #a5b4fc; }
+    html.dark .bg-amber-50, html.dark .bg-amber-100 { background-color: rgba(245, 158, 11, 0.16); border-color: rgba(251, 191, 36, 0.35); color: #fde68a; }
+    html.dark .text-amber-950, html.dark .text-amber-900, html.dark .text-amber-800 { color: #fde68a; }
+    html.dark .bg-rose-50, html.dark .bg-rose-50\/70, html.dark .bg-rose-50\/90 { background-color: rgba(244, 63, 94, 0.16); border-color: rgba(251, 113, 133, 0.35); color: #fda4af; }
+    html.dark .text-rose-950, html.dark .text-rose-900, html.dark .text-rose-800, html.dark .text-rose-700, html.dark .text-rose-600 { color: #fda4af; }
+    html.dark mark.bg-amber-100 { background-color: rgba(245, 158, 11, 0.32); color: #fef3c7; }
+
+    /* Keep primary & semantic solid buttons high-contrast in Dark Mode */
+    html.dark button.bg-brand-700, html.dark a.bg-brand-700 { background-color: #2563eb; color: #ffffff; }
+    html.dark button.bg-brand-700:hover, html.dark a.bg-brand-700:hover { background-color: #1d4ed8; }
+    html.dark button.bg-emerald-600 { background-color: #059669; color: #ffffff; }
+    html.dark button.bg-emerald-600:hover { background-color: #047857; }
+    html.dark button.bg-rose-600, html.dark button.bg-rose-700 { background-color: #e11d48; color: #ffffff; }
+
+    /* TOEFL Audio Player in Dark Mode */
+    html.dark .toefl-audio-shell { background-color: #131c31; border-color: #334155; }
+    html.dark .toefl-audio-instruction { background-color: #19243d; border-color: #334155; color: #e2e8f0; }
+    html.dark .toefl-audio-bar { background-color: #1e293b; border-color: #334155; color: #cbd5e1; }
+    html.dark .toefl-audio-btn { color: #e2e8f0; }
+    html.dark .toefl-audio-btn:hover { background-color: #334155; color: #ffffff; }
+    html.dark .toefl-audio-caption { background-color: #131c31; color: #cbd5e1; }
+
     html.dark #mini-music-box .text-slate-900 { color: #f8fafc; }
     html.dark #mini-music-box .text-slate-700, html.dark #mini-music-box .text-slate-600 { color: #cbd5e1; }
     html.dark #mini-music-box .text-slate-500 { color: #94a3b8; }
-    html.dark #mini-music-box .bg-emerald-50 { background-color: rgba(16, 185, 129, 0.16); border-color: rgba(52, 211, 153, 0.35); color: #34d399; }
-    html.dark #mini-music-box .bg-brand-50 { background-color: rgba(59, 130, 246, 0.16); border-color: rgba(96, 165, 250, 0.35); color: #93c5fd; }
     html.dark #mini-music-box button.border-slate-200 { background-color: #1e293b; border-color: #334155; color: #e2e8f0; }
     html.dark #mini-music-box button.border-slate-200:hover { background-color: #334155; color: #ffffff; }
-    html.dark #intro-overlay .bg-brand-50\/60 { background-color: #172554; border-color: #3b82f6; color: #f8fafc; }
-    html.dark #intro-overlay .bg-brand-50\/60 h4,
-    html.dark #intro-overlay .bg-brand-50\/60 p,
-    html.dark #intro-overlay .bg-brand-50\/60 strong,
-    html.dark #intro-overlay .bg-brand-50\/60 span { color: #f8fafc; }
     html.dark #intro-overlay .bg-slate-100\/80 { background-color: #1e293b; border-color: #334155; color: #cbd5e1; opacity: 1; }
-    html.dark #intro-overlay .bg-slate-100\/80 h4,
-    html.dark #intro-overlay .bg-slate-100\/80 p,
-    html.dark #intro-overlay .bg-slate-100\/80 strong,
-    html.dark #intro-overlay .bg-slate-100\/80 span { color: #cbd5e1; }
-    html.dark #intro-overlay .bg-amber-100 { background-color: rgba(245, 158, 11, 0.22); color: #fcd34d; }
     html.dark select, html.dark textarea, html.dark input[type="text"] { background-color: #0b1120; border-color: #334155; color: #f1f5f9; }
     html.dark .academic-scroll::-webkit-scrollbar-track { background: #0f172a; }
     html.dark .academic-scroll::-webkit-scrollbar-thumb { background: #334155; }
@@ -1249,7 +1268,7 @@
       if (durEl) durEl.textContent = dur > 0 ? formatTimeMMSS(Math.floor(dur)) : '00:00';
       if (slider) {
         slider.value = String(pct.toFixed(1));
-        const fillColor = !audioEl.paused ? '#059669' : '#1e40af';
+        const fillColor = !audioEl.paused ? '#059669' : '#2563eb';
         const trackBg = document.documentElement.classList.contains('dark') ? '#334155' : '#e2e8f0';
         slider.style.background = `linear-gradient(to right, ${fillColor} ${pct}%, ${trackBg} ${pct}%)`;
       }
@@ -2268,7 +2287,6 @@
       switchSection(appState.activeSection || 'reading');
     }
 
-    // Dừng riêng audio bài giảng Integrated Writing mà không chạm tới nhạc nền (#custom-music-audio)
     function stopWritingAudioOnly() {
       const intAudio = document.getElementById('integrated-audio-element');
       const playBtn = document.getElementById('integrated-play-btn');
