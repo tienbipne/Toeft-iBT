@@ -4648,24 +4648,56 @@
         ...essays.flatMap((e) => [`${e.name} (${countWords(e.text)} từ) — ${e.title}`, e.text || '(bỏ trống)', ''])
       ].join('\n');
 
-      const td = 'style="padding:6px 8px;border:1px solid #e2e8f0;vertical-align:top;font-size:13px"';
-      const html = `<div style="font-family:Arial,sans-serif;max-width:760px;color:#0f172a">
-<h2 style="margin:0 0 4px">Kết quả thi thử Final Exam Course 3</h2>
-<p style="margin:0 0 12px;color:#475569">${esc(st.name)} • ${esc(when)}</p>
-<table style="border-collapse:collapse;margin-bottom:12px">
-<tr><td ${td}><b>Listening</b></td><td ${td}>${r.lc}/${r.ln} câu đúng</td><td ${td}><b>${r.ls}/10</b></td></tr>
-<tr><td ${td}><b>Reading</b></td><td ${td}>${r.rc}/${r.rn} câu đúng</td><td ${td}><b>${r.rs}/10</b></td></tr>
-<tr><td ${td}><b>Writing</b></td><td ${td}>Integrated ${countWords(essays[0].text)} từ • Independent ${countWords(essays[1].text)} từ</td><td ${td}>chưa chấm</td></tr>
-</table>
-<p style="font-size:13px"><b>Bài đọc được chọn:</b> ${esc(readingTitles.join(' | '))}</p>
-<h3 style="margin:16px 0 6px">Chi tiết từng câu</h3>
-<table style="border-collapse:collapse;width:100%">
-<tr style="background:#f1f5f9"><th ${td}>#</th><th ${td}>Phần</th><th ${td}>Dạng câu</th><th ${td}>Học viên chọn</th><th ${td}>Đáp án đúng</th></tr>
-${lines.map((l) => `<tr style="background:${l.ok ? '#ecfdf5' : '#fff1f2'}"><td ${td}>${l.n}</td><td ${td}>${l.section}</td><td ${td}>${esc(l.type)}</td><td ${td}>${esc(l.user)}</td><td ${td}>${l.ok ? '✔' : esc(l.key)}</td></tr>`).join('')}
-</table>
-<h3 style="margin:16px 0 6px">Bài viết</h3>
-${essays.map((e) => `<h4 style="margin:12px 0 2px">${esc(e.name)} • ${countWords(e.text)} từ</h4><div style="font-size:12px;color:#64748b">${esc(e.title)}</div><div style="white-space:pre-wrap;border:1px solid #e2e8f0;border-radius:8px;padding:10px;margin-top:6px;font-size:14px;line-height:1.6">${esc(e.text) || '<i>(bỏ trống)</i>'}</div>`).join('')}
-</div>`;
+      const scoreColor = (v) => (v >= 7 ? '#059669' : v >= 4 ? '#d97706' : '#e11d48');
+      const br = (t) => esc(t).replace(/\n/g, '<br>');
+      const h3 = (t) => `<div style="font-size:15px;font-weight:800;color:#0f172a;margin:26px 0 10px">${t}</div>`;
+      const card = (icon, label, big, sub, color) => `<td width="33%" valign="top" style="padding:0 4px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc"><tr><td align="center" style="padding:16px 6px"><div style="font-size:11px;font-weight:700;color:#64748b;letter-spacing:.5px">${icon} ${label}</div><div style="font-size:32px;font-weight:800;color:${color};line-height:1.2;margin-top:6px">${big}</div><div style="font-size:12px;color:#64748b;margin-top:2px">${sub}</div></td></tr></table></td>`;
+
+      const typeRows = Object.keys(r.types).sort((a, b) => r.types[b].n - r.types[a].n).map((k) => {
+        const v = r.types[k];
+        const pct = Math.round((v.c / v.n) * 100);
+        const col = pct >= 70 ? '#10b981' : pct >= 40 ? '#f59e0b' : '#f43f5e';
+        const fill = pct > 0 ? `<td width="${pct}%" style="background:${col};height:8px;font-size:1px;line-height:8px;border-radius:6px">&nbsp;</td>` : '';
+        return `<tr><td width="38%" style="font-size:12px;color:#334155;padding:5px 8px 5px 0">${esc(k)}</td><td style="padding:5px 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#e2e8f0;border-radius:6px"><tr>${fill}<td style="font-size:1px;line-height:8px">&nbsp;</td></tr></table></td><td width="46" align="right" style="font-size:12px;color:#475569;padding-left:8px">${v.c}/${v.n}</td></tr>`;
+      }).join('');
+
+      let lastSec = '';
+      const answerRows = lines.map((l) => {
+        const head = l.section !== lastSec
+          ? (lastSec = l.section, `<tr><td colspan="3" style="background:#eef2ff;color:#3730a3;font-size:12px;font-weight:800;letter-spacing:.5px;padding:9px 12px">${l.section === 'Listening' ? '🎧' : '📖'} ${l.section.toUpperCase()}</td></tr>`)
+          : '';
+        const edge = l.ok ? '#10b981' : '#f43f5e';
+        const badge = l.ok
+          ? '<span style="background:#d1fae5;color:#047857;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px">✔ Đúng</span>'
+          : '<span style="background:#ffe4e6;color:#be123c;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px">✘ Sai</span>';
+        const keyLine = l.ok ? '' : `<div style="margin-top:3px"><b style="color:#047857">Đáp án:</b> ${esc(l.key)}</div>`;
+        return `${head}<tr><td width="34" align="center" valign="top" style="border-left:4px solid ${edge};border-bottom:1px solid #f1f5f9;padding:9px 4px;font-size:12px;font-weight:700;color:#64748b">${l.n}</td><td valign="top" style="border-bottom:1px solid #f1f5f9;padding:9px 8px;font-size:12px;color:#334155"><div style="font-weight:700">${esc(l.type)}</div><div style="color:#94a3b8;font-size:11px">${esc(l.part)}</div></td><td valign="top" style="border-bottom:1px solid #f1f5f9;padding:9px 8px;font-size:12px;color:#334155">${badge}<div style="margin-top:4px"><b>Bạn chọn:</b> ${esc(l.user)}</div>${keyLine}</td></tr>`;
+      }).join('');
+
+      const essayCards = essays.map((e, k) => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e2e8f0;border-radius:14px;margin-bottom:12px"><tr><td style="background:#f8fafc;border-radius:14px 14px 0 0;padding:12px 14px;border-bottom:1px solid #e2e8f0"><div style="font-size:13px;font-weight:800;color:#0f172a">${k === 0 ? '①' : '②'} ${esc(e.name)} <span style="font-weight:600;color:#6366f1">• ${countWords(e.text)} từ</span></div><div style="font-size:11px;color:#64748b;margin-top:3px">${esc(e.title)}</div></td></tr><tr><td style="padding:14px;font-size:14px;line-height:1.7;color:#1e293b">${e.text.trim() ? br(e.text) : '<i style="color:#94a3b8">(bỏ trống)</i>'}</td></tr></table>`).join('');
+
+      const html = `<div style="background:#f1f5f9;padding:24px 10px;font-family:Arial,Helvetica,sans-serif;color:#0f172a">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:680px;margin:0 auto">
+<tr><td style="background:#1e1b4b;border-radius:18px 18px 0 0;padding:26px 28px">
+<div style="font-size:11px;font-weight:700;letter-spacing:1.5px;color:#a5b4fc">FINAL EXAM COURSE 3 • THI THỬ</div>
+<div style="font-size:26px;font-weight:800;color:#ffffff;margin-top:6px">Kết quả bài làm</div>
+<div style="font-size:14px;color:#c7d2fe;margin-top:8px">${esc(st.name)} &nbsp;•&nbsp; ${esc(when)}</div>
+</td></tr>
+<tr><td style="background:#ffffff;border-radius:0 0 18px 18px;padding:22px 18px 26px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+${card('🎧', 'LISTENING', `${r.ls}<span style="font-size:14px;color:#94a3b8"> /10</span>`, `${r.lc}/${r.ln} câu đúng`, scoreColor(r.ls))}
+${card('📖', 'READING', `${r.rs}<span style="font-size:14px;color:#94a3b8"> /10</span>`, `${r.rc}/${r.rn} câu đúng`, scoreColor(r.rs))}
+${card('✍️', 'WRITING', '<span style="font-size:20px">Chờ chấm</span>', `${countWords(essays[0].text)} + ${countWords(essays[1].text)} từ`, '#6366f1')}
+</tr></table>
+<div style="font-size:12px;color:#64748b;margin-top:12px;line-height:1.6"><b>Bài đọc được chọn:</b> ${esc(readingTitles.join('  |  '))}</div>
+${h3('📊 Thống kê theo dạng câu hỏi')}
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${typeRows}</table>
+${h3('📝 Chi tiết từng câu')}
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e2e8f0;border-radius:10px">${answerRows}</table>
+${h3('✍️ Bài viết của bạn')}
+${essayCards}
+<div style="font-size:11px;color:#94a3b8;text-align:center;margin-top:18px">Điểm Listening và Reading là ước lượng theo tỉ lệ câu đúng. Writing cần giáo viên hoặc bạn tự chấm.</div>
+</td></tr></table></div>`;
       return { subject, html, text };
     }
 
@@ -4678,9 +4710,15 @@ ${essays.map((e) => `<h4 style="margin:12px 0 2px">${esc(e.name)} • ${countWor
         sending: ['⏳', 'border-indigo-200 bg-indigo-50 text-indigo-800']
       }[kind];
       const busy = kind === 'sending';
-      el.className = 'rounded-xl border border-indigo-200 bg-indigo-50 p-3 text-sm space-y-2';
+      el.className = 'rounded-2xl border border-indigo-200 bg-indigo-50 p-4 text-sm space-y-3';
       el.innerHTML = `
-        <div class="font-bold text-slate-900">📧 Nhận bài làm và kết quả qua email</div>
+        <div class="flex items-start gap-3">
+          <div class="shrink-0 w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-lg">📧</div>
+          <div class="min-w-0">
+            <div class="font-extrabold text-slate-900">Nhận bài làm qua email</div>
+            <div class="text-xs text-slate-600 mt-0.5 leading-relaxed">Nhập email để nhận bảng điểm chi tiết, đáp án từng câu và bài viết của bạn.</div>
+          </div>
+        </div>
         <div class="flex flex-wrap items-center gap-2">
           <input id="mock-mail-to" type="text" inputmode="email" autocomplete="email" ${busy ? 'disabled' : ''} value="${escapeHtmlText(mock.student.email || '')}" placeholder="Nhập email của bạn" class="flex-1 min-w-[200px] px-3 py-2 rounded-xl border border-slate-300 bg-white text-sm text-slate-900" />
           <button type="button" ${busy ? 'disabled' : ''} onclick="mockSendResults()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold transition">${busy ? 'Đang gửi...' : 'Gửi cho tôi'}</button>
