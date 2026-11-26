@@ -21,13 +21,8 @@
           },
           colors: {
             brand: {
-              50: '#eff6ff',
-              100: '#dbeafe',
-              200: '#bfdbfe',
-              600: '#1d4ed8',
-              700: '#1e40af',
-              800: '#1e3a8a',
-              900: '#172554',
+              50: '#eef3ff', 100: '#dbe5ff', 200: '#bccdfd', 300: '#8fa9fb', 400: '#5f82f4', 500: '#3f66ee',
+              600: '#2f5bea', 700: '#2447c8', 800: '#1b3590', 900: '#0f1f5c'
             }
           }
         }
@@ -120,9 +115,177 @@
     body.mock-mode label[for="independent-prompt-select"],
     body.mock-mode label[for="integrated-set-select"] { display: none !important; }
   </style>
+  <style>
+    /* ===== UI v2: nâng cấp giao diện chung ===== */
+    :root { --line: #e3e8f0; --ring: rgba(37, 99, 235, .35); }
+    .shadow-xs { box-shadow: 0 1px 2px rgba(15, 23, 42, .06); }
+    body.bg-slate-50 { background: radial-gradient(1100px 460px at 50% -140px, #e6edfc 0, transparent 70%), #f4f6fb; -webkit-font-smoothing: antialiased; }
+    html.dark body.bg-slate-50 { background: radial-gradient(1100px 460px at 50% -140px, #13203f 0, transparent 70%), #0b1120; }
+    header.sticky { background: rgba(255,255,255,.82) !important; backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); box-shadow: none; }
+    html.dark header.sticky { background: rgba(11,17,32,.82) !important; border-color: #1e293b; }
+    nav[aria-label] { background: #eceff6; border-color: transparent; }
+    html.dark nav[aria-label] { background: #17213a; }
+    .nav-tab { border-radius: 10px; padding-top: 7px; padding-bottom: 7px; }
+    .nav-tab.bg-brand-700 { box-shadow: 0 1px 2px rgba(30,64,175,.35), 0 6px 14px -6px rgba(30,64,175,.6); }
+    .bg-white.rounded-2xl, .bg-white.rounded-3xl { border-color: var(--line); box-shadow: 0 1px 2px rgba(15,23,42,.04), 0 12px 32px -20px rgba(15,23,42,.22); }
+    html.dark .bg-white.rounded-2xl, html.dark .bg-white.rounded-3xl { box-shadow: 0 12px 32px -20px rgba(0,0,0,.75); }
+    button { transition: background-color .15s, border-color .15s, color .15s, box-shadow .15s, transform .1s; }
+    button:active:not(:disabled) { transform: scale(.98); }
+    button:disabled { cursor: not-allowed; }
+    button.bg-brand-700, button.bg-emerald-600 { box-shadow: 0 1px 2px rgba(15,23,42,.22), inset 0 1px 0 rgba(255,255,255,.16); }
+    :focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; border-radius: 8px; }
+    select, textarea, input[type=text], input[type=email] { border-radius: 12px; }
+    select { appearance: none; padding-right: 38px; background-repeat: no-repeat; background-position: right 12px center; background-size: 16px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 8l5 5 5-5'/%3E%3C/svg%3E"); }
+    select:focus, textarea:focus, input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px var(--ring); }
+    .passage-prose { font-family: 'Newsreader', Georgia, serif; font-size: 17px; color: #1e293b; }
+    html.dark .passage-prose { color: #d6deeb; }
+    [id$="timer-display"], #mock-bar-timer { font-variant-numeric: tabular-nums; }
+    details > summary { list-style: none; } details > summary::-webkit-details-marker { display: none; }
+    #intro-overlay > div { animation: uiPop .38s cubic-bezier(.2,.8,.2,1); }
+    #intro-step-modes button:hover { transform: translateY(-2px); box-shadow: 0 16px 32px -18px rgba(30,64,175,.55); }
+    #mock-bar { background: rgba(15,23,42,.94); backdrop-filter: blur(10px); }
+    @keyframes uiPop { from { opacity: 0; transform: translateY(10px) scale(.985); } to { opacity: 1; transform: none; } }
+    @keyframes spkPulse { 50% { opacity: .25; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+    /* ===== Speaking ===== */
+    @media (min-width: 1024px) { #spk-unit-list { position: sticky; top: 84px; align-self: start; } }
+    .spk-tab { padding: 7px 12px; border-radius: 10px; font-size: 12px; font-weight: 600; background: #eceff6; color: #475569; }
+    .spk-tab:hover { background: #dfe4ee; }
+    .spk-tab.is-on { background: #1e40af; color: #fff; box-shadow: 0 6px 14px -6px rgba(30,64,175,.65); }
+    html.dark .spk-tab { background: #1e293b; color: #cbd5e1; } html.dark .spk-tab.is-on { background: #2563eb; color: #fff; }
+    .spk-unit { display: block; width: 100%; text-align: left; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); background: #fff; }
+    .spk-unit small { display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; color: #64748b; }
+    .spk-unit b { display: block; font-size: 14px; font-weight: 600; color: #0f172a; }
+    .spk-unit:hover { border-color: #93c5fd; }
+    .spk-unit.is-on { border-color: #1d4ed8; background: #eff6ff; box-shadow: inset 3px 0 0 #1d4ed8; }
+    .spk-unit .rec-dot { color: #059669; }
+    html.dark .spk-unit { background: #0f172a; border-color: #1e293b; } html.dark .spk-unit b { color: #f1f5f9; }
+    html.dark .spk-unit.is-on { background: rgba(30,64,175,.25); border-color: #3b82f6; }
+    .spk-card { border: 1px solid var(--line); border-radius: 16px; padding: 16px; background: #fff; }
+    .spk-card h4 { font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 6px; }
+    html.dark .spk-card { background: #0f172a; border-color: #1e293b; }
+    .spk-prompt { border: 1px solid #bfdbfe; border-left: 4px solid #1d4ed8; background: #eff6ff; border-radius: 16px; padding: 16px 18px; }
+    .spk-prompt h4 { font-size: 12px; font-weight: 700; color: #1d4ed8; margin-bottom: 4px; }
+    .spk-prompt p { font-family: 'Newsreader', Georgia, serif; font-size: 20px; line-height: 1.5; font-weight: 500; color: #172554; }
+    html.dark .spk-prompt { background: rgba(30,64,175,.22); border-color: rgba(96,165,250,.35); border-left-color: #60a5fa; }
+    html.dark .spk-prompt p { color: #dbeafe; } html.dark .spk-prompt h4 { color: #93c5fd; }
+    .spk-room { border-radius: 22px; padding: 20px; color: #e2e8f0; background: linear-gradient(160deg, #0f172a, #1e293b); box-shadow: 0 24px 48px -28px rgba(15,23,42,.8); }
+    html.dark .spk-room { border: 1px solid #263349; }
+    .spk-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .spk-chip { padding: 5px 11px; border-radius: 999px; font-size: 12px; font-weight: 600; background: rgba(255,255,255,.08); color: #94a3b8; }
+    .spk-chip.is-current { background: #2563eb; color: #fff; } .spk-chip.is-done { background: rgba(16,185,129,.16); color: #6ee7b7; }
+    .spk-rec { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #fecdd3; }
+    .spk-rec::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #f43f5e; animation: spkPulse 1s infinite; }
+    .spk-rec[hidden], .spk-btn[hidden] { display: none; }
+    .spk-clock { display: flex; align-items: baseline; gap: 14px; margin: 16px 0 12px; flex-wrap: wrap; }
+    #spk-timer-display { font: 800 56px/1 Inter, system-ui, sans-serif; letter-spacing: -.03em; color: #fff; }
+    .spk-room[data-state=speak] #spk-timer-display { color: #fda4af; }
+    #spk-timer-phase { font-size: 14px; font-weight: 600; color: #93c5fd; }
+    .spk-bar { height: 6px; border-radius: 99px; background: rgba(255,255,255,.12); overflow: hidden; }
+    .spk-bar i { display: block; height: 100%; width: 0; background: #60a5fa; transition: width .25s linear; }
+    .spk-room[data-state=speak] .spk-bar i { background: #fb7185; }
+    .spk-controls { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+    .spk-btn { padding: 10px 18px; border-radius: 12px; font-size: 13px; font-weight: 700; color: #e2e8f0; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.14); }
+    .spk-btn:hover { background: rgba(255,255,255,.18); }
+    .spk-btn.primary { background: #2563eb; border-color: #3b82f6; color: #fff; } .spk-btn.primary:hover { background: #1d4ed8; }
+    .spk-btn.danger { background: #e11d48; border-color: #fb7185; color: #fff; } .spk-btn.danger:hover { background: #be123c; }
+    .spk-mic { display: grid; gap: 8px; padding: 12px; border-radius: 14px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); }
+    .spk-mic-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .spk-mic select { flex: 1 1 200px; min-width: 0; font-size: 13px; padding-top: 8px; padding-bottom: 8px; padding-left: 10px; color: #e2e8f0; background-color: #0b1120; border: 1px solid #334155; }
+    .spk-mic select:disabled { opacity: .55; }
+    .spk-meter { flex: 0 0 120px; height: 8px; border-radius: 99px; background: rgba(255,255,255,.12); overflow: hidden; }
+    .spk-meter i { display: block; height: 100%; width: 0; background: #34d399; }
+    #spk-mic-status { font-size: 12px; color: #94a3b8; } #spk-mic-status.err { color: #fda4af; } #spk-mic-status.ok { color: #6ee7b7; }
+    .spk-take-head { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; margin-bottom: 8px; color: #0f172a; } .spk-take-head span { color: #64748b; }
+    html.dark .spk-take-head { color: #f1f5f9; }
+    .spk-take-actions { display: flex; gap: 16px; margin-top: 8px; }
+    .spk-link { font-size: 12px; font-weight: 700; color: #1d4ed8; text-decoration: underline; text-underline-offset: 3px; } html.dark .spk-link { color: #93c5fd; }
+  </style>
+  <style>
+    /* ===== UI v3: Premium Academic EdTech ===== */
+    :root { --navy:#0b1730; --navy2:#13244d; --royal:#2f5bea; --bg:#f5f7fb; --card:#fff; --line:#e4e9f2; --ink:#0b1730; --muted:#5b6785; --side:264px; }
+    html.dark { --bg:#0a1020; --card:#0f1a30; --line:#1d2b49; --ink:#eef2fb; --muted:#9aa8c7; }
+    body.bg-slate-50, html.dark body.bg-slate-50 { background: var(--bg); }
+    body { padding-left: var(--side); }
+    body.mock-mode { padding-left: 0 !important; padding-bottom: 0 !important; }
+    article.lg\:sticky { top: 20px !important; } #spk-unit-list { top: 20px !important; }
+    .bg-white.rounded-2xl, .bg-white.rounded-3xl { border-radius: 16px; }
+
+    #app-nav { position: fixed; z-index: 40; inset: 0 auto 0 0; width: var(--side); display: flex; flex-direction: column; gap: 18px; padding: 18px 14px; background: var(--navy); color: #d5def5; border-right: 1px solid rgba(255,255,255,.06); overflow-y: auto; }
+    html.dark #app-nav { background: #070d1c; border-right-color: #16213b; }
+    .nav-brand { display: flex; align-items: center; gap: 10px; padding: 4px 6px 10px; }
+    .nav-logo { width: 38px; height: 38px; border-radius: 11px; background: var(--royal); color: #fff; display: grid; place-items: center; flex: none; }
+    .nav-logo svg { width: 20px; height: 20px; }
+    .nav-title { font: 700 14px/1.2 Inter, sans-serif; color: #fff; } .nav-sub { font-size: 11px; color: #8fa0c8; margin-top: 2px; }
+    .nav-list { display: flex; flex-direction: column; gap: 4px; background: transparent !important; border: 0 !important; padding: 0 !important; overflow: visible !important; }
+    #app-nav .nav-tab { display: flex; align-items: center; justify-content: flex-start; gap: 12px; width: 100%; padding: 10px 12px; border-radius: 12px; font-size: 14px; font-weight: 600; color: #aab6d3 !important; background: transparent !important; box-shadow: none; }
+    #app-nav .nav-tab:hover:not(.bg-brand-700) { background: rgba(255,255,255,.07) !important; color: #fff !important; }
+    #app-nav .nav-tab.bg-brand-700 { background: var(--royal) !important; color: #fff !important; box-shadow: 0 8px 18px -10px rgba(47,91,234,.9); }
+    #app-nav .nav-mock { margin-top: 10px; border: 1px dashed rgba(255,255,255,.22); }
+    .nav-ico { width: 20px; height: 20px; flex: none; }
+    #app-nav .nav-badge { margin-left: auto; font-size: 11px; padding: 2px 7px; border-radius: 99px; background: rgba(255,255,255,.1); color: #c9d4ef; }
+    #app-nav .nav-tab.bg-brand-700 .nav-badge { background: rgba(255,255,255,.22); color: #fff; }
+    .nav-foot { margin-top: auto; display: grid; gap: 10px; padding: 12px; border-radius: 14px; background: rgba(255,255,255,.05); }
+    .nav-score { font-size: 12px; font-weight: 600; color: #fff; }
+    .nav-mode { display: flex; flex-direction: column; gap: 2px; font-size: 11px; color: #8fa0c8; } .nav-mode #current-practice-mode-badge { font-size: 12px; font-weight: 600; color: #dbe5ff; }
+    .nav-theme { padding: 8px 10px; border-radius: 10px; font-size: 12px; font-weight: 600; color: #fff; background: rgba(255,255,255,.1); border: 0; }
+    .nav-theme:hover { background: rgba(255,255,255,.18); }
+    #mobile-topbar { display: none; }
+    body.mock-mode #mobile-topbar { display: none !important; }
+
+    @media (max-width: 1023px) and (min-width: 768px) {
+      :root { --side: 76px; }
+      .nav-brand-text, .nav-label, #app-nav .nav-badge, .nav-score, .nav-mode { display: none; }
+      #app-nav { align-items: center; padding: 16px 10px; } #app-nav .nav-tab { justify-content: center; padding: 12px; }
+      .nav-brand { padding: 0 0 8px; } .nav-foot { padding: 6px; background: none; } .nav-theme { width: 44px; font-size: 0; padding: 10px 0; } .nav-theme::first-letter { font-size: 16px; }
+    }
+    @media (max-width: 767px) {
+      :root { --side: 0px; }
+      body { padding-top: 56px; padding-bottom: 76px; }
+      #mobile-topbar { position: fixed; inset: 0 0 auto 0; z-index: 40; height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; background: var(--navy); } 
+      #mobile-topbar button { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,.12); color: #fff; font-size: 18px; }
+      #app-nav { inset: auto 0 0 0; width: 100%; flex-direction: row; padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px)); gap: 0; border-right: 0; border-top: 1px solid rgba(255,255,255,.08); overflow: hidden; }
+      .nav-brand, .nav-foot, #app-nav .nav-badge { display: none; }
+      .nav-list { flex-direction: row; width: 100%; gap: 2px; }
+      #app-nav .nav-tab { flex: 1 1 0; min-width: 0; flex-direction: column; gap: 3px; padding: 7px 2px; font-size: 10.5px; border-radius: 10px; }
+      #app-nav .nav-mock { margin: 0; border: 0; }
+      main { padding-left: 12px; padding-right: 12px; }
+    }
+
+    /* Dashboard */
+    .dash-hero { display: grid; grid-template-columns: 1.15fr 1fr; gap: 28px; padding: 30px; border-radius: 20px; background: var(--navy); color: #fff; }
+    html.dark .dash-hero { background: #0f1c3d; border: 1px solid #1d2b49; }
+    .dash-kicker { font-size: 13px; font-weight: 600; color: #8fa9fb; }
+    .dash-hero h2 { font: 500 34px/1.2 Newsreader, Georgia, serif; margin: 10px 0 12px; letter-spacing: -.01em; }
+    .dash-hero-text p:last-child { color: #b9c4e0; font-size: 15px; line-height: 1.6; max-width: 52ch; }
+    .dash-continue { display: flex; flex-direction: column; gap: 10px; padding: 20px; border-radius: 16px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); align-self: center; }
+    .dash-continue small { font-size: 12px; font-weight: 600; color: #9fb0d8; } .dash-continue b { font-size: 17px; line-height: 1.35; } .dash-continue span { font-size: 13px; color: #b9c4e0; }
+    .dash-prog { height: 6px; border-radius: 99px; background: rgba(255,255,255,.15); overflow: hidden; } .dash-prog i { display: block; height: 100%; background: #7b9cff; border-radius: 99px; }
+    .dash-btn { align-self: flex-start; padding: 10px 18px; border-radius: 12px; background: var(--royal); color: #fff; font-size: 13px; font-weight: 700; } .dash-btn:hover { background: #2447c8; }
+    .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+    .dash-two { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; } 
+    .dash-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; box-shadow: 0 1px 2px rgba(11,23,48,.04), 0 14px 30px -24px rgba(11,23,48,.3); color: var(--ink); display: flex; flex-direction: column; gap: 10px; }
+    .dash-card h3 { font-size: 16px; font-weight: 700; } .dash-card p { font-size: 13.5px; line-height: 1.6; color: var(--muted); }
+    .dash-skill-top { display: flex; align-items: center; gap: 12px; } 
+    .dash-ico { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: #eaf0ff; color: var(--royal); } .dash-ico svg { width: 20px; height: 20px; }
+    html.dark .dash-ico { background: rgba(47,91,234,.2); color: #8fa9fb; }
+    .dash-meta { font-size: 12.5px; color: var(--muted); }
+    .dash-card .dash-prog { background: #e8edf7; } html.dark .dash-card .dash-prog { background: #1d2b49; } .dash-card .dash-prog i { background: var(--royal); }
+    .dash-note { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--muted); } .dash-note b { color: var(--ink); }
+    .dash-link { margin-top: auto; align-self: flex-start; font-size: 13px; font-weight: 700; color: var(--royal); } .dash-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+    html.dark .dash-link { color: #8fa9fb; }
+    .dash-steps { display: flex; flex-wrap: wrap; gap: 8px; } .dash-steps span { padding: 6px 12px; border-radius: 10px; background: #eef2fb; font-size: 12.5px; font-weight: 600; color: var(--ink); } html.dark .dash-steps span { background: #16233f; }
+    .dash-about a { color: var(--royal); font-weight: 600; } .dash-warn { padding: 10px 12px; border-radius: 10px; background: #fff7e6; color: #8a5a00 !important; } html.dark .dash-warn { background: rgba(245,158,11,.14); color: #fde68a !important; }
+    @media (max-width: 900px) { .dash-hero, .dash-two { grid-template-columns: 1fr; } .dash-hero { padding: 22px; } .dash-hero h2 { font-size: 27px; } }
+
+    .spk-room { background: #0f1c3d; box-shadow: none; }
+    .toefl-audio-shell { border-radius: 12px; }
+  </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-100 selection:text-brand-900">
-  <div id="intro-overlay" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+  <div id="intro-overlay" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
     <div class="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-2xl w-full p-6 sm:p-8 space-y-6 my-auto">
       <div id="intro-step-welcome" class="space-y-5 text-left">
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-brand-50 text-brand-800 border border-brand-200">
@@ -266,108 +429,49 @@
 
   <div id="toast-container" class="fixed bottom-4 right-4 z-[100] flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
 
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-wrap lg:flex-nowrap items-center justify-between py-2.5 gap-2.5">
-        <div class="flex items-center justify-between gap-2.5 min-w-0 shrink">
-          <div class="flex items-center gap-2.5 min-w-0">
-            <div class="w-9 h-9 rounded-xl bg-brand-700 text-white flex items-center justify-center shadow-sm shrink-0" aria-hidden="true">
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 7l10-4 10 4-10 4-10-4z"></path>
-                <path d="M6 10.5v5.5c0 1.8 2.7 3.5 6 3.5s6-1.7 6-3.5v-5.5"></path>
-              </svg>
-            </div>
-            <div class="min-w-0">
-              <div class="flex items-center gap-2">
-                <h1 class="text-sm sm:text-base font-bold text-slate-900 tracking-tight whitespace-nowrap">
-                  Luyện thi Final Exam Course 3
-                </h1>
-                <span class="hidden 2xl:inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 whitespace-nowrap shrink-0">
-                  Song Ngữ
-                </span>
-              </div>
-              <p class="hidden sm:block text-[11px] text-slate-500 truncate max-w-[240px] xl:max-w-[300px]">
-                Reading (67 câu), Listening (28 câu), Writing &amp; Speaking
-              </p>
-            </div>
-          </div>
-
-          <div class="lg:hidden text-right shrink-0">
-            <span id="mobile-score-summary" class="inline-block text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 whitespace-nowrap">
-              0/67 Reading
-            </span>
-          </div>
-        </div>
-
-        <div class="hidden md:flex items-center gap-1.5 shrink-0">
-          <span id="current-practice-mode-badge" class="inline-flex items-center px-2.5 py-1.5 rounded-xl text-xs font-bold bg-brand-50 text-brand-800 border border-brand-200 whitespace-nowrap shrink-0">
-            Luyện từng phần
-          </span>
-          <button
-            type="button"
-            onclick="openModeSelectorOnly()"
-            class="px-2.5 py-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition whitespace-nowrap shrink-0"
-            title="Đổi chế độ ôn tập"
-          >
-            🔄 Chế độ
-          </button>
-        </div>
-
-        <div class="flex items-center gap-2 w-full lg:w-auto justify-between lg:justify-end shrink-0">
-          <nav aria-label="Chuyển kỹ năng Final Exam Course 3" class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80 overflow-x-auto max-w-full">
-            <button
-              type="button"
-              id="tab-reading"
-              onclick="switchSection('reading')"
-              class="nav-tab flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 bg-brand-700 text-white shadow-xs"
-            >
-              <span>📖 Reading</span>
-              <span id="badge-reading-count" class="text-[11px] px-1.5 py-0.5 rounded-md bg-white/20 text-white">67</span>
-            </button>
-            <button
-              type="button"
-              id="tab-listening"
-              onclick="switchSection('listening')"
-              class="nav-tab flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70"
-            >
-              <span>🎧 Listening</span>
-              <span id="badge-listening-count" class="text-[11px] px-1.5 py-0.5 rounded-md bg-slate-200 text-slate-700">28</span>
-            </button>
-            <button
-              type="button"
-              id="tab-writing"
-              onclick="switchSection('writing')"
-              class="nav-tab flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70"
-            >
-              <span>✍️ Writing</span>
-              <span class="text-[11px] px-1.5 py-0.5 rounded-md bg-slate-200 text-slate-700">10 + 5</span>
-            </button>
-            <button
-              type="button"
-              id="tab-speaking"
-              onclick="switchSection('speaking')"
-              class="nav-tab flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70"
-            >
-              <span>🎙️ Speaking</span>
-              <span class="text-[11px] px-1.5 py-0.5 rounded-md bg-slate-200 text-slate-700">3 CD</span>
-            </button>
-          </nav>
-
-          <button
-            type="button"
-            id="theme-toggle-btn"
-            onclick="toggleThemeMode()"
-            class="px-2.5 py-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 text-xs font-semibold text-slate-700 transition whitespace-nowrap shrink-0"
-            title="Chuyển chế độ Sáng / Tối"
-          >
-            🌙 Tối
-          </button>
-        </div>
-      </div>
+  <header id="app-nav">
+    <div class="nav-brand">
+      <div class="nav-logo" aria-hidden="true"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 7l10-4 10 4-10 4-10-4z"/><path d="M6 10.5v5.5c0 1.8 2.7 3.5 6 3.5s6-1.7 6-3.5v-5.5"/></svg></div>
+      <div class="nav-brand-text"><div class="nav-title">TOEFL Practice Studio</div><div class="nav-sub">Final Exam Course 3</div></div>
+    </div>
+    <nav aria-label="Chuyển kỹ năng Final Exam Course 3" class="nav-list">
+      <button type="button" id="tab-dashboard" onclick="switchSection('dashboard')" class="nav-tab flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span class="nav-label">Dashboard</span></button>
+      <button type="button" id="tab-reading" onclick="switchSection('reading')" class="nav-tab flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/></svg><span class="nav-label">Reading</span><span id="badge-reading-count" class="nav-badge">67</span></button>
+      <button type="button" id="tab-listening" onclick="switchSection('listening')" class="nav-tab flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="5" height="7" rx="2"/><rect x="16" y="14" width="5" height="7" rx="2"/></svg><span class="nav-label">Listening</span><span id="badge-listening-count" class="nav-badge">28</span></button>
+      <button type="button" id="tab-writing" onclick="switchSection('writing')" class="nav-tab flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg><span class="nav-label">Writing</span><span class="nav-badge">10 + 5</span></button>
+      <button type="button" id="tab-speaking" onclick="switchSection('speaking')" class="nav-tab flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span class="nav-label">Speaking</span><span class="nav-badge">3 CD</span></button>
+      <button type="button" id="nav-mock" onclick="choosePracticeMode('mock')" class="nav-tab nav-mock"><svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg><span class="nav-label">Mock Test</span></button>
+    </nav>
+    <div class="nav-foot">
+      <span id="mobile-score-summary" class="nav-score">0/67 Reading</span>
+      <div class="nav-mode"><span>Chế độ</span><span id="current-practice-mode-badge">Luyện từng phần</span></div>
+      <button type="button" id="theme-toggle-btn" onclick="toggleThemeMode()" class="nav-theme" title="Chuyển chế độ Sáng / Tối">🌙 Tối</button>
     </div>
   </header>
+  <div id="mobile-topbar"><span class="nav-title">TOEFL Practice Studio</span><button type="button" onclick="toggleThemeMode()" aria-label="Đổi giao diện Sáng / Tối">◐</button></div>
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24">
+    <section id="section-dashboard" class="hidden space-y-6">
+      <div class="dash-hero">
+        <div class="dash-hero-text">
+          <p class="dash-kicker">TOEFL Practice Studio • Final Exam Course 3</p>
+          <h2>Luyện thi bốn kỹ năng, theo dõi tiến độ ngay trên máy của bạn</h2>
+          <p>Bộ đề kèm audio, transcript và giải thích chi tiết, cùng chế độ thi thử bám theo cấu trúc Final Test.</p>
+        </div>
+        <div id="dash-continue" class="dash-continue"></div>
+      </div>
+      <div id="dash-skills" class="dash-grid"></div>
+      <div class="dash-two">
+        <div id="dash-mock" class="dash-card"></div>
+        <div class="dash-card dash-about">
+          <h3>Về nền tảng</h3>
+          <p>Nền tảng luyện thi miễn phí do <strong>Ngô Minh Tiến</strong> biên soạn và duy trì, hỗ trợ học viên ôn Final Exam Course 3.</p>
+          <p class="dash-warn">Đáp án có thể có sai sót, bạn hãy chủ động đối chiếu để việc ôn luyện hiệu quả hơn.</p>
+          <p>Góp ý và báo lỗi qua Zalo: <strong>0794599501</strong> • <a href="https://guns.lol/tienbipne" target="_blank" rel="noopener noreferrer">Xem thêm thông tin ↗</a></p>
+        </div>
+      </div>
+    </section>
+
     <section id="section-reading" class="space-y-5">
       <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs space-y-4">
         <div class="flex flex-col gap-4">
@@ -1141,7 +1245,7 @@
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div>
             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">🎙️ SPEAKING • HTMS Speaking Advanced</span>
-            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-2">Đề luyện Speaking <span class="text-sm font-semibold text-slate-500">(30 đề • 6 chương)</span></h2>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-2">Speaking Studio <span class="text-sm font-semibold text-slate-500">(30 đề • 6 chương)</span></h2>
           </div>
         </div>
         <div id="spk-chapter-tabs" class="flex flex-wrap gap-2"></div>
@@ -2605,13 +2709,13 @@
       stopListeningAudioOnly();
       if (typeof stopSpeakingAudioOnly === 'function') stopSpeakingAudioOnly();
 
-      const target = ['reading', 'listening', 'writing', 'speaking'].includes(sectionName)
+      const target = ['dashboard', 'reading', 'listening', 'writing', 'speaking'].includes(sectionName)
         ? sectionName
         : 'reading';
       appState.activeSection = target;
       saveState();
 
-      ['reading', 'listening', 'writing', 'speaking'].forEach((sec) => {
+      ['dashboard', 'reading', 'listening', 'writing', 'speaking'].forEach((sec) => {
         const el = document.getElementById(`section-${sec}`);
         if (el) el.classList.toggle('hidden', sec !== target);
 
@@ -4017,6 +4121,9 @@
     }
 
     const spkExam = { chapter: 1, unitId: SPEAKING_UNITS[0].id, rendered: false, timer: null, phaseIdx: 0, left: 0, phases: [] };
+    const spkRec = { stream: null, rec: null, deviceId: '', devices: [], ctx: null, raf: 0, takes: {}, err: '' };
+    const spkRun = { running: false, done: false, starting: false, endAt: 0, phases: [], idx: 0, left: 0, timer: null };
+    try { spkRec.deviceId = localStorage.getItem('spk-mic-id') || ''; } catch (e) { /* bỏ qua */ }
 
     function spkFmt(sec) {
       return `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`;
@@ -4066,9 +4173,7 @@
       if (!el) return;
       el.innerHTML = Object.keys(SPEAKING_CHAPTER_CFG).map((k) => {
         const n = Number(k);
-        const cfg = SPEAKING_CHAPTER_CFG[n];
-        const cls = n === spkExam.chapter ? 'bg-brand-700 text-white shadow-xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200';
-        return `<button type="button" onclick="selectSpeakingChapter(${n})" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition ${cls}">Ch.${n} • ${cfg.label}</button>`;
+        return `<button type="button" onclick="selectSpeakingChapter(${n})" class="spk-tab ${n === spkExam.chapter ? 'is-on' : ''}">Ch.${n} • ${SPEAKING_CHAPTER_CFG[n].label}</button>`;
       }).join('');
     }
 
@@ -4076,9 +4181,8 @@
       const el = document.getElementById('spk-unit-list');
       if (!el) return;
       el.innerHTML = SPEAKING_UNITS.filter((u) => u.chapter === spkExam.chapter).map((u) => {
-        const active = u.id === spkExam.unitId;
-        const cls = active ? 'border-brand-600 bg-brand-50 text-brand-900' : 'border-slate-200 bg-white hover:bg-slate-50 text-slate-800';
-        return `<button type="button" onclick="selectSpeakingUnit('${u.id}')" class="w-full text-left px-3 py-2 rounded-lg border text-sm transition ${cls}"><span class="block text-[11px] font-bold uppercase tracking-wider text-slate-500">Bài ${u.lesson} • Unit ${u.unit}</span><span class="block font-semibold">${escapeHtmlText(u.title)}</span></button>`;
+        const taken = spkRec.takes[u.id] ? '<span class="rec-dot">● đã ghi âm</span>' : '';
+        return `<button type="button" onclick="selectSpeakingUnit('${u.id}')" class="spk-unit ${u.id === spkExam.unitId ? 'is-on' : ''}"><small><span>Bài ${u.lesson} • Unit ${u.unit}</span>${taken}</small><b>${escapeHtmlText(u.title)}</b></button>`;
       }).join('');
     }
 
@@ -4088,48 +4192,50 @@
       const u = spkCurrentUnit();
       const cfg = SPEAKING_CHAPTER_CFG[u.chapter];
       const idx = SPEAKING_UNITS.findIndex((x) => x.id === u.id);
+      const navBtn = 'px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-40';
       let html = `<div class="flex flex-wrap items-center justify-between gap-2">
-        <div><span class="inline-block text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-600 text-white">${cfg.q} • ${escapeHtmlText(cfg.label)}</span>
-        <h3 class="text-lg font-extrabold text-slate-900 mt-1">Unit ${u.unit}. ${escapeHtmlText(u.title)}</h3></div>
+        <div><span class="inline-block text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-indigo-600 text-white">${cfg.q} • ${escapeHtmlText(cfg.label)}</span>
+        <h3 class="text-xl font-extrabold text-slate-900 mt-1">Unit ${u.unit}. ${escapeHtmlText(u.title)}</h3></div>
         <div class="flex gap-2">
-          <button type="button" onclick="stepSpeakingUnit(-1)" ${idx <= 0 ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-40">← Đề trước</button>
-          <button type="button" onclick="stepSpeakingUnit(1)" ${idx >= SPEAKING_UNITS.length - 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-40">Đề sau →</button>
+          <button type="button" onclick="stepSpeakingUnit(-1)" ${idx <= 0 ? 'disabled' : ''} class="${navBtn}">← Đề trước</button>
+          <button type="button" onclick="stepSpeakingUnit(1)" ${idx >= SPEAKING_UNITS.length - 1 ? 'disabled' : ''} class="${navBtn}">Đề sau →</button>
         </div></div>`;
-
       if (u.reading) {
-        html += `<div class="rounded-xl border border-slate-200 bg-slate-50 p-4"><div class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">📖 Reading${cfg.read ? ` (đọc trong ${cfg.read} giây)` : ''}</div>
+        html += `<div class="spk-card"><h4>📖 Reading${cfg.read ? ` • đọc trong ${cfg.read} giây` : ''}</h4>
           <div class="font-bold text-slate-900 mb-1">${escapeHtmlText(u.reading.title)}</div>
-          <p class="text-sm leading-relaxed text-slate-800" style="font-family: 'Newsreader', Georgia, serif; font-size: 16px;">${escapeHtmlText(u.reading.text)}</p></div>`;
+          <p class="leading-relaxed text-slate-800" style="font-family:'Newsreader',Georgia,serif;font-size:17px;line-height:1.7">${escapeHtmlText(u.reading.text)}</p></div>`;
       }
-
       if (u.track) {
-        html += `<div id="spk-unit-audio" class="rounded-xl border border-slate-200 p-4 space-y-2"></div>`;
-        html += spkScriptHtml(u);
+        html += `<div id="spk-unit-audio" class="spk-card space-y-2"></div>` + spkScriptHtml(u);
       }
-
-      html += `<div class="rounded-xl border border-indigo-200 bg-indigo-50 p-4"><div class="text-xs font-bold uppercase tracking-wider text-indigo-700 mb-1">❓ Đề bài</div>
-        <p class="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">${escapeHtmlText(u.prompt)}</p></div>`;
-
+      html += `<div class="spk-prompt"><h4>❓ Đề bài</h4><p>${escapeHtmlText(u.prompt)}</p></div>`;
       if (u.hints && u.hints.length) {
-        html += `<div class="rounded-xl border border-slate-200 p-4"><div class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">💡 Câu hỏi gợi ý</div>
-          <ul class="list-disc pl-5 space-y-1 text-sm text-slate-800">${u.hints.map((h) => `<li>${escapeHtmlText(h)}</li>`).join('')}</ul></div>`;
+        html += `<div class="spk-card"><h4>💡 Câu hỏi gợi ý</h4><ul class="list-disc pl-5 space-y-1 text-sm text-slate-800">${u.hints.map((h) => `<li>${escapeHtmlText(h)}</li>`).join('')}</ul></div>`;
       }
-
-      html += `<div class="rounded-xl border border-slate-200 p-4 space-y-2">
-        <div class="flex flex-wrap items-center justify-between gap-2">
-          <div class="text-xs font-bold uppercase tracking-wider text-slate-500">⏱️ Bấm giờ theo chuẩn đề thi</div>
-          <div class="text-xs text-slate-500">${cfg.read ? `Đọc ${cfg.read}s • ` : ''}Chuẩn bị ${cfg.prep}s • Nói ${cfg.speak}s</div>
+      const chips = spkPhases().map((p, i) => `<span class="spk-chip" data-i="${i}">${p.label} ${p.secs}s</span>`).join('');
+      html += `<div id="spk-room" class="spk-room" data-state="idle">
+        <div class="spk-top"><div id="spk-chips" class="flex flex-wrap gap-2">${chips}</div><span id="spk-rec-pill" class="spk-rec" hidden>Đang ghi âm</span></div>
+        <div class="spk-clock"><div id="spk-timer-display">--:--</div><div id="spk-timer-phase">Sẵn sàng</div></div>
+        <div class="spk-bar"><i id="spk-progress"></i></div>
+        <div class="spk-controls">
+          <button type="button" id="spk-btn-start" onclick="startSpeakingTimer()" class="spk-btn primary">▶ Bắt đầu</button>
+          <button type="button" id="spk-btn-skip" onclick="spkSkip()" class="spk-btn" hidden>⏭ Bỏ qua</button>
+          <button type="button" id="spk-btn-finish" onclick="spkFinish(false)" class="spk-btn danger" hidden>■ Kết thúc</button>
+          <button type="button" onclick="resetSpeakingTimer()" class="spk-btn">↺ Đặt lại</button>
         </div>
-        <div class="flex flex-wrap items-center gap-3">
-          <div id="spk-timer-phase" class="text-sm font-semibold text-slate-700">Sẵn sàng</div>
-          <div id="spk-timer-display" class="font-mono text-2xl font-extrabold text-slate-900">--:--</div>
-          <button type="button" onclick="startSpeakingTimer()" class="px-3.5 py-2 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-xs font-semibold transition">▶ Bắt đầu</button>
-          <button type="button" onclick="resetSpeakingTimer()" class="px-3.5 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition">↺ Đặt lại</button>
+        <div class="spk-mic">
+          <div class="spk-mic-row">
+            <select id="spk-mic-select" onchange="spkOnMicChange(this.value)" aria-label="Chọn micro"></select>
+            <button type="button" id="spk-mic-btn" onclick="spkToggleMic()" class="spk-btn">Bật mic</button>
+            <div class="spk-meter" title="Mức âm thanh"><i id="spk-meter-bar"></i></div>
+          </div>
+          <div id="spk-mic-status"></div>
         </div>
-        <p class="text-[11px] text-slate-500">Nghe audio (nếu có) rồi bấm “Bắt đầu”. Hết giai đoạn chuẩn bị sẽ có tiếng bíp để bạn bắt đầu nói.</p></div>`;
-
+      </div>
+      <div id="spk-result" class="spk-card"></div>`;
       el.innerHTML = html;
       updateSpeakingUnitAudio();
+      spkPaintMic(); spkPaintResult(); spkPaint();
     }
 
     function spkAudioSrc(cd, track) {
@@ -4143,8 +4249,7 @@
       const u = spkCurrentUnit();
       if (!u.track) return;
       const kind = u.audioKind === 'lecture' ? 'bài giảng' : 'hội thoại';
-      const nn = String(u.track).padStart(2, '0');
-      box.innerHTML = `<div class="text-xs font-bold uppercase tracking-wider text-slate-500">🎧 Audio ${kind} • CD ${u.cd} – Track ${nn}</div>
+      box.innerHTML = `<h4>🎧 Audio ${kind} • CD ${u.cd} – Track ${String(u.track).padStart(2, '0')}</h4>
         <audio id="spk-unit-audio-el" controls preload="none" class="w-full" src="${spkAudioSrc(u.cd, u.track)}"></audio>`;
     }
 
@@ -4160,60 +4265,267 @@
         const ctx = new Ctx();
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.frequency.value = 880;
-        gain.gain.value = 0.15;
+        osc.frequency.value = 880; gain.gain.value = 0.15;
         osc.connect(gain); gain.connect(ctx.destination);
         osc.start();
         setTimeout(() => { osc.stop(); ctx.close(); }, 250);
       } catch (e) { /* bỏ qua */ }
     }
 
-    function startSpeakingTimer() {
-      resetSpeakingTimer();
-      const u = spkCurrentUnit();
-      const cfg = SPEAKING_CHAPTER_CFG[u.chapter];
-      spkExam.phases = [];
-      if (cfg.read) spkExam.phases.push({ label: '📖 Đọc bài', secs: cfg.read });
-      spkExam.phases.push({ label: '🧠 Chuẩn bị', secs: cfg.prep });
-      spkExam.phases.push({ label: '🎙️ Nói', secs: cfg.speak });
-      spkExam.phaseIdx = 0;
-      spkExam.left = spkExam.phases[0].secs;
-      spkTimerPaint();
-      spkExam.timer = setInterval(() => {
-        spkExam.left -= 1;
-        if (spkExam.left <= 0) {
-          spkBeep();
-          spkExam.phaseIdx += 1;
-          if (spkExam.phaseIdx >= spkExam.phases.length) {
-            clearInterval(spkExam.timer);
-            spkExam.timer = null;
-            const ph = document.getElementById('spk-timer-phase');
-            const dp = document.getElementById('spk-timer-display');
-            if (ph) ph.textContent = '✅ Hết giờ';
-            if (dp) dp.textContent = '00:00';
-            return;
-          }
-          spkExam.left = spkExam.phases[spkExam.phaseIdx].secs;
-        }
-        spkTimerPaint();
-      }, 1000);
+    /* ---- Micro: bật/tắt, chọn thiết bị, thanh mức âm, ghi âm ---- */
+    function spkSupported() {
+      return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
     }
 
-    function spkTimerPaint() {
-      const ph = document.getElementById('spk-timer-phase');
-      const dp = document.getElementById('spk-timer-display');
-      const cur = spkExam.phases[spkExam.phaseIdx];
-      if (ph && cur) ph.textContent = cur.label;
-      if (dp) dp.textContent = spkFmt(Math.max(0, spkExam.left));
+    function spkMime() {
+      const c = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg;codecs=opus'];
+      return c.find((t) => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) || '';
+    }
+
+    async function spkListDevices() {
+      try {
+        const all = await navigator.mediaDevices.enumerateDevices();
+        spkRec.devices = all.filter((d) => d.kind === 'audioinput');
+      } catch (e) { spkRec.devices = []; }
+    }
+
+    async function spkOpenMic(deviceId) {
+      spkCloseMic();
+      const base = { echoCancellation: true, noiseSuppression: true };
+      try {
+        try {
+          spkRec.stream = await navigator.mediaDevices.getUserMedia({ audio: deviceId ? { ...base, deviceId: { exact: deviceId } } : base });
+        } catch (e) {
+          if (!deviceId || e.name === 'NotAllowedError') throw e;
+          spkRec.stream = await navigator.mediaDevices.getUserMedia({ audio: base });
+        }
+        const s = spkRec.stream.getAudioTracks()[0].getSettings();
+        spkRec.deviceId = s.deviceId || deviceId || '';
+        spkRec.err = '';
+        await spkListDevices();
+        spkStartMeter();
+      } catch (e) {
+        spkRec.stream = null;
+        spkRec.err = e.name === 'NotAllowedError' ? 'Trình duyệt đang chặn micro. Bấm biểu tượng ổ khóa cạnh thanh địa chỉ, cho phép Micro rồi bấm “Bật mic” lại.'
+          : e.name === 'NotFoundError' ? 'Không tìm thấy micro nào. Hãy cắm micro rồi bấm “Bật mic” lại.'
+          : 'Không mở được micro: ' + (e.message || e.name);
+      }
+      spkPaintMic();
+      return !!spkRec.stream;
+    }
+
+    function spkCloseMic() {
+      spkStopMeter();
+      if (spkRec.stream) spkRec.stream.getTracks().forEach((t) => t.stop());
+      spkRec.stream = null;
+    }
+
+    function spkToggleMic() {
+      if (spkRun.running) return;
+      if (spkRec.stream) { spkCloseMic(); spkPaintMic(); } else spkOpenMic(spkRec.deviceId);
+    }
+
+    function spkOnMicChange(id) {
+      spkRec.deviceId = id;
+      try { localStorage.setItem('spk-mic-id', id); } catch (e) { /* bỏ qua */ }
+      if (spkRec.stream) spkOpenMic(id);
+    }
+
+    function spkStartMeter() {
+      spkStopMeter();
+      if (!spkRec.stream) return;
+      try {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        spkRec.ctx = new Ctx();
+        const an = spkRec.ctx.createAnalyser();
+        an.fftSize = 512;
+        spkRec.ctx.createMediaStreamSource(spkRec.stream).connect(an);
+        const buf = new Uint8Array(an.fftSize);
+        const loop = () => {
+          an.getByteTimeDomainData(buf);
+          let sum = 0;
+          for (let i = 0; i < buf.length; i++) { const v = (buf[i] - 128) / 128; sum += v * v; }
+          const lvl = Math.min(1, Math.sqrt(sum / buf.length) * 4);
+          const bar = document.getElementById('spk-meter-bar');
+          if (bar) { bar.style.width = (lvl * 100) + '%'; bar.style.background = lvl > 0.85 ? '#f43f5e' : lvl > 0.6 ? '#fbbf24' : '#34d399'; }
+          spkRec.raf = requestAnimationFrame(loop);
+        };
+        loop();
+      } catch (e) { /* bỏ qua */ }
+    }
+
+    function spkStopMeter() {
+      cancelAnimationFrame(spkRec.raf); spkRec.raf = 0;
+      if (spkRec.ctx) { spkRec.ctx.close().catch(() => {}); spkRec.ctx = null; }
+      const bar = document.getElementById('spk-meter-bar');
+      if (bar) bar.style.width = '0';
+    }
+
+    function spkPaintMic() {
+      const sel = document.getElementById('spk-mic-select');
+      if (!sel) return;
+      const st = document.getElementById('spk-mic-status');
+      const on = !!spkRec.stream;
+      sel.innerHTML = spkRec.devices.length
+        ? spkRec.devices.map((d, i) => `<option value="${escapeHtmlText(d.deviceId)}" ${d.deviceId === spkRec.deviceId ? 'selected' : ''}>${escapeHtmlText(d.label || ('Micro ' + (i + 1)))}</option>`).join('')
+        : '<option value="">Mặc định của hệ thống</option>';
+      sel.disabled = spkRun.running || !spkRec.devices.length;
+      const btn = document.getElementById('spk-mic-btn');
+      btn.textContent = on ? 'Tắt mic' : 'Bật mic';
+      btn.disabled = spkRun.running || !spkSupported();
+      let msg, cls = '';
+      if (!spkSupported()) { msg = 'Trình duyệt này không hỗ trợ ghi âm (cần HTTPS hoặc localhost).'; cls = 'err'; }
+      else if (spkRec.err) { msg = spkRec.err; cls = 'err'; }
+      else if (on) { msg = 'Mic sẵn sàng. Nói thử, thanh mức âm sẽ nhúc nhích. Mic chỉ thu ở giai đoạn Nói.'; cls = 'ok'; }
+      else msg = 'Mic đang tắt. Bấm “Bật mic” để cho phép trình duyệt dùng micro.';
+      st.textContent = msg; st.className = cls;
+    }
+
+    function spkRecStart() {
+      if (!spkRec.stream || !window.MediaRecorder) return;
+      try {
+        const mime = spkMime(), chunks = [], unit = spkExam.unitId;
+        const rec = new MediaRecorder(spkRec.stream, mime ? { mimeType: mime } : undefined);
+        rec._t0 = Date.now(); rec._discard = false;
+        rec.ondataavailable = (e) => { if (e.data && e.data.size) chunks.push(e.data); };
+        rec.onstop = () => {
+          if (rec._discard || !chunks.length) return;
+          const type = rec.mimeType || mime || 'audio/webm';
+          const blob = new Blob(chunks, { type });
+          const old = spkRec.takes[unit];
+          if (old) URL.revokeObjectURL(old.url);
+          spkRec.takes[unit] = { url: URL.createObjectURL(blob), size: blob.size, dur: Math.round((Date.now() - rec._t0) / 1000), ext: /mp4/.test(type) ? 'm4a' : /ogg/.test(type) ? 'ogg' : 'webm' };
+          renderSpeakingUnitList();
+          if (spkExam.unitId === unit) spkPaintResult();
+        };
+        rec.start(1000);
+        spkRec.rec = rec;
+      } catch (e) {
+        spkRec.err = 'Không bắt đầu ghi âm được: ' + (e.message || e.name);
+        spkPaintMic();
+      }
+    }
+
+    function spkRecStop(discard) {
+      const r = spkRec.rec;
+      spkRec.rec = null;
+      if (r && r.state !== 'inactive') { r._discard = !!discard; try { r.stop(); } catch (e) { /* bỏ qua */ } }
+    }
+
+    function spkDeleteTake() {
+      const t = spkRec.takes[spkExam.unitId];
+      if (t) URL.revokeObjectURL(t.url);
+      delete spkRec.takes[spkExam.unitId];
+      renderSpeakingUnitList(); spkPaintResult();
+    }
+
+    function spkPaintResult() {
+      const box = document.getElementById('spk-result');
+      if (!box) return;
+      const t = spkRec.takes[spkExam.unitId];
+      if (!t) {
+        box.innerHTML = '<h4>🎙️ Bản ghi âm của bạn</h4><p class="text-sm text-slate-500">Chưa có bản ghi. Bấm “Bắt đầu”, đến giai đoạn Nói là mic tự thu. Bản ghi chỉ nằm trong trình duyệt, không gửi đi đâu.</p>';
+        return;
+      }
+      box.innerHTML = `<div class="spk-take-head"><strong>🎙️ Bản ghi âm của bạn</strong><span>${spkFmt(t.dur)} • ${Math.max(1, Math.round(t.size / 1024))} KB</span></div>
+        <audio controls class="w-full" src="${t.url}"></audio>
+        <div class="spk-take-actions"><a class="spk-link" href="${t.url}" download="speaking-${spkExam.unitId}.${t.ext}">Tải về</a><button type="button" class="spk-link" onclick="spkDeleteTake()">Xóa bản ghi</button></div>`;
+    }
+
+    /* ---- Đồng hồ: Bắt đầu / Bỏ qua / Kết thúc ---- */
+    function spkPhases() {
+      const cfg = SPEAKING_CHAPTER_CFG[spkCurrentUnit().chapter];
+      const ph = [];
+      if (cfg.read) ph.push({ kind: 'read', label: 'Đọc bài', secs: cfg.read });
+      ph.push({ kind: 'prep', label: 'Chuẩn bị', secs: cfg.prep });
+      ph.push({ kind: 'speak', label: 'Nói', secs: cfg.speak });
+      return ph;
+    }
+
+    async function startSpeakingTimer() {
+      if (spkRun.running || spkRun.starting) return;
+      spkRun.starting = true;
+      if (!spkRec.stream && spkSupported()) await spkOpenMic(spkRec.deviceId);
+      spkRun.starting = false;
+      pauseSpeakingUnitAudio();
+      spkRun.phases = spkPhases(); spkRun.running = true; spkRun.done = false;
+      spkEnter(0);
+      spkRun.timer = setInterval(spkTick, 200);
+      spkPaintMic();
+    }
+
+    function spkEnter(i) {
+      spkRun.idx = i;
+      const p = spkRun.phases[i];
+      spkRun.endAt = Date.now() + p.secs * 1000;
+      spkRun.left = p.secs;
+      if (p.kind === 'speak') spkRecStart();
+      spkPaint();
+    }
+
+    function spkTick() {
+      spkRun.left = Math.max(0, Math.ceil((spkRun.endAt - Date.now()) / 1000));
+      if (spkRun.left > 0) return spkPaint();
+      spkBeep();
+      if (spkRun.idx >= spkRun.phases.length - 1) spkFinish(true); else spkEnter(spkRun.idx + 1);
+    }
+
+    function spkSkip() {
+      if (!spkRun.running) return;
+      if (spkRun.idx >= spkRun.phases.length - 1) return spkFinish(false);
+      spkBeep();
+      spkEnter(spkRun.idx + 1);
+    }
+
+    function spkFinish() {
+      if (!spkRun.running) return;
+      clearInterval(spkRun.timer); spkRun.timer = null;
+      spkRun.running = false; spkRun.done = true;
+      spkRecStop(false);
+      spkPaint(); spkPaintMic();
     }
 
     function resetSpeakingTimer() {
-      if (spkExam.timer) { clearInterval(spkExam.timer); spkExam.timer = null; }
-      const ph = document.getElementById('spk-timer-phase');
-      const dp = document.getElementById('spk-timer-display');
-      if (ph) ph.textContent = 'Sẵn sàng';
-      if (dp) dp.textContent = '--:--';
+      if (spkRun.timer) clearInterval(spkRun.timer);
+      spkRun.timer = null; spkRun.running = false; spkRun.done = false; spkRun.idx = 0; spkRun.phases = [];
+      spkRecStop(true);
+      spkPaint(); spkPaintMic();
     }
+
+    function spkPaint() {
+      const $ = (id) => document.getElementById(id);
+      const label = $('spk-timer-phase');
+      if (!label) return;
+      const cur = spkRun.phases[spkRun.idx];
+      const run = spkRun.running && cur;
+      const disp = $('spk-timer-display'), bar = $('spk-progress');
+      if (run) { label.textContent = cur.label; disp.textContent = spkFmt(spkRun.left); bar.style.width = Math.min(100, (1 - spkRun.left / cur.secs) * 100) + '%'; }
+      else if (spkRun.done) { label.textContent = 'Đã kết thúc'; disp.textContent = '00:00'; bar.style.width = '100%'; }
+      else { label.textContent = 'Sẵn sàng'; disp.textContent = '--:--'; bar.style.width = '0'; }
+      $('spk-room').dataset.state = run ? cur.kind : (spkRun.done ? 'done' : 'idle');
+      $('spk-rec-pill').hidden = !(run && cur.kind === 'speak' && spkRec.rec);
+      document.querySelectorAll('#spk-chips [data-i]').forEach((c) => {
+        const i = Number(c.dataset.i);
+        c.className = 'spk-chip' + (run && i === spkRun.idx ? ' is-current' : '') + ((run && i < spkRun.idx) || spkRun.done ? ' is-done' : '');
+      });
+      const start = $('spk-btn-start'), skip = $('spk-btn-skip');
+      start.hidden = !!spkRun.running; start.textContent = spkRun.done ? '▶ Làm lại' : '▶ Bắt đầu';
+      $('spk-btn-finish').hidden = !spkRun.running;
+      const next = run && spkRun.phases[spkRun.idx + 1];
+      skip.hidden = !next;
+      if (next) skip.textContent = '⏭ Bỏ qua → ' + next.label;
+    }
+
+    function stopSpeakingAudioOnly() {
+      resetSpeakingTimer();
+      pauseSpeakingUnitAudio();
+      spkCloseMic();
+      spkPaintMic();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (navigator.mediaDevices) navigator.mediaDevices.ondevicechange = () => { if (spkRec.stream) spkListDevices().then(spkPaintMic); };
+    });
 
 
     /* ===== THI THỬ (theo cấu trúc Final Test – Course 3) ===== */
@@ -4790,14 +5102,75 @@ ${essayCards}
       if (r && el) el.textContent = (Math.round((r.ls + r.rs + v) * 10) / 10).toString();
     }
 
-    function stopSpeakingAudioOnly() {
-      if (typeof resetSpeakingTimer === 'function') resetSpeakingTimer();
-      pauseSpeakingUnitAudio();
-    }
-
     window.addEventListener('DOMContentLoaded', () => {
       if (typeof initSpeakingExam === 'function') initSpeakingExam();
     });
+      /* ===== Dashboard & app shell (UI v3) ===== */
+    (function () {
+      const $ = (id) => document.getElementById(id);
+      const has = (v) => v !== undefined && v !== null && v !== '' && !(Array.isArray(v) && !v.length);
+      const IC = {"dashboard": "<rect x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.5\"/>", "reading": "<path d=\"M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z\"/><path d=\"M4 19V5\"/>", "listening": "<path d=\"M4 15v-3a8 8 0 0 1 16 0v3\"/><rect x=\"3\" y=\"14\" width=\"5\" height=\"7\" rx=\"2\"/><rect x=\"16\" y=\"14\" width=\"5\" height=\"7\" rx=\"2\"/>", "writing": "<path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z\"/>", "speaking": "<rect x=\"9\" y=\"3\" width=\"6\" height=\"11\" rx=\"3\"/><path d=\"M5 11a7 7 0 0 0 14 0M12 18v3\"/>", "mock": "<circle cx=\"12\" cy=\"13\" r=\"8\"/><path d=\"M12 9v4l2.5 2M9 2h6\"/>"};
+      const ico = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${IC[k]}</svg>`;
+      const countAns = (o) => Object.keys(o || {}).filter((k) => has(o[k])).length;
+      const qCount = (arr) => (arr || []).reduce((n, p) => n + ((p.questions || []).length), 0);
+      const txt = (id) => { const e = $(id); return e ? e.textContent.trim() : '0'; };
+
+      window.renderDashboard = function () {
+        const rT = qCount(READING_PASSAGES), lT = qCount(LISTENING_PARTS) || Number(txt('listening-total-questions')) || 0;
+        const rA = countAns(appState.answers), lA = countAns(appState.listeningAnswers);
+        const wA = Object.values(appState.independentEssays || {}).concat(Object.values(appState.integratedEssays || {})).filter((t) => String(t || '').trim()).length;
+        const wT = INDEPENDENT_PROMPTS.length + INTEGRATED_SETS.length;
+        const takes = Object.keys(spkRec.takes).length, sT = SPEAKING_UNITS.length;
+        const cards = [
+          { k: 'reading', t: 'Reading', meta: `${READING_PASSAGES.length} bài đọc • ${rT} câu hỏi`, a: rA, b: rT, left: 'Đã trả lời', note: `Chấm đúng ${txt('reading-total-correct')}/${rT}` },
+          { k: 'listening', t: 'Listening', meta: `${LISTENING_PARTS.length} phần nghe • ${lT} câu hỏi`, a: lA, b: lT, left: 'Đã trả lời', note: `Chấm đúng ${txt('listening-total-correct')}/${lT}` },
+          { k: 'writing', t: 'Writing', meta: `${INDEPENDENT_PROMPTS.length} đề Independent • ${INTEGRATED_SETS.length} đề Integrated`, a: wA, b: wT, left: 'Đã viết', note: `${wA}/${wT} đề có nội dung` },
+          { k: 'speaking', t: 'Speaking Studio', meta: `${sT} đề • 6 chương • audio 3 CD`, a: takes, b: sT, left: 'Đã ghi âm', note: 'trong phiên này' }
+        ];
+        $('dash-skills').innerHTML = cards.map((c) => `<div class="dash-card">
+          <div class="dash-skill-top"><div class="dash-ico">${ico(c.k)}</div><div><h3>${c.t}</h3><div class="dash-meta">${c.meta}</div></div></div>
+          <div class="dash-prog"><i style="width:${c.b ? Math.min(100, c.a / c.b * 100) : 0}%"></i></div>
+          <div class="dash-note"><span>${c.left} <b>${c.a}/${c.b}</b></span><span>${c.note}</span></div>
+          <button type="button" class="dash-link" onclick="switchSection('${c.k}')">Mở ${c.t}</button></div>`).join('');
+
+        const sk = ['reading', 'listening', 'writing', 'speaking'].includes(appState.lastSkill) ? appState.lastSkill : 'reading';
+        let title = '', sub = '', pct = 0;
+        if (sk === 'reading') {
+          const p = READING_PASSAGES.find((x) => x.id === appState.currentPassageId) || READING_PASSAGES[0];
+          const d = p.questions.filter((q) => has(appState.answers[q.globalIndex])).length;
+          title = p.selectLabel || p.title; sub = `Đã trả lời ${d}/${p.questions.length} câu`; pct = d / p.questions.length * 100;
+        } else if (sk === 'listening') {
+          const p = LISTENING_PARTS.find((x) => x.id === appState.currentListeningPartId) || LISTENING_PARTS[0];
+          title = p.selectLabel || p.title; sub = 'Tiếp tục phần nghe đang làm';
+        } else if (sk === 'writing') {
+          if (appState.writingSubtab === 'integrated') { const s = INTEGRATED_SETS.find((x) => x.id === appState.currentIntegratedId) || INTEGRATED_SETS[0]; title = s.title; sub = 'Integrated Writing'; }
+          else { const s = INDEPENDENT_PROMPTS.find((x) => x.id === appState.currentIndependentId) || INDEPENDENT_PROMPTS[0]; title = `${s.testCode}: ${s.statement}`; sub = 'Independent Writing'; }
+        } else { const u = spkCurrentUnit(); title = `Unit ${u.unit}. ${u.title}`; sub = `Speaking Studio • Q${u.chapter}`; }
+        $('dash-continue').innerHTML = `<small>Tiếp tục học • ${sk.charAt(0).toUpperCase() + sk.slice(1)}</small><b>${escapeHtmlText(title)}</b><span>${escapeHtmlText(sub)}</span>
+          ${pct ? `<div class="dash-prog"><i style="width:${pct}%"></i></div>` : ''}<button type="button" class="dash-btn" onclick="switchSection('${sk}')">Tiếp tục</button>`;
+
+        const m = MOCK_CFG, mn = (x) => Math.round(x.secs / 60);
+        $('dash-mock').innerHTML = `<div class="dash-skill-top"><div class="dash-ico">${ico('mock')}</div><div><h3>Mock Test • Final Test Course 3</h3><div class="dash-meta">Phòng thi riêng, đề chọn ngẫu nhiên, không lưu bài làm</div></div></div>
+          <div class="dash-steps"><span>Listening ${mn(m.listening)} phút</span><span>Reading ${mn(m.reading)} phút</span><span>Nghỉ ${mn(m.break)} phút</span><span>Writing ${mn(m.writing)} phút</span></div>
+          <p>Trong lúc thi không hiển thị đáp án, transcript hay công cụ luyện tập. Làm xong nhập email để nhận kết quả.</p>
+          <button type="button" class="dash-btn" onclick="choosePracticeMode('mock')">Bắt đầu thi thử</button>`;
+      };
+
+      const baseSwitch = window.switchSection;
+      window.switchSection = function (n) {
+        baseSwitch(n);
+        if (n === 'dashboard') { renderDashboard(); window.scrollTo(0, 0); }
+        else if (!document.body.classList.contains('mock-mode') && ['reading', 'listening', 'writing', 'speaking'].includes(n)) { appState.lastSkill = n; saveState(); }
+      };
+      window.openIntroOverlay = window.openModeSelectorOnly = function () {
+        const o = $('intro-overlay'); if (o) o.classList.add('hidden');
+        switchSection('dashboard');
+      };
+      window.addEventListener('DOMContentLoaded', () => {
+        if (!['reading', 'listening', 'writing', 'speaking'].includes(appState.lastSkill)) appState.lastSkill = ['reading', 'listening', 'writing', 'speaking'].includes(appState.activeSection) ? appState.activeSection : 'reading';
+        switchSection('dashboard');
+      });
+    })();
   </script>
 </body>
 </html>
