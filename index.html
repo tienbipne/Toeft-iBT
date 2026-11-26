@@ -87,80 +87,16 @@
     html.dark .toefl-audio-btn:hover { background-color: #334155; color: #ffffff; }
     html.dark .toefl-audio-caption { background-color: #131c31; color: #cbd5e1; }
 
-    html.dark #mini-music-box .text-slate-900 { color: #f8fafc; }
-    html.dark #mini-music-box .text-slate-700, html.dark #mini-music-box .text-slate-600 { color: #cbd5e1; }
-    html.dark #mini-music-box .text-slate-500 { color: #94a3b8; }
-    html.dark #mini-music-box button.border-slate-200 { background-color: #1e293b; border-color: #334155; color: #e2e8f0; }
-    html.dark #mini-music-box button.border-slate-200:hover { background-color: #334155; color: #ffffff; }
     html.dark #intro-overlay .bg-slate-100\/80 { background-color: #1e293b; border-color: #334155; color: #cbd5e1; opacity: 1; }
     html.dark select, html.dark textarea, html.dark input[type="text"] { background-color: #0b1120; border-color: #334155; color: #f1f5f9; }
     html.dark .academic-scroll::-webkit-scrollbar-track { background: #0f172a; }
     html.dark .academic-scroll::-webkit-scrollbar-thumb { background: #334155; }
-
-    @keyframes musicBarBounce {
-      0%, 100% { transform: scaleY(0.32); }
-      50% { transform: scaleY(1); }
-    }
-    .music-eq-bar {
-      width: 2.5px;
-      height: 12px;
-      border-radius: 9999px;
-      background-color: currentColor;
-      transform-origin: bottom;
-      transform: scaleY(0.35);
-      transition: transform 0.25s ease;
-    }
-    .is-playing .music-eq-bar:nth-child(1) { animation: musicBarBounce 0.75s ease-in-out infinite 0.05s; }
-    .is-playing .music-eq-bar:nth-child(2) { animation: musicBarBounce 0.6s ease-in-out infinite 0.2s; }
-    .is-playing .music-eq-bar:nth-child(3) { animation: musicBarBounce 0.85s ease-in-out infinite 0.35s; }
-    .is-playing .music-eq-bar:nth-child(4) { animation: musicBarBounce 0.68s ease-in-out infinite 0.12s; }
-
-    #mini-music-expand-icon {
-      display: inline-flex;
-      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    #mini-music-box.is-expanded #mini-music-expand-icon {
-      transform: rotate(180deg);
-    }
-    #mini-music-details {
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      margin-top: 0;
-      padding-top: 0;
-      border-top-width: 0;
-      transform: translateY(-6px);
-      pointer-events: none;
-      transition:
-        max-height 0.36s cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 0.26s ease,
-        transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-        margin-top 0.32s ease,
-        padding-top 0.32s ease;
-    }
-    #mini-music-box.is-expanded #mini-music-details {
-      max-height: 430px;
-      opacity: 1;
-      margin-top: 0.65rem;
-      padding-top: 0.65rem;
-      border-top-width: 1px;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-    @keyframes nextSkipPulse {
-      0% { transform: translateX(0) scale(1); }
-      45% { transform: translateX(3px) scale(0.92); }
-      100% { transform: translateX(0) scale(1); }
-    }
-    .skip-motion-active {
-      animation: nextSkipPulse 0.28s cubic-bezier(0.22, 1, 0.36, 1);
-    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-100 selection:text-brand-900">
   <div id="intro-overlay" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
     <div class="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-2xl w-full p-6 sm:p-8 space-y-6 my-auto">
-      <div id="intro-step-welcome" class="space-y-6 text-center sm:text-left">
+      <div id="intro-step-welcome" class="space-y-5 text-left">
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-brand-50 text-brand-800 border border-brand-200">
           <span>🎓</span>
           <span>TOEFL iBT PRACTICE STUDIO • VIỆT – ANH SONG NGỮ</span>
@@ -170,46 +106,49 @@
           <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight">
             Chào mừng bạn đến với Web Luyện Thi TOEFL iBT
           </h2>
-          <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
-            Nền tảng luyện thi miễn phí do <strong>Ngô Minh Tiến</strong> biên soạn và duy trì nhằm hỗ trợ cộng đồng học viên ôn tập TOEFL iBT. Bao gồm trọn bộ <strong>Reading</strong> (10 bài đọc / 67 câu hỏi kèm giải thích chi tiết), <strong>Listening</strong> (liên kết trang nghe &amp; ghi chú thông minh) và <strong>Writing</strong> (10 đề Independent + 5 đề Integrated có audio &amp; transcript).
-          </p>
-          <p class="text-xs sm:text-sm font-medium text-brand-800">
-            Biên soạn &amp; duy trì: <strong>Ngô Minh Tiến</strong> • Xem thông tin:
-            <a
-              href="https://guns.lol/tienbipne"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="underline underline-offset-4 hover:text-brand-900"
-            >
-              Xem thêm thông tin ↗
-            </a>
-          </p>
-          <p class="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-xl px-3.5 py-2 leading-relaxed">
-            Đáp án có thể có sai sót — bạn hãy chủ động đối chiếu để việc ôn luyện hiệu quả hơn. Mọi góp ý hoặc báo lỗi, vui lòng liên hệ Zalo: <strong>0794599501</strong>.
+          <p class="text-sm sm:text-[15px] text-slate-600 leading-relaxed">
+            Nền tảng luyện thi miễn phí do <strong>Ngô Minh Tiến</strong> biên soạn và duy trì nhằm hỗ trợ cộng đồng học viên ôn tập TOEFL iBT. Bao gồm trọn bộ <strong>Reading</strong> (10 bài đọc / 67 câu hỏi kèm giải thích chi tiết), <strong>Listening</strong> (5 phần nghe 28 câu &amp; ghi chú thông minh) và <strong>Writing</strong> (10 đề Independent + 5 đề Integrated có audio &amp; transcript).
           </p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
           <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
             <div class="text-xs font-bold text-brand-800">📖 Reading</div>
-            <div class="text-xs text-slate-600 mt-1">67 câu hỏi, đồng hồ đếm ngược, bảng điểm &amp; lọc câu sai.</div>
+            <div class="text-xs text-slate-600 mt-1 leading-relaxed">67 câu hỏi, đồng hồ đếm ngược, bảng điểm &amp; lọc câu sai.</div>
           </div>
           <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
             <div class="text-xs font-bold text-indigo-700">🎧 Listening</div>
-            <div class="text-xs text-slate-600 mt-1">Liên kết trang web nghe &amp; khung ghi chú tự lưu.</div>
+            <div class="text-xs text-slate-600 mt-1 leading-relaxed">5 phần nghe 28 câu, audio đọc &amp; khung ghi chú tự lưu.</div>
           </div>
           <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
             <div class="text-xs font-bold text-emerald-700">✍️ Writing</div>
-            <div class="text-xs text-slate-600 mt-1">10 đề Independent + 5 đề Integrated kèm audio &amp; transcript.</div>
+            <div class="text-xs text-slate-600 mt-1 leading-relaxed">10 đề Independent + 5 đề Integrated kèm audio &amp; transcript.</div>
           </div>
         </div>
 
-        <div class="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-slate-100">
-          <span class="text-xs text-slate-500">Bấm Tiếp theo để chọn chế độ luyện tập phù hợp với bạn.</span>
+        <div class="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-xl px-3.5 py-2.5 leading-relaxed">
+          ⚠️ Đáp án có thể có sai sót — bạn hãy chủ động đối chiếu để việc ôn luyện hiệu quả hơn.
+        </div>
+
+        <div class="pt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-slate-100">
+          <div class="text-xs text-slate-500 space-y-0.5">
+            <div>
+              Biên soạn: <strong class="text-slate-800">Ngô Minh Tiến</strong> •
+              <a
+                href="https://guns.lol/tienbipne"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-semibold text-brand-700 hover:text-brand-900 underline underline-offset-4"
+              >
+                Xem thêm thông tin ↗
+              </a>
+            </div>
+            <div>Góp ý &amp; báo lỗi qua Zalo: <strong class="text-slate-800">0794599501</strong></div>
+          </div>
           <button
             type="button"
             onclick="showIntroModeChoices()"
-            class="px-6 py-3 rounded-2xl bg-brand-700 hover:bg-brand-800 text-white text-sm font-bold shadow-md transition whitespace-nowrap"
+            class="px-6 py-3 rounded-2xl bg-brand-700 hover:bg-brand-800 active:scale-[0.98] text-white text-sm font-bold shadow-md transition whitespace-nowrap self-stretch sm:self-auto text-center"
           >
             Tiếp theo →
           </button>
@@ -277,182 +216,28 @@
 
   <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
 
-  <div id="mini-music-box" class="fixed bottom-4 left-4 z-40 w-[305px] sm:w-[330px] bg-white/95 backdrop-blur border border-slate-200 rounded-2xl shadow-lg p-3 transition-[bottom,transform,box-shadow,background-color] duration-200">
-    <div class="flex items-center justify-between gap-2">
-      <div class="flex items-center gap-2 min-w-0">
-        <div id="mini-music-icon-box" class="w-8 h-8 rounded-xl bg-brand-50 text-brand-700 border border-brand-200 flex items-center justify-center gap-[2px] shrink-0 transition-colors">
-          <span class="music-eq-bar"></span>
-          <span class="music-eq-bar"></span>
-          <span class="music-eq-bar"></span>
-          <span class="music-eq-bar"></span>
-        </div>
-        <div class="min-w-0">
-          <div class="text-xs font-bold text-slate-900 truncate">Nhạc nền học bài</div>
-          <div id="mini-music-status" class="text-[11px] text-slate-500 truncate">Sẵn sàng: Earth Embraces Sun</div>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-1.5 shrink-0">
-        <button
-          type="button"
-          id="mini-music-toggle-btn"
-          onclick="toggleMiniMusic()"
-          class="px-2.5 py-1.5 rounded-xl bg-brand-700 hover:bg-brand-800 active:scale-95 text-white text-xs font-semibold transition-all whitespace-nowrap"
-          title="Phát / Tạm dừng nhạc"
-        >
-          ▶ Phát
-        </button>
-        <button
-          type="button"
-          id="mini-music-next-btn"
-          onclick="nextMusicTrack()"
-          class="w-7 h-7 rounded-xl border border-slate-200 hover:bg-slate-100 active:scale-90 text-slate-600 text-xs font-bold flex items-center justify-center transition-all shrink-0"
-          title="Chuyển bài tiếp theo"
-        >
-          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M5 5.5v13l10-6.5-10-6.5zm11 0h2.5v13H16v-13z"></path>
-          </svg>
-        </button>
-        <button
-          type="button"
-          id="mini-music-expand-btn"
-          onclick="toggleMiniMusicExpand()"
-          aria-expanded="false"
-          class="w-7 h-7 rounded-xl border border-slate-200 hover:bg-slate-100 active:scale-90 text-slate-600 flex items-center justify-center transition-all shrink-0"
-          title="Mở danh sách & thêm file nhạc"
-        >
-          <span id="mini-music-expand-icon">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </span>
-        </button>
-      </div>
-    </div>
-
-    <div class="mt-2.5 flex items-center gap-2">
-      <span id="mini-music-current-time" class="text-[10px] font-mono text-slate-500 w-8 text-left tabular-nums">00:00</span>
-      <div class="relative flex-1 flex items-center">
-        <input
-          id="mini-music-progress"
-          type="range"
-          min="0"
-          max="100"
-          value="0"
-          step="0.1"
-          oninput="scrubMiniMusic(this.value)"
-          style="background: linear-gradient(to right, #1e40af 0%, #e2e8f0 0%);"
-          class="w-full h-1.5 rounded-full appearance-none cursor-pointer accent-brand-700 transition-all"
-          aria-label="Thanh tiến trình nhạc nền"
-        />
-      </div>
-      <span id="mini-music-total-time" class="text-[10px] font-mono text-slate-500 w-8 text-right tabular-nums">00:00</span>
-    </div>
-
-    <audio id="custom-music-audio" preload="metadata"></audio>
-
-    <div id="mini-music-details" class="border-slate-100 space-y-2.5">
-      <div class="flex items-center justify-between gap-2">
-        <label for="mini-music-preset" class="text-[11px] font-semibold text-slate-600 shrink-0">Bài nhạc:</label>
-        <select
-          id="mini-music-preset"
-          onchange="changeMusicPreset(this.value)"
-          class="flex-1 min-w-0 rounded-lg border border-slate-300 bg-slate-50 px-2 py-1 text-xs font-medium text-slate-800"
-        ></select>
-      </div>
-
-      <div class="p-2 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5">
-        <div class="flex items-center justify-between gap-2">
-          <span id="mini-music-playlist-count" class="text-[11px] font-bold text-slate-700">Danh sách phát (0/0 bài)</span>
-          <div class="flex items-center gap-2 text-[11px] font-semibold">
-            <button
-              type="button"
-              onclick="setAllMusicTracksEnabled(true)"
-              class="text-brand-700 hover:text-brand-900"
-            >
-              Tất cả
-            </button>
-            <span class="text-slate-300">|</span>
-            <button
-              type="button"
-              onclick="setAllMusicTracksEnabled(false)"
-              class="text-slate-500 hover:text-rose-600"
-            >
-              Bỏ chọn
-            </button>
-          </div>
-        </div>
-        <div
-          id="mini-music-playlist-items"
-          class="max-h-28 overflow-y-auto academic-scroll space-y-1 pr-0.5"
-        ></div>
-      </div>
-
-      <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
-        <div class="flex items-center justify-between">
-          <span class="text-[11px] font-bold text-slate-700">+ Tự thêm file nhạc từ máy</span>
-          <button
-            type="button"
-            id="mini-music-remove-btn"
-            onclick="removeSelectedCustomTrack()"
-            class="hidden text-[11px] font-semibold text-rose-600 hover:text-rose-700"
-          >
-            Xóa bài này
-          </button>
-        </div>
-
-        <label class="w-full py-2 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white text-xs font-semibold text-center cursor-pointer transition-all flex items-center justify-center gap-1.5">
-          <span>📁 Chọn file nhạc (.mp3 / .wav / .ogg)</span>
-          <input
-            type="file"
-            id="custom-music-file-input"
-            accept="audio/*"
-            multiple
-            onchange="handleCustomMusicFileUpload(event)"
-            class="hidden"
-          />
-        </label>
-      </div>
-
-      <div class="flex items-center gap-2">
-        <span class="text-xs text-slate-500">🔈</span>
-        <input
-          id="mini-music-volume"
-          type="range"
-          min="0"
-          max="100"
-          value="70"
-          oninput="setMusicVolume(this.value)"
-          class="flex-1 h-1.5 bg-slate-200 rounded-lg accent-brand-700 cursor-pointer"
-          aria-label="Âm lượng nhạc nền"
-        />
-        <span id="mini-music-vol-label" class="text-[11px] font-mono text-slate-600 w-8 text-right">70%</span>
-      </div>
-    </div>
-  </div>
-
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-wrap items-center justify-between py-3 gap-3">
-        <div class="flex items-center justify-between gap-3 min-w-0">
-          <div class="flex items-center gap-3 min-w-0">
-            <div class="w-10 h-10 rounded-xl bg-brand-700 text-white flex items-center justify-center shadow-sm shrink-0" aria-hidden="true">
-              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <div class="flex flex-wrap lg:flex-nowrap items-center justify-between py-2.5 gap-2.5">
+        <div class="flex items-center justify-between gap-2.5 min-w-0 shrink">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-9 h-9 rounded-xl bg-brand-700 text-white flex items-center justify-center shadow-sm shrink-0" aria-hidden="true">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M2 7l10-4 10 4-10 4-10-4z"></path>
                 <path d="M6 10.5v5.5c0 1.8 2.7 3.5 6 3.5s6-1.7 6-3.5v-5.5"></path>
               </svg>
             </div>
             <div class="min-w-0">
-              <div class="flex items-center gap-2 flex-wrap">
-                <h1 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight whitespace-nowrap">
+              <div class="flex items-center gap-2">
+                <h1 class="text-sm sm:text-base font-bold text-slate-900 tracking-tight whitespace-nowrap">
                   TOEFL iBT Practice Studio
                 </h1>
-                <span class="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 whitespace-nowrap shrink-0">
-                  Việt – Anh Song Ngữ
+                <span class="hidden 2xl:inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 whitespace-nowrap shrink-0">
+                  Song Ngữ
                 </span>
               </div>
-              <p class="text-xs text-slate-500 truncate">
-                Ôn luyện Reading (67 câu / 10 đề), Listening &amp; Writing (Independent &amp; Integrated)
+              <p class="hidden sm:block text-[11px] text-slate-500 truncate max-w-[240px] xl:max-w-[300px]">
+                Reading (67 câu), Listening (28 câu) &amp; Writing
               </p>
             </div>
           </div>
@@ -464,26 +249,27 @@
           </div>
         </div>
 
-        <div class="flex items-center gap-2 shrink-0">
-          <span id="current-practice-mode-badge" class="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold bg-brand-50 text-brand-800 border border-brand-200 whitespace-nowrap shrink-0">
-            Chế độ: Luyện từng phần
+        <div class="hidden md:flex items-center gap-1.5 shrink-0">
+          <span id="current-practice-mode-badge" class="inline-flex items-center px-2.5 py-1.5 rounded-xl text-xs font-bold bg-brand-50 text-brand-800 border border-brand-200 whitespace-nowrap shrink-0">
+            Luyện từng phần
           </span>
           <button
             type="button"
             onclick="openModeSelectorOnly()"
-            class="px-3 py-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition whitespace-nowrap shrink-0"
+            class="px-2.5 py-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition whitespace-nowrap shrink-0"
+            title="Đổi chế độ ôn tập"
           >
-            🔄 Đổi chế độ
+            🔄 Chế độ
           </button>
         </div>
 
-        <div class="flex items-center gap-2 w-full xl:w-auto justify-between xl:justify-end">
+        <div class="flex items-center gap-2 w-full lg:w-auto justify-between lg:justify-end shrink-0">
           <nav aria-label="Chuyển kỹ năng TOEFL iBT" class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80 overflow-x-auto max-w-full">
             <button
               type="button"
               id="tab-reading"
               onclick="switchSection('reading')"
-              class="nav-tab flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0 bg-brand-700 text-white shadow-xs"
+              class="nav-tab flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 bg-brand-700 text-white shadow-xs"
             >
               <span>📖 Reading</span>
               <span id="badge-reading-count" class="text-[11px] px-1.5 py-0.5 rounded-md bg-white/20 text-white">67</span>
@@ -492,16 +278,16 @@
               type="button"
               id="tab-listening"
               onclick="switchSection('listening')"
-              class="nav-tab flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70"
+              class="nav-tab flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70"
             >
               <span>🎧 Listening</span>
-              <span class="text-[11px] px-1.5 py-0.5 rounded-md bg-slate-200 text-slate-700">Web Link</span>
+              <span id="badge-listening-count" class="text-[11px] px-1.5 py-0.5 rounded-md bg-slate-200 text-slate-700">28</span>
             </button>
             <button
               type="button"
               id="tab-writing"
               onclick="switchSection('writing')"
-              class="nav-tab flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70"
+              class="nav-tab flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70"
             >
               <span>✍️ Writing</span>
               <span class="text-[11px] px-1.5 py-0.5 rounded-md bg-slate-200 text-slate-700">10 + 5</span>
@@ -512,11 +298,11 @@
               disabled
               aria-disabled="true"
               onclick="return false;"
-              class="nav-tab flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap shrink-0 text-slate-400 bg-slate-200/60 opacity-60 cursor-not-allowed select-none"
+              class="nav-tab flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap shrink-0 text-slate-400 bg-slate-200/60 opacity-60 cursor-not-allowed select-none"
               title="Speaking đang cập nhật — tạm khóa"
             >
               <span>🎙️ Speaking</span>
-              <span class="text-[11px] px-1.5 py-0.5 rounded-md bg-amber-100 text-amber-800">Đang cập nhật</span>
+              <span class="hidden xl:inline text-[10px] px-1.5 py-0.5 rounded-md bg-amber-100 text-amber-800">Đang cập nhật</span>
             </button>
           </nav>
 
@@ -524,7 +310,7 @@
             type="button"
             id="theme-toggle-btn"
             onclick="toggleThemeMode()"
-            class="px-3 py-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 text-xs sm:text-sm font-semibold text-slate-700 transition whitespace-nowrap shrink-0"
+            class="px-2.5 py-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 text-xs font-semibold text-slate-700 transition whitespace-nowrap shrink-0"
             title="Chuyển chế độ Sáng / Tối"
           >
             🌙 Tối
@@ -569,8 +355,8 @@
             </div>
           </div>
 
-          <div class="flex flex-wrap items-center justify-between gap-2.5 pt-3 border-t border-slate-100">
-            <div class="flex items-center gap-2 bg-slate-100 px-3 py-2 rounded-xl border border-slate-200">
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-slate-100">
+            <div class="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
               <span class="text-xs font-semibold text-slate-600 whitespace-nowrap">⏱ Đồng hồ:</span>
               <span id="reading-timer-display" class="font-mono text-sm font-bold text-brand-800">18:00</span>
               <button
@@ -591,15 +377,15 @@
               </button>
             </div>
 
-            <div class="flex flex-wrap items-center gap-2.5">
-              <div class="bg-brand-50 border border-brand-200 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-brand-900 whitespace-nowrap">
-                Tổng điểm: <span id="reading-total-correct">0</span> / <span id="reading-total-questions">67</span> câu đúng
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="bg-brand-50 border border-brand-200 px-3 py-1.5 rounded-xl text-xs font-semibold text-brand-900 whitespace-nowrap">
+                Điểm: <span id="reading-total-correct">0</span> / <span id="reading-total-questions">67</span>
               </div>
 
               <button
                 type="button"
                 onclick="toggleReadingOverviewModal()"
-                class="px-3.5 py-2.5 rounded-xl border border-brand-200 bg-brand-50 hover:bg-brand-100 text-brand-900 text-sm font-semibold transition whitespace-nowrap"
+                class="px-3 py-1.5 rounded-xl border border-brand-200 bg-brand-50 hover:bg-brand-100 text-brand-900 text-xs sm:text-sm font-semibold transition whitespace-nowrap"
               >
                 📊 Bảng điểm &amp; Lọc câu sai
               </button>
@@ -607,16 +393,16 @@
               <button
                 type="button"
                 onclick="gradeCurrentPassage()"
-                class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold shadow-xs transition whitespace-nowrap"
+                class="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold shadow-xs transition whitespace-nowrap"
               >
-                ✓ Chấm bài &amp; Xem giải thích
+                ✓ Chấm bài &amp; Giải thích
               </button>
               <button
                 type="button"
                 onclick="resetCurrentPassageAnswers()"
-                class="px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 text-slate-700 text-sm font-medium transition whitespace-nowrap"
+                class="px-3 py-1.5 rounded-xl border border-slate-300 bg-white hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 text-slate-700 text-xs sm:text-sm font-medium transition whitespace-nowrap"
               >
-                Xóa chọn bài này
+                Xóa chọn
               </button>
             </div>
           </div>
@@ -632,7 +418,7 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        <article class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden lg:sticky lg:top-24">
+        <article class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden lg:sticky lg:top-20">
           <div class="px-5 py-4 bg-slate-900 text-white flex flex-wrap items-center justify-between gap-2">
             <div>
               <span id="passage-badge" class="inline-block text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-brand-600 text-white mb-1">
@@ -695,106 +481,286 @@
     </section>
 
     <section id="section-listening" class="hidden space-y-6">
-      <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-xs space-y-5">
-        <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 pb-5 border-b border-slate-100">
-          <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200 mb-2">
-              🎧 TOEFL iBT Listening • Nguồn liên kết từ Listening.docx
-            </div>
-            <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
-              Trang web luyện nghe TOEFL iBT Listening
-            </h2>
-            <p class="text-sm text-slate-600 mt-1">
-              Mở trực tiếp liên kết trang web từ <code>Listening.docx</code> để nghe bài luyện của bạn, sao chép nhanh đường dẫn hoặc ghi chú ý chính ngay bên dưới.
-            </p>
-          </div>
-
-          <div class="flex items-center gap-2 bg-slate-100 px-3.5 py-2 rounded-xl border border-slate-200 self-start shrink-0">
-            <span class="text-xs font-semibold text-slate-600">⏱ Đồng hồ nghe:</span>
-            <span id="listening-timer-display" class="font-mono text-sm font-bold text-brand-800">10:00</span>
-            <button
-              type="button"
-              id="listening-timer-toggle"
-              onclick="toggleListeningTimer()"
-              class="text-xs px-2.5 py-1 rounded-lg bg-brand-700 hover:bg-brand-800 text-white font-semibold transition"
-            >
-              Bắt đầu
-            </button>
-            <button
-              type="button"
-              onclick="resetListeningTimer()"
-              class="text-xs px-2 py-1 rounded-lg bg-white hover:bg-slate-200 text-slate-700 border border-slate-300 font-medium transition"
-            >
-              Đặt lại
-            </button>
-          </div>
-        </div>
-
-        <div class="rounded-2xl bg-brand-50/70 border border-brand-200 p-4 sm:p-5">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div class="space-y-1.5 min-w-0">
-              <div class="text-xs font-bold uppercase tracking-wider text-brand-800">
-                🔗 Liên kết trang web Listening (Source Link)
-              </div>
+      <!-- Thanh điều khiển Listening Test 1 -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs space-y-4">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-center gap-2 mb-1.5">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                🎧 TOEFL iBT Exam 1 Listening • 5 Phần (28 Câu)
+              </span>
               <a
                 id="listening-source-link"
-                href="https://www.examenglish.com/TOEFL/toefl_listening.htm"
+                href="https://test-english.com/exams/toefl-ibt/toefl-ibt-exam-1-listening/"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 text-sm sm:text-base font-bold text-brand-700 hover:text-brand-900 underline underline-offset-4 break-all"
+                class="inline-flex items-center gap-1 text-xs font-semibold text-brand-700 hover:text-brand-900 underline underline-offset-4"
               >
-                <span>https://www.examenglish.com/TOEFL/toefl_listening.htm</span>
-                <span aria-hidden="true">↗</span>
+                <span>Nguồn đề gốc: Test-English ↗</span>
               </a>
-              <p class="text-xs text-slate-600">
-                Bấm vào liên kết để mở trang web trong tab mới, hoặc chỉnh sửa trực tiếp thuộc tính <code>href</code> trong mã HTML nếu cần.
-              </p>
-            </div>
-
-            <div class="flex flex-wrap items-center gap-2.5 shrink-0">
               <button
                 type="button"
                 onclick="copyListeningSourceLink()"
-                class="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 text-xs sm:text-sm font-semibold shadow-2xs transition"
+                class="text-xs font-medium text-slate-500 hover:text-slate-800"
               >
-                📋 Sao chép liên kết
+                [Sao chép link]
               </button>
               <a
                 href="https://www.examenglish.com/TOEFL/toefl_listening.htm"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white text-xs sm:text-sm font-semibold shadow-xs transition"
+                class="inline-flex items-center gap-1 text-xs font-medium text-slate-500 hover:text-brand-700 underline underline-offset-4"
               >
-                <span>Mở trang web nghe</span>
-                <span aria-hidden="true">↗</span>
+                <span>Luyện thêm: ExamEnglish ↗</span>
               </a>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-2.5">
+              <select
+                id="listening-part-select"
+                onchange="selectListeningPart(this.value)"
+                class="w-full sm:flex-1 min-w-0 rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-600 focus:bg-white transition"
+              ></select>
+              <div class="flex items-center gap-2 shrink-0">
+                <button
+                  type="button"
+                  onclick="prevListeningPart()"
+                  class="px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-sm font-medium text-slate-700 transition whitespace-nowrap"
+                >
+                  ← Phần trước
+                </button>
+                <button
+                  type="button"
+                  onclick="nextListeningPart()"
+                  class="px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-sm font-medium text-slate-700 transition whitespace-nowrap"
+                >
+                  Phần tiếp →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+            <div class="flex items-center gap-2 bg-slate-100 px-3 py-2 rounded-xl border border-slate-200">
+              <span class="text-xs font-semibold text-slate-600 whitespace-nowrap">⏱ Đồng hồ:</span>
+              <span id="listening-timer-display" class="font-mono text-sm font-bold text-brand-800">10:00</span>
+              <button
+                type="button"
+                id="listening-timer-toggle"
+                onclick="toggleListeningTimer()"
+                class="text-xs px-2.5 py-1 rounded-lg bg-brand-700 hover:bg-brand-800 text-white font-semibold transition whitespace-nowrap"
+              >
+                Bắt đầu
+              </button>
+              <button
+                type="button"
+                onclick="resetListeningTimer()"
+                class="text-xs px-2 py-1 rounded-lg bg-white hover:bg-slate-200 text-slate-700 border border-slate-300 font-medium transition whitespace-nowrap"
+              >
+                Đặt lại
+              </button>
             </div>
           </div>
         </div>
 
-        <div class="space-y-2">
-          <div class="flex items-center justify-between">
-            <label for="listening-main-notes" class="text-sm font-bold text-slate-800">
-              📝 Ghi chú bài nghe (Listening Notes)
-            </label>
-            <div class="flex items-center gap-3">
-              <span id="listening-notes-status" class="text-xs text-emerald-700 font-medium">Đã lưu tự động</span>
-              <button
-                type="button"
-                onclick="clearListeningMainNotes()"
-                class="text-xs font-medium text-slate-500 hover:text-rose-600 transition"
-              >
-                Xóa ghi chú
-              </button>
+        <div class="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2.5">
+          <div class="flex flex-wrap items-center gap-2">
+            <div class="bg-indigo-50 border border-indigo-200 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-indigo-900 whitespace-nowrap">
+              Tổng điểm Listening: <span id="listening-total-correct">0</span> / <span id="listening-total-questions">28</span> câu đúng
+            </div>
+            <span id="listening-part-progress" class="text-xs px-2.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 font-medium">
+              0/5 đã hoàn thành
+            </span>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onclick="gradeCurrentListeningPart()"
+              class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold shadow-xs transition whitespace-nowrap"
+            >
+              ✓ Chấm bài &amp; Xem giải thích
+            </button>
+            <button
+              type="button"
+              onclick="resetCurrentListeningPartAnswers()"
+              class="px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 text-slate-700 text-sm font-medium transition whitespace-nowrap"
+            >
+              Xóa chọn phần này
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Khung 2 cột: Trình nghe TTS / Transcript / Ghi chú + Câu hỏi -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="lg:col-span-5 space-y-4 lg:sticky lg:top-24">
+          <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+            <div class="px-5 py-4 bg-slate-900 text-white">
+              <span id="listening-part-badge" class="inline-block text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-600 text-white mb-1">
+                PHẦN 1 / 5 • CONVERSATION
+              </span>
+              <h2 id="listening-part-title" class="text-base sm:text-lg font-bold leading-snug"></h2>
+              <p id="listening-part-subtitle" class="text-xs text-slate-300 mt-0.5"></p>
+            </div>
+
+            <div class="p-4 sm:p-5 space-y-3.5">
+              <!-- Trình phát file MP3 bài nghe chính (Hook Toefl ibt_Writing/TOEFL Listening Practice Exam 1.mp3) -->
+              <div class="space-y-2">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-xs font-bold text-slate-800">🎧 Audio bài nghe chính (MP3)</span>
+                  <div class="flex items-center gap-1.5">
+                    <select
+                      id="listening-audio-rate"
+                      onchange="updateListeningAudioRate(this.value)"
+                      class="text-xs rounded-lg border border-slate-300 bg-white px-2 py-1 text-slate-700 font-semibold"
+                      title="Tốc độ phát"
+                    >
+                      <option value="0.85">0.85x</option>
+                      <option value="1" selected>1.0x</option>
+                      <option value="1.15">1.15x</option>
+                    </select>
+                    <button
+                      type="button"
+                      id="listening-transcript-toggle-btn"
+                      onclick="toggleListeningTranscript()"
+                      class="hidden px-2.5 py-1 rounded-lg border border-indigo-300 bg-indigo-50 hover:bg-indigo-100 text-indigo-800 text-xs font-semibold transition"
+                    >
+                      <span id="listening-transcript-btn-label">👁 Hiện Transcript</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="toefl-audio-shell">
+                  <div class="toefl-audio-instruction">
+                    Listen to the conversation or lecture. You may take notes while you listen.
+                  </div>
+                  <div class="toefl-audio-bar">
+                    <button
+                      type="button"
+                      id="listening-main-play-btn"
+                      onclick="toggleListeningMainAudioPlay()"
+                      class="toefl-audio-btn"
+                      title="Phát / Tạm dừng"
+                      aria-label="Phát hoặc tạm dừng audio Listening"
+                    >
+                      ▶
+                    </button>
+                    <button
+                      type="button"
+                      onclick="seekListeningMainAudio(-10)"
+                      class="toefl-audio-btn"
+                      title="Lùi 10 giây"
+                      aria-label="Lùi 10 giây"
+                    >
+                      ⏮
+                    </button>
+                    <button
+                      type="button"
+                      onclick="seekListeningMainAudio(10)"
+                      class="toefl-audio-btn"
+                      title="Tới 10 giây"
+                      aria-label="Tới 10 giây"
+                    >
+                      ⏭
+                    </button>
+                    <button
+                      type="button"
+                      id="listening-main-loop-btn"
+                      onclick="toggleListeningMainAudioLoop()"
+                      class="toefl-audio-btn"
+                      title="Lặp lại audio"
+                      aria-label="Lặp lại audio"
+                    >
+                      🔁
+                    </button>
+
+                    <input
+                      id="listening-main-scrubber"
+                      type="range"
+                      min="0"
+                      max="100"
+                      value="0"
+                      step="0.1"
+                      oninput="scrubListeningMainAudio(this.value)"
+                      class="flex-1 h-2 bg-zinc-400 rounded-none accent-zinc-600 cursor-pointer"
+                      aria-label="Thanh tiến trình nghe Listening"
+                    />
+
+                    <span id="listening-main-time" class="font-mono text-[11px] sm:text-xs text-zinc-700 whitespace-nowrap select-none">
+                      00:00 / 00:00
+                    </span>
+
+                    <button
+                      type="button"
+                      id="listening-main-mute-btn"
+                      onclick="toggleListeningMainAudioMute()"
+                      class="toefl-audio-btn"
+                      title="Tắt / Bật tiếng"
+                      aria-label="Tắt hoặc bật tiếng"
+                    >
+                      🔊
+                    </button>
+                  </div>
+                  <div id="listening-main-caption" class="toefl-audio-caption">
+                    File: TOEFL Listening Practice Exam 1.mp3
+                  </div>
+                </div>
+
+                <audio id="listening-main-audio-element" preload="metadata" src="Hook%20Toefl%20ibt_Writing/TOEFL%20Listening%20Practice%20Exam%201.mp3"></audio>
+                <audio id="listening-replay-audio-element" preload="none"></audio>
+
+                <p id="listening-transcript-lock-note" class="text-[11px] font-medium text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5">
+                  🔒 Hoàn thành &amp; bấm <strong>"Chấm bài &amp; Xem giải thích"</strong> để mở khóa Transcript của phần này.
+                </p>
+              </div>
+
+              <!-- Transcript chỉ mở khóa sau khi chấm xong phần hiện tại -->
+              <div id="listening-transcript-panel" class="hidden space-y-2">
+                <div class="flex items-center justify-between text-xs font-bold text-slate-700">
+                  <span>📜 Transcript chi tiết (Đã mở khóa)</span>
+                  <span class="text-[11px] font-normal text-emerald-700">Đối chiếu sau khi làm bài</span>
+                </div>
+                <div
+                  id="listening-transcript-content"
+                  class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed max-h-64 overflow-y-auto academic-scroll space-y-2.5"
+                ></div>
+              </div>
+
+              <!-- Ghi chú nhanh -->
+              <div class="space-y-1.5 pt-2 border-t border-slate-100">
+                <div class="flex items-center justify-between">
+                  <label for="listening-main-notes" class="text-xs font-bold text-slate-800">
+                    📝 Ghi chú khi nghe (Tự lưu)
+                  </label>
+                  <button
+                    type="button"
+                    onclick="clearListeningMainNotes()"
+                    class="text-[11px] font-medium text-slate-500 hover:text-rose-600 transition"
+                  >
+                    Xóa ghi chú
+                  </button>
+                </div>
+                <textarea
+                  id="listening-main-notes"
+                  rows="5"
+                  oninput="updateListeningMainNotes(this.value)"
+                  placeholder="Ghi chú ý chính, ví dụ, thái độ người nói..."
+                  class="w-full rounded-xl border border-slate-300 bg-slate-50/60 focus:bg-white p-3 text-xs sm:text-sm text-slate-800 leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-600 academic-scroll"
+                ></textarea>
+              </div>
             </div>
           </div>
-          <textarea
-            id="listening-main-notes"
-            rows="7"
-            oninput="updateListeningMainNotes(this.value)"
-            placeholder="Ghi lại ý chính (Main Idea), luận điểm của giáo sư/sinh viên, ví dụ minh họa và từ vựng quan trọng khi nghe..."
-            class="w-full rounded-xl border border-slate-300 bg-slate-50/60 focus:bg-white p-4 text-sm text-slate-800 leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-600 academic-scroll"
-          ></textarea>
+        </div>
+
+        <div class="lg:col-span-7 space-y-4">
+          <div class="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-xs sm:text-sm text-amber-900 flex items-start gap-2.5">
+            <span class="text-base shrink-0">💡</span>
+            <div>
+              <strong>Lưu ý dạng câu hỏi:</strong> Bao gồm cả câu trắc nghiệm 1 đáp án, câu <strong>chọn 2 đáp án (Choose TWO)</strong> và câu <strong>nối cặp / phân loại (Matching)</strong> đúng theo đề Listening Test 1.
+            </div>
+          </div>
+
+          <div id="listening-questions-list" class="space-y-4"></div>
         </div>
       </div>
     </section>
@@ -1181,73 +1147,6 @@
   </footer>
 
   <script>
-    const DEFAULT_REPO_TRACKS = [
-      {
-        id: 'default-earth-embraces-sun',
-        title: 'Earth Embraces Sun (Trái Đất ôm Mặt Trời)',
-        url: 'Hook%20Toefl%20ibt_Writing/Earth%20Embraces%20Sun%20(Tr%C3%A1i%20%C4%90%E1%BA%A5t%20%C3%B4m%20M%E1%BA%B7t%20Tr%E1%BB%9Di).mp3',
-        isDefault: true
-      },
-      {
-        id: 'default-thousand-light-years',
-        title: 'Thousand Light Years',
-        url: 'Hook%20Toefl%20ibt_Writing/Thousand%20Light%20Years.mp3',
-        isDefault: true
-      },
-      {
-        id: 'default-2-4',
-        title: '2 4',
-        url: 'Hook%20Toefl%20ibt_Writing/2%204.mp3',
-        isDefault: true
-      },
-      {
-        id: 'default-cam-on-va-xin-loi',
-        title: 'Cảm Ơn Và Xin Lỗi',
-        url: 'Hook%20Toefl%20ibt_Writing/C%E1%BA%A3m%20%C6%A0n%20V%C3%A0%20Xin%20L%E1%BB%97i.mp3',
-        isDefault: true
-      },
-      {
-        id: 'default-cham-day-noi-dau',
-        title: 'Chạm đáy nỗi đau',
-        url: 'Hook%20Toefl%20ibt_Writing/Ch%E1%BA%A1m%20%C4%91%C3%A1y%20n%E1%BB%97i%20đau.mp3',
-        isDefault: true
-      },
-      {
-        id: 'default-thuong-em-la-dieu-anh-khong-the-ngo',
-        title: 'Thương Em Là Điều Anh Không Thể Ngờ',
-        url: 'Hook%20Toefl%20ibt_Writing/Th%C6%B0%C6%A1ng%20Em%20L%C3%A0%20%C4%90i%E1%BB%81u%20Anh%20Kh%C3%B4ng%20Th%E1%BB%83%20Ng%E1%BB%9D.mp3',
-        isDefault: true
-      }
-    ];
-
-    function sortTracksAscending(tracks) {
-      return [...tracks].sort((a, b) => {
-        const cleanA = String(a.title || '').replace(/^📁\s*/, '').trim();
-        const cleanB = String(b.title || '').replace(/^📁\s*/, '').trim();
-        return cleanA.localeCompare(cleanB, 'vi', { numeric: true, sensitivity: 'base' });
-      });
-    }
-
-    let customMusicTracks = [];
-    let selectedMusicTrackId = sortTracksAscending(DEFAULT_REPO_TRACKS)[0].id;
-    let enabledMusicTrackIds = new Set(DEFAULT_REPO_TRACKS.map((t) => t.id));
-    let musicVolume = 0.7;
-
-    function getCustomAudioEl() {
-      return document.getElementById('custom-music-audio');
-    }
-
-    function pauseBackgroundMusicForLecture() {
-      const customAudioEl = getCustomAudioEl();
-      if (customAudioEl) {
-        if (!customAudioEl.paused) {
-          customAudioEl.pause();
-        }
-        updateMiniMusicUI(false);
-        updateMiniMusicProgressUI();
-      }
-    }
-
     function stopWritingAudioOnly() {
       const intAudio = document.getElementById('integrated-audio-element');
       const playBtn = document.getElementById('integrated-play-btn');
@@ -1259,338 +1158,23 @@
       }
     }
 
-    function getAllMusicTracks() {
-      return sortTracksAscending([...DEFAULT_REPO_TRACKS, ...customMusicTracks]);
-    }
-
-    function getEnabledMusicTracks() {
-      const all = getAllMusicTracks();
-      return all.filter((t) => enabledMusicTrackIds.has(t.id));
-    }
-
-    function ensureSelectedTrackValid() {
-      const all = getAllMusicTracks();
-      if (!all.length) return;
-      if (!all.some((t) => t.id === selectedMusicTrackId)) {
-        const enabled = getEnabledMusicTracks();
-        selectedMusicTrackId = (enabled[0] || all[0]).id;
+    function stopListeningAudioOnly() {
+      const mainAudio = document.getElementById('listening-main-audio-element');
+      const mainBtn = document.getElementById('listening-main-play-btn');
+      if (mainAudio && !mainAudio.paused) {
+        mainAudio.pause();
       }
-    }
-
-    function getCurrentMusicTrack() {
-      const all = getAllMusicTracks();
-      return all.find((t) => t.id === selectedMusicTrackId) || all[0];
-    }
-
-    function renderPlaylistSelector() {
-      const listEl = document.getElementById('mini-music-playlist-items');
-      const countEl = document.getElementById('mini-music-playlist-count');
-      if (!listEl) return;
-
-      const all = getAllMusicTracks();
-      const enabledCount = all.filter((t) => enabledMusicTrackIds.has(t.id)).length;
-      if (countEl) {
-        countEl.textContent = `Danh sách phát (${enabledCount}/${all.length} bài)`;
+      if (mainBtn) {
+        mainBtn.textContent = '▶';
       }
 
-      listEl.innerHTML = all
-        .map((track) => {
-          const isChecked = enabledMusicTrackIds.has(track.id);
-          const isCurrent = track.id === selectedMusicTrackId;
-          return `
-            <label class="flex items-center gap-2 px-2 py-1 rounded-lg text-[11px] cursor-pointer transition ${
-              isCurrent ? 'bg-brand-50/90 text-brand-900 font-semibold' : 'hover:bg-slate-100 text-slate-700'
-            }">
-              <input
-                type="checkbox"
-                ${isChecked ? 'checked' : ''}
-                onchange="toggleMusicTrackEnabled('${escapeHtmlText(track.id)}', this.checked)"
-                class="rounded border-slate-300 text-brand-700 focus:ring-brand-600 shrink-0 cursor-pointer"
-              />
-              <span class="flex-1 min-w-0 truncate">${escapeHtmlText(track.title)}</span>
-              ${isCurrent ? '<span class="text-[10px] px-1.5 py-0.2 rounded bg-brand-700 text-white shrink-0">Đang chọn</span>' : ''}
-            </label>
-          `;
-        })
-        .join('');
-    }
-
-    function toggleMusicTrackEnabled(trackId, checked) {
-      if (checked) {
-        enabledMusicTrackIds.add(trackId);
-      } else {
-        enabledMusicTrackIds.delete(trackId);
+      const replayAudio = document.getElementById('listening-replay-audio-element');
+      if (replayAudio && !replayAudio.paused) {
+        replayAudio.pause();
       }
-      renderPlaylistSelector();
-    }
-
-    function setAllMusicTracksEnabled(enableAll) {
-      const all = getAllMusicTracks();
-      if (enableAll) {
-        enabledMusicTrackIds = new Set(all.map((t) => t.id));
-      } else {
-        enabledMusicTrackIds = new Set();
-      }
-      renderPlaylistSelector();
-      showToast(
-        enableAll ? 'Đã chọn tất cả bài trong danh sách phát.' : 'Đã bỏ chọn tất cả — hãy chọn bài bạn muốn nghe.',
-        'info'
-      );
-    }
-
-    function renderMusicPresetOptions() {
-      const selectEl = document.getElementById('mini-music-preset');
-      const removeBtn = document.getElementById('mini-music-remove-btn');
-      ensureSelectedTrackValid();
-
-      if (selectEl) {
-        const all = getAllMusicTracks();
-        selectEl.innerHTML = all
-          .map((t) => `<option value="${escapeHtmlText(t.id)}">${escapeHtmlText(t.title)}</option>`)
-          .join('');
-        selectEl.value = selectedMusicTrackId;
-      }
-
-      const current = getCurrentMusicTrack();
-      if (removeBtn) {
-        removeBtn.classList.toggle('hidden', Boolean(current && current.isDefault));
-      }
-
-      renderPlaylistSelector();
-    }
-
-    function renderMusicPresetOptions() {
-      const selectEl = document.getElementById('mini-music-preset');
-      const removeBtn = document.getElementById('mini-music-remove-btn');
-      if (!selectEl) return;
-
-      const all = getAllMusicTracks();
-      selectEl.innerHTML = all
-        .map((t) => `<option value="${escapeHtmlText(t.id)}">${escapeHtmlText(t.title)}</option>`)
-        .join('');
-      selectEl.value = selectedMusicTrackId;
-
-      const current = getCurrentMusicTrack();
-      if (removeBtn) {
-        removeBtn.classList.toggle('hidden', Boolean(current.isDefault));
-      }
-    }
-
-    function updateMiniMusicUI(isPlaying) {
-      const boxEl = document.getElementById('mini-music-box');
-      const iconBox = document.getElementById('mini-music-icon-box');
-      const toggleBtn = document.getElementById('mini-music-toggle-btn');
-      const statusEl = document.getElementById('mini-music-status');
-      const track = getCurrentMusicTrack();
-
-      if (boxEl) {
-        boxEl.classList.toggle('is-playing', isPlaying);
-      }
-      if (iconBox) {
-        iconBox.className = isPlaying
-          ? 'w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center gap-[2px] shrink-0 transition-colors'
-          : 'w-8 h-8 rounded-xl bg-brand-50 text-brand-700 border border-brand-200 flex items-center justify-center gap-[2px] shrink-0 transition-colors';
-      }
-      if (toggleBtn) {
-        toggleBtn.textContent = isPlaying ? '⏸ Dừng' : '▶ Phát';
-        toggleBtn.className = isPlaying
-          ? 'px-2.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-xs font-semibold transition-all whitespace-nowrap'
-          : 'px-2.5 py-1.5 rounded-xl bg-brand-700 hover:bg-brand-800 active:scale-95 text-white text-xs font-semibold transition-all whitespace-nowrap';
-      }
-      if (statusEl) {
-        statusEl.textContent = isPlaying ? `Đang phát: ${track.title}` : `Sẵn sàng: ${track.title}`;
-      }
-    }
-
-    function updateMiniMusicProgressUI() {
-      const audioEl = getCustomAudioEl();
-      const slider = document.getElementById('mini-music-progress');
-      const curEl = document.getElementById('mini-music-current-time');
-      const durEl = document.getElementById('mini-music-total-time');
-      if (!audioEl) return;
-
-      const cur = Number.isFinite(audioEl.currentTime) ? audioEl.currentTime : 0;
-      const dur = Number.isFinite(audioEl.duration) && audioEl.duration > 0 ? audioEl.duration : 0;
-      const pct = dur > 0 ? Math.min(100, Math.max(0, (cur / dur) * 100)) : 0;
-
-      if (curEl) curEl.textContent = formatTimeMMSS(Math.floor(cur));
-      if (durEl) durEl.textContent = dur > 0 ? formatTimeMMSS(Math.floor(dur)) : '00:00';
-      if (slider) {
-        slider.value = String(pct.toFixed(1));
-        const fillColor = !audioEl.paused ? '#059669' : '#2563eb';
-        const trackBg = document.documentElement.classList.contains('dark') ? '#334155' : '#e2e8f0';
-        slider.style.background = `linear-gradient(to right, ${fillColor} ${pct}%, ${trackBg} ${pct}%)`;
-      }
-    }
-
-    function scrubMiniMusic(percentVal) {
-      const audioEl = getCustomAudioEl();
-      if (!audioEl || !Number.isFinite(audioEl.duration) || audioEl.duration <= 0) return;
-      audioEl.currentTime = (Number(percentVal) / 100) * audioEl.duration;
-      updateMiniMusicProgressUI();
-    }
-
-    function syncPlayerSourceForTrack(track, autoPlay = false, silentFail = false) {
-      const audioEl = getCustomAudioEl();
-      if (!audioEl || !track || !track.url) return;
-
-      audioEl.pause();
-      audioEl.src = track.url;
-      audioEl.volume = musicVolume;
-      updateMiniMusicProgressUI();
-
-      if (autoPlay) {
-        audioEl.play()
-          .then(() => {
-            updateMiniMusicUI(true);
-            updateMiniMusicProgressUI();
-          })
-          .catch(() => {
-            updateMiniMusicUI(false);
-            if (!silentFail) {
-              showToast('Không thể phát file nhạc này — hãy kiểm tra lại file hoặc chọn file từ máy.', 'warn');
-            }
-          });
-      } else {
-        updateMiniMusicUI(false);
-      }
-    }
-
-    function toggleMiniMusic() {
-      const track = getCurrentMusicTrack();
-      const audioEl = getCustomAudioEl();
-      if (!audioEl) return;
-
-      if (!audioEl.paused) {
-        audioEl.pause();
-        updateMiniMusicUI(false);
-        updateMiniMusicProgressUI();
-      } else {
-        if (!audioEl.getAttribute('src')) {
-          audioEl.src = track.url;
-        }
-        audioEl.volume = musicVolume;
-        audioEl.play()
-          .then(() => {
-            updateMiniMusicUI(true);
-            updateMiniMusicProgressUI();
-          })
-          .catch(() => {
-            updateMiniMusicUI(false);
-            showToast('Chưa phát được file này trên xem trước — bạn có thể bấm 📁 Chọn file nhạc từ máy.', 'warn');
-          });
-      }
-    }
-
-    function nextMusicTrack() {
-      const nextBtn = document.getElementById('mini-music-next-btn');
-      if (nextBtn) {
-        nextBtn.classList.remove('skip-motion-active');
-        void nextBtn.offsetWidth;
-        nextBtn.classList.add('skip-motion-active');
-      }
-      const queue = getEnabledMusicTracks();
-      if (!queue.length) {
-        showToast('Chưa có bài nào được chọn trong danh sách phát.', 'warn');
-        return;
-      }
-      const idx = queue.findIndex((t) => t.id === selectedMusicTrackId);
-      const nextTrack = queue[(idx + 1) % queue.length];
-      selectedMusicTrackId = nextTrack.id;
-      renderMusicPresetOptions();
-      syncPlayerSourceForTrack(nextTrack, true);
-    }
-
-    function toggleMiniMusicExpand() {
-      const boxEl = document.getElementById('mini-music-box');
-      const expandBtn = document.getElementById('mini-music-expand-btn');
-      if (!boxEl) return;
-      const isExpanded = boxEl.classList.toggle('is-expanded');
-      if (expandBtn) {
-        expandBtn.setAttribute('aria-expanded', String(isExpanded));
-      }
-    }
-
-    function changeMusicPreset(trackId) {
-      selectedMusicTrackId = trackId;
-      enabledMusicTrackIds.add(trackId);
-      renderMusicPresetOptions();
-      syncPlayerSourceForTrack(getCurrentMusicTrack(), true);
-    }
-
-    function handleCustomMusicFileUpload(event) {
-      const files = Array.from((event && event.target && event.target.files) || []);
-      if (!files.length) return;
-
-      let lastId = selectedMusicTrackId;
-      files.forEach((file, idx) => {
-        const objectUrl = URL.createObjectURL(file);
-        const cleanName = file.name.replace(/\.[^/.]+$/, '');
-        const trackObj = {
-          id: `file-${Date.now()}-${idx}`,
-          title: `📁 ${cleanName}`,
-          url: objectUrl,
-          isLocalBlob: true
-        };
-        customMusicTracks.push(trackObj);
-        enabledMusicTrackIds.add(trackObj.id);
-        lastId = trackObj.id;
-      });
-
-      selectedMusicTrackId = lastId;
-      renderMusicPresetOptions();
-      syncPlayerSourceForTrack(getCurrentMusicTrack(), true);
-      showToast(`Đã thêm ${files.length} file nhạc từ máy.`, 'success');
-      event.target.value = '';
-    }
-
-    function removeSelectedCustomTrack() {
-      const current = getCurrentMusicTrack();
-      if (!current || current.isDefault) return;
-      if (current.isLocalBlob && current.url) {
-        URL.revokeObjectURL(current.url);
-      }
-      customMusicTracks = customMusicTracks.filter((t) => t.id !== current.id);
-      enabledMusicTrackIds.delete(current.id);
-      const fallbackPool = getEnabledMusicTracks();
-      const firstSorted = fallbackPool[0] || getAllMusicTracks()[0];
-      selectedMusicTrackId = firstSorted.id;
-      renderMusicPresetOptions();
-      syncPlayerSourceForTrack(firstSorted, true);
-      showToast('Đã xóa bài nhạc tự thêm.', 'info');
-    }
-
-    function setMusicVolume(val) {
-      const num = Math.max(0, Math.min(100, Number(val) || 0));
-      musicVolume = num / 100;
-      const label = document.getElementById('mini-music-vol-label');
-      if (label) label.textContent = `${num}%`;
-
-      const audioEl = getCustomAudioEl();
-      if (audioEl) audioEl.volume = musicVolume;
-    }
-
-    function setupAutoplayFallback() {
-      let unlocked = false;
-      const unlockAudio = () => {
-        if (unlocked) return;
-        unlocked = true;
-        const audioEl = getCustomAudioEl();
-        if (audioEl && audioEl.paused) {
-          audioEl.volume = musicVolume;
-          audioEl.play()
-            .then(() => {
-              updateMiniMusicUI(true);
-              updateMiniMusicProgressUI();
-            })
-            .catch(() => {});
-        }
-        ['click', 'touchstart', 'keydown'].forEach((evt) => {
-          document.removeEventListener(evt, unlockAudio);
-        });
-      };
-      ['click', 'touchstart', 'keydown'].forEach((evt) => {
-        document.addEventListener(evt, unlockAudio, { once: true });
+      activeReplayQuestionId = null;
+      document.querySelectorAll('[data-replay-btn]').forEach((btn) => {
+        btn.textContent = '▶ Nghe đoạn trích (MP3)';
       });
     }
 
@@ -2116,7 +1700,7 @@
     ];
 
     (() => {
-      let counter = 1;
+      counter = 1;
       READING_PASSAGES.forEach((p) => {
         p.questions.forEach((q) => {
           q.globalIndex = counter++;
@@ -2124,88 +1708,703 @@
       });
     })();
 
-    const LISTENING_SOURCE_URL = 'https://www.examenglish.com/TOEFL/toefl_listening.htm';
+    const LISTENING_SOURCE_URL = 'https://test-english.com/exams/toefl-ibt/toefl-ibt-exam-1-listening/';
+    const LISTENING_MAIN_AUDIO_SRC = 'Hook%20Toefl%20ibt_Writing/TOEFL%20Listening%20Practice%20Exam%201.mp3';
+
+    const LISTENING_PARTS = [
+      {
+        id: 'listening-part-1',
+        badge: 'PHẦN 1 / 5 • CONVERSATION',
+        selectLabel: 'Phần 1: Cuộc trò chuyện giữa sinh viên Freya và giáo sư Dubois (5 câu)',
+        title: 'Part 1: Student & Professor — Choosing a Presentation Topic',
+        subtitle: 'File: TOEFL Listening Practice Exam 1.mp3 • Conversation',
+        audioSrc: LISTENING_MAIN_AUDIO_SRC,
+        transcript: [
+          'Narrator: Listen to a conversation between a student and a professor.',
+          'Professor: Hi Freya, you wanted to see me? Come on in.',
+          'Freya: Hello, Professor Dubois. Yeah, um, about the presentation. I\'m a bit stressed about which topic to choose. I want something engaging but also manageable.',
+          'Professor: What subjects or areas have you been considering?',
+          'Freya: Well, I\'m interested in social media, but I\'m not sure what angle to take. There\'s so much to talk about.',
+          'Professor: Social media is a big topic and in the news a lot at the moment. What specifically about social media interests you?',
+          'Freya: I\'m interested in its impact on mental health, but I\'ve also thought about discussing its role in business, um, or how it affects politics.',
+          'Professor: Okay, all excellent angles. Let\'s break them down a bit. What do you find interesting about social media\'s impact on mental health?',
+          'Freya: I read a lot about how it can lead to anxiety and depression, especially among teenagers. I think it\'s a very important issue.',
+          'Professor: It certainly is. What about social media\'s role in business? Any specific aspect?',
+          'Freya: I find it fascinating how companies use social media for marketing and brand building. It can be really targeted. It doesn\'t reach everyone, of course, you know, like older people. Um, but I think it\'s amazing how a single post can go viral and change everything. I mean, like literally overnight. A product, you know, something someone has posted about, and anyone can do it—it can just sell out or bomb, nobody will touch it. It\'s crazy.',
+          'Professor: True. And what about politics?',
+          'Freya: The way social media influences elections and public opinion is extraordinary. There\'s a lot to explore about fake news and misinformation too.',
+          'Professor: All those topics have a lot of potential. Which one do you feel you have the most background knowledge in?',
+          'Freya: Probably the impact on mental health. We had a series of talks from the student counselor about social media and staying safe—mentally, I mean—when you\'re engaging with sites like TikTok or Facebook.',
+          'Professor: That\'s a big plus. Having a good foundation will make your research process smoother. But which topic do you think your audience would find most interesting? For me, that\'s key. Remember, some of your marks will be based on feedback from your audience.',
+          'Freya: Hmm, that\'s the thing. I think people would be interested in all of them.',
+          'Professor: Okay. Well, what about the scope of each topic? Which do you feel you can cover comprehensively within the time limit? Not just the time for the presentation itself, but the prep time. You have a lot of assignments.',
+          'Freya: Don\'t I know it. I... I kind of think the mental health aspect might be the easiest. I think the political angle is so vast, and it\'s complicated. I think I\'d get swamped trying to cover it all, especially since it\'s constantly changing.',
+          'Professor: Well, it sounds like you\'ve made your choice.',
+          'Freya: Wow, I do. Thanks for that, Professor Dubois.',
+          'Professor: Not at all. Don\'t forget drafts are due on the 14th.',
+          'Freya: Sure, I\'ll be on time. Thanks, Professor.'
+        ],
+        questions: [
+          {
+            id: 'l1-q1',
+            num: 1,
+            kind: 'single',
+            type: 'Gist-Purpose',
+            prompt: 'Why did Freya primarily go to see Professor Dubois?',
+            options: {
+              A: 'To discuss how to manage stress.',
+              B: 'To seek advice about a presentation.',
+              C: 'To clarify the deadline for an assignment.',
+              D: 'To understand the scope of social media.'
+            },
+            correct: 'B',
+            explanation: 'Ngay đầu hội thoại, Freya nói: "Yeah, um, about the presentation. I\'m a bit stressed about which topic to choose." Mục đích chính của cô là xin lời khuyên về chủ đề bài thuyết trình.'
+          },
+          {
+            id: 'l1-q2',
+            num: 2,
+            kind: 'single',
+            type: 'Detail',
+            prompt: 'What aspect of social media’s role in business is Freya most interested in?',
+            options: {
+              A: 'The speed at which it can effect change.',
+              B: 'Its ability to target specific customers.',
+              C: 'The fact that anyone can write posts.',
+              D: 'Its relationship with certain age groups.'
+            },
+            correct: 'A',
+            explanation: 'Freya thấy ấn tượng việc chỉ một bài đăng lan truyền ("go viral") có thể thay đổi mọi thứ chỉ sau một đêm ("literally overnight"), khiến sản phẩm cháy hàng hoặc thất bại hoàn toàn.'
+          },
+          {
+            id: 'l1-q3',
+            num: 3,
+            kind: 'single',
+            type: 'Function / Detail',
+            prompt: 'Why does Freya mention TikTok during her conversation with Professor Dubois?',
+            options: {
+              A: 'To discuss its role in marketing and brand building.',
+              B: 'To illustrate its influence on politics and public opinion.',
+              C: 'To highlight the impact of social media on mental health.',
+              D: 'To show the prevalence of fake news and misinformation.'
+            },
+            correct: 'C',
+            explanation: 'Freya nhắc tới TikTok và Facebook trong bối cảnh các buổi nói chuyện của cố vấn sinh viên về bảo vệ sức khỏe tinh thần khi dùng mạng xã hội ("staying safe—mentally").'
+          },
+          {
+            id: 'l1-q4',
+            num: 4,
+            kind: 'single',
+            type: 'Detail',
+            prompt: 'In Professor Dubois’s opinion, what is the most important aspect of Freya’s presentation?',
+            options: {
+              A: 'How much background knowledge Freya demonstrates.',
+              B: 'How thorough the research behind it is.',
+              C: 'How good the draft submitted on the 14th is.',
+              D: 'How engaging the topic is for the audience.'
+            },
+            correct: 'D',
+            explanation: 'Giáo sư Dubois nhấn mạnh: "But which topic do you think your audience would find most interesting? For me, that\'s key." (Sự hứng thú của khán giả là yếu tố then chốt).'
+          },
+          {
+            id: 'l1-q5',
+            num: 5,
+            kind: 'single',
+            type: 'Replay / Function',
+            replayAudioSrc: 'Hook%20Toefl%20ibt_Writing/TOEFL_Exam1-Listening1-Q5.mp3',
+            replayFileName: 'TOEFL_Exam1-Listening1-Q5.mp3',
+            prompt: 'Why does the student say this in response to the professor?',
+            options: {
+              A: 'To disagree with what the professor has just said.',
+              B: 'To agree with what the professor has just said.',
+              C: 'To stress her lack of knowledge in the matter.',
+              D: 'To complain about the number of assignments students have.'
+            },
+            correct: 'B',
+            explanation: 'Thành ngữ "Don\'t I know it!" dùng để đồng tình mạnh mẽ với nhận xét của giáo sư rằng cô đang có rất nhiều bài tập phải làm.'
+          }
+        ]
+      },
+      {
+        id: 'listening-part-2',
+        badge: 'PHẦN 2 / 5 • LECTURE',
+        selectLabel: 'Phần 2: Bài giảng về Brand Image — Hình ảnh thương hiệu (6 câu)',
+        title: 'Part 2: Lecture — Brand Image (Consistency vs. Change)',
+        subtitle: 'File: TOEFL Listening Practice Exam 1.mp3 • Marketing Lecture',
+        audioSrc: LISTENING_MAIN_AUDIO_SRC,
+        transcript: [
+          'Narrator: Listen to part of a lecture in a class on brand image. The professor is discussing the role and importance of brand image.',
+          'Professor: Good morning, everyone. Today we\'re delving into the captivating world of brand image. Imagine a brand as a person. Just like individuals, brands have personalities, values, and reputations. Brand image is the sum of all impressions, associations, and experiences consumers have with that brand. Why does it matter? It\'s everything. A strong brand image can differentiate a product in a crowded market, build consumer trust and loyalty, and even command higher prices.',
+          'Think about Apple. What comes to mind? Sleek design and innovation, right? That\'s their meticulously crafted brand image. And that isn\'t just about logos and advertisements; it\'s about every touchpoint consumers have with the brand: website design, packaging, customer service, social media posts, even what friends say about it. That means that to maintain a positive brand image, companies must really get to grips with their audience. Since brand image is shaped by everything customers think and experience, it\'s not something the company can fully control. And that\'s why they really have to work at it, staying in touch with what customers think and feel, knowing exactly who their customers are.',
+          'Nike\'s marketing campaigns, for example, resonate with their target demographic of athletes and fitness enthusiasts. Any deviation from these values risks alienating consumers. We can see that with Pepsi\'s controversial ad featuring Kendall Jenner. Do you remember that one? A reality TV star taking part in a protest offering a can of Pepsi to a police officer at the height of the Black Lives Matter movement. It was astonishingly inept, and the ad got pulled after people complained it trivialized the issue. It had nothing to do with the quality of the product or the cost of the campaign. You can bet Pepsi\'s profits took a hit with that one. That illustrates how companies have to adapt. That is, I mean, that brand image evolves over time with changing consumer trends or preferences.',
+          'Patagonia, a brand known for its commitment to sustainability, reflects a shift towards ethical consumption, earning praise from environmentally conscious consumers. They chose to adapt to new social trends and concerns, building their image around that concept, and it was a success.',
+          'That said, consistency is also a key aspect. So brand image is a balancing act between consistency and change. Think about Coca-Cola\'s iconic red logo. It is instantly recognizable worldwide, isn\'t it? Would you change that? I don\'t think so. Of course, it is possible to completely rebrand a product, but it carries risks. Companies that want to appeal to new segments of the audience may sometimes make small tweaks, but rarely change their core identity. Take Old Spice. It used to be a brand of aftershave for older men, but then it shifted its focus to attract a younger audience without abandoning its older customers.',
+          'When I was at Ogilvy, I saw just how pivotal brand image is to success, and that\'s with brands ranging from tech startups to established retail giants. We dealt with all kinds. To be successful, you need effective strategic branding, but you also have to be willing to adapt to avoid critical missteps. And that all comes back to understanding your consumers.'
+        ],
+        questions: [
+          {
+            id: 'l2-q1',
+            num: 1,
+            kind: 'single',
+            type: 'Main Idea',
+            prompt: 'What is the main idea of the lecture?',
+            options: {
+              A: 'Brand image reflects a company’s personality and values.',
+              B: 'Brand image maintains customer loyalty through consistency.',
+              C: 'Brand Image derives from an accumulation of customer feedback.',
+              D: 'Brand image is everything customers think and feel about a brand.'
+            },
+            correct: 'D',
+            explanation: 'Giảng viên định nghĩa trọng tâm: "Brand image is the sum of all impressions, associations, and experiences consumers have with that brand" — tức toàn bộ những gì khách hàng nghĩ và cảm nhận về thương hiệu.'
+          },
+          {
+            id: 'l2-q2',
+            num: 2,
+            kind: 'single',
+            type: 'Replay / Inference',
+            replayAudioSrc: 'Hook%20Toefl%20ibt_Writing/TOEFL-Exam1-Listening2-Q2.mp3',
+            replayFileName: 'TOEFL-Exam1-Listening2-Q2.mp3',
+            prompt: 'What does the professor mean when she says this?',
+            options: {
+              A: 'They must fully understand their target market.',
+              B: 'They must try to control brand image as much as possible.',
+              C: 'They must constantly get feedback from consumers.',
+              D: 'They must resonate with their chosen demographic.'
+            },
+            correct: 'A',
+            explanation: 'Cụm "get to grips with their audience" nghĩa là nắm bắt và thấu hiểu sâu sắc thị trường mục tiêu / nhóm khách hàng của mình.'
+          },
+          {
+            id: 'l2-q3',
+            num: 3,
+            kind: 'single',
+            type: 'Detail',
+            prompt: 'According to the professor, what do companies risk when they deviate from their established brand values?',
+            options: {
+              A: 'Increasing their marketing costs.',
+              B: 'Disaffecting their customers.',
+              C: 'Reducing their product quality.',
+              D: 'Losing market share to competitors.'
+            },
+            correct: 'B',
+            explanation: 'Bài giảng nêu rõ: "Any deviation from these values risks alienating consumers." ("alienating" = làm khách hàng xa lánh / bất mãn = "disaffecting").'
+          },
+          {
+            id: 'l2-q4',
+            num: 4,
+            kind: 'single',
+            type: 'Attitude',
+            prompt: 'What is the speaker’s attitude towards Pepsi following the Kendall Jenner ad?',
+            options: {
+              A: 'He is shocked that the company ran the advertisement at all.',
+              B: 'He believes the outcome would have been different at a different time.',
+              C: 'He is surprised by the scale of the outrage the advert prompted.',
+              D: 'He thinks Pepsi only have themselves to blame for any resulting losses.'
+            },
+            correct: 'D',
+            explanation: 'Giảng viên phê bình quảng cáo đó là "astonishingly inept" (vụng về đến kinh ngạc) và không liên quan gì đến chất lượng sản phẩm hay chi phí, hàm ý Pepsi tự chuốc lấy thiệt hại.'
+          },
+          {
+            id: 'l2-q5',
+            num: 5,
+            kind: 'matching',
+            type: 'Matching (Change vs. Consistency)',
+            prompt: 'The speaker says brand images evolve. Which brand does he mention as representative of Change and which of Consistency?',
+            rows: [
+              { key: 'change', label: 'Representative of Change (Thích ứng & thay đổi)' },
+              { key: 'consistency', label: 'Representative of Consistency (Nhất quán nhận diện)' }
+            ],
+            choices: ['Patagonia', 'Apple', 'Old Spice', 'Pepsi', 'Nike', 'Coca-Cola'],
+            correctMap: {
+              change: 'Patagonia',
+              consistency: 'Coca-Cola'
+            },
+            explanation: 'Patagonia đại diện cho sự thay đổi/thích ứng theo xu hướng tiêu dùng bền vững ("reflects a shift towards ethical consumption"), còn Coca-Cola với logo đỏ biểu tượng toàn cầu đại diện cho tính nhất quán ("consistency is also a key aspect").'
+          },
+          {
+            id: 'l2-q6',
+            num: 6,
+            kind: 'multi2',
+            type: 'Replay / Inference — Choose TWO',
+            replayAudioSrc: 'Hook%20Toefl%20ibt_Writing/TOEFL-Exam1-Listening2-Q6.mp3',
+            replayFileName: 'TOEFL-Exam1-Listening2-Q6.mp3',
+            prompt: 'What does the professor suggest when she says this? (Choose TWO answers)',
+            options: {
+              A: 'He has firsthand experience of brand building.',
+              B: 'Ogilvy was a marketing company in the retail sector.',
+              C: 'Brand Image matters critically for startup companies.',
+              D: 'Brand image is chief determiner of success or failure.'
+            },
+            correctMulti: ['A', 'D'],
+            explanation: 'Việc từng làm tại Ogilvy cho thấy giảng viên có kinh nghiệm thực tế trực tiếp trong xây dựng thương hiệu (A), và nhấn mạnh "pivotal brand image is to success" cho thấy hình ảnh thương hiệu là yếu tố quyết định thành bại (D).'
+          }
+        ]
+      },
+      {
+        id: 'listening-part-3',
+        badge: 'PHẦN 3 / 5 • CONVERSATION',
+        selectLabel: 'Phần 3: Sinh viên Sarah và cán bộ nhà ở đại học (5 câu)',
+        title: 'Part 3: Student & University Housing Officer — Moving Off Campus',
+        subtitle: 'File: TOEFL Listening Practice Exam 1.mp3 • Campus Service Conversation',
+        audioSrc: LISTENING_MAIN_AUDIO_SRC,
+        transcript: [
+          'Narrator: Listen to a conversation between a student and a university housing officer.',
+          'Student: Hi, sorry to bother you, but I wanted to talk about my housing situation. I\'ve been thinking about moving out of campus housing.',
+          'Housing Officer: Okay. What\'s prompting this decision?',
+          'Student: Well, um, I\'m finding living on campus hard. A lot of the girls in my dorm are into partying. There\'s a lot of coming and going with the guys on the ground floor—sports majors—and I\'m not into that. I traveled a long way and left my family behind to study here, and it\'s so noisy and busy in the dorm that I can\'t work there. I work late in the library, but I hate having to cross campus at night. It doesn\'t feel safe.',
+          'Housing Officer: I understand. It sounds like you\'re dealing with some challenging conditions.',
+          'Student: Exactly. I thought living on campus would be best for my studies, but it\'s turning out to be the opposite.',
+          'Housing Officer: Hmm. That\'s not good. Have you considered reaching out to your resident advisor or campus security to address your concerns about safety?',
+          'Student: Yes, it was my RA who suggested I talk to you. Security says it\'s fine and the campus is safe, but I just don\'t feel that way. I just feel like I need a quieter, more peaceful environment where I can concentrate without distractions.',
+          'Housing Officer: Have you explored any options within the residential housing, like requesting a dorm change or discussing a complaint?',
+          'Student: I think it\'s just the way dorms are. I think it\'s harder for me too because I\'m a more mature student. Most of the people there are still teenagers. I\'m 26, and I don\'t want to make an official complaint. I just want to quietly move on. I\'ve been exploring some off-campus options, like renting an apartment or sharing a house with friends.',
+          'Housing Officer: Got it. You know what\'s right for you. Just make sure you consider factors like safety, transportation, and budgeting.',
+          'Student: I can afford to move out. And actually, I have a friend studying at MIT just across the river, and there\'s an apartment in her building that\'s up for rent.',
+          'Housing Officer: It looks like you\'ve done your homework.',
+          'Student: Yeah, but I\'m not sure about the process for terminating my housing contract.',
+          'Housing Officer: If you\'re looking to terminate mid-semester, there may be some financial implications.',
+          'Student: I\'ve paid for the whole semester, so I\'ll stay until the end. It\'ll give me time to arrange a move.',
+          'Housing Officer: Right. Then in that case, you just need to make a formal request, but put it in writing. Just say what you\'ve told me. I\'ll bring it up at the next housing meeting, which is... oh, tomorrow at 2:00 PM. Can you get it done by then?',
+          'Student: Yes, I can do it this afternoon.',
+          'Housing Officer: All righty. I can let you know what they say by the end of the day tomorrow. I can\'t see that there could be any objections to your moving out, but you do have to register with Allison Rodriguez, the welfare officer. She\'ll want to keep tabs on you for the first few weeks. How does that sound?',
+          'Student: It sounds great. Wow, that\'s a weight off my mind. I\'ll go and do that letter now. Thanks for your help.',
+          'Housing Officer: You\'re welcome, and happy house hunting.'
+        ],
+        questions: [
+          {
+            id: 'l3-q1',
+            num: 1,
+            kind: 'single',
+            type: 'Main Reason',
+            prompt: 'What is the main reason Sarah wants to move out of campus housing?',
+            options: {
+              A: 'She thinks the dormitories are unsafe.',
+              B: 'She cannot afford the campus housing fees.',
+              C: 'She finds the dorm environment distracting.',
+              D: 'She wants to live closer to her friend at MIT.'
+            },
+            correct: 'C',
+            explanation: 'Sarah giải thích ký túc xá quá ồn ào và đông đúc vì tiệc tùng nên cô không thể học bài và cần một môi trường yên tĩnh, không bị phân tâm ("concentrate without distractions").'
+          },
+          {
+            id: 'l3-q2',
+            num: 2,
+            kind: 'single',
+            type: 'Inference',
+            prompt: 'What can be inferred about Sarah?',
+            options: {
+              A: 'She is a married student.',
+              B: 'She is a final-year student.',
+              C: 'She is a postgraduate student.',
+              D: 'She is an international student.'
+            },
+            correct: 'D',
+            explanation: 'Sarah nói "I traveled a long way and left my family behind to study here", cho thấy cô đã đi một quãng đường rất xa rời xa gia đình để du học — suy ra cô là sinh viên quốc tế.'
+          },
+          {
+            id: 'l3-q3',
+            num: 3,
+            kind: 'multi2',
+            type: 'Detail — Choose TWO',
+            prompt: 'Why does Sarah prefer not to make an official complaint about her current dorm situation? (Choose TWO answers)',
+            options: {
+              A: 'She believes the issues are typical of dorm life.',
+              B: 'She does not think she will be taken seriously.',
+              C: 'She wants to avoid conflict and quietly move out.',
+              D: 'She is afraid of retaliation from other students.'
+            },
+            correctMulti: ['A', 'C'],
+            explanation: 'Sarah nói "I think it\'s just the way dorms are" (A — chuyện thường thấy ở ký túc xá) và "I don\'t want to make an official complaint. I just want to quietly move on" (C — muốn lặng lẽ chuyển đi).'
+          },
+          {
+            id: 'l3-q4',
+            num: 4,
+            kind: 'single',
+            type: 'Detail',
+            prompt: 'What does Sarah need to do in order to terminate her housing contract?',
+            options: {
+              A: 'Pay a termination fee.',
+              B: 'Submit a written request.',
+              C: 'Discuss it with campus security.',
+              D: 'Wait for the end of the semester.'
+            },
+            correct: 'B',
+            explanation: 'Cán bộ nhà ở hướng dẫn: "you just need to make a formal request, but put it in writing" (nộp đơn đề nghị chính thức bằng văn bản).'
+          },
+          {
+            id: 'l3-q5',
+            num: 5,
+            kind: 'single',
+            type: 'Replay / Inference',
+            replayAudioSrc: 'Hook%20Toefl%20ibt_Writing/TOEFL_Exam1-Listening3-Q5.mp3',
+            replayFileName: 'TOEFL_Exam1-Listening3-Q5.mp3',
+            prompt: 'What does the housing officer mean when he says this?',
+            options: {
+              A: 'She will check on Sarah’s well-being after she moves off-campus.',
+              B: 'She will need to be informed of Sarah’s movements for a while.',
+              C: 'She will have to write a series of reports on Sarah for the university.',
+              D: 'She will have to keep Sarah under surveillance until she has settled in.'
+            },
+            correct: 'A',
+            explanation: '"Keep tabs on someone" nghĩa là theo dõi, hỏi thăm tình hình; vì Allison Rodriguez là cán bộ phúc lợi sinh viên (welfare officer), cô ấy sẽ theo dõi sức khỏe/đời sống của Sarah trong vài tuần đầu chuyển ra ngoài.'
+          }
+        ]
+      },
+      {
+        id: 'listening-part-4',
+        badge: 'PHẦN 4 / 5 • LECTURE',
+        selectLabel: 'Phần 4: Bài giảng Lịch sử ngôn ngữ tiếng Anh — 1066 & Middle English (6 câu)',
+        title: 'Part 4: Lecture — History of the English Language',
+        subtitle: 'File: TOEFL Listening Practice Exam 1.mp3 • Linguistics & History Lecture',
+        audioSrc: LISTENING_MAIN_AUDIO_SRC,
+        transcript: [
+          'Narrator: Listen to part of a lecture in a history of the English language class.',
+          'Professor: Okay, so English is often called a mongrel language, but it is more than just a pidgin or a creole. A pidgin is a simplified form of language that develops as a way for speakers of different native languages to communicate. Pidgins typically have limited vocabulary and simplified grammar, and they aren\'t native languages for any group of speakers. They are usually created for practical purposes like trade. A creole, on the other hand, is a fully developed language that evolves from a pidgin when it becomes the native language of a community. Creoles develop more complex grammar and vocabulary over time. English, however, goes beyond that. While many languages borrow words from other cultures, English has been doing this on a vast scale for a very long time.',
+          'Does the year 1066 ring a bell? That\'s when William the Conqueror, Duke of Normandy, defeated King Harold II at the Battle of Hastings and became King of England. Overnight, practically, Old English—which was the Germanic language of the Anglo-Saxons—was replaced, mainly among the ruling classes, with Norman French. Norman French then dominated the English court, government, and aristocracy for over 300 years.',
+          'How do we know that? Primarily through lexical borrowing, or words that English stole from French. Approximately 30% of English words have a French origin, and many of these words form the core vocabulary of various fields, from law and government to art and cuisine. Words like court, judge, jury, parliament, and government entered English through Norman French, reflecting the administrative and legal dominance of the Normans. Terms such as duke, countess, baron, and peasant highlight the hierarchical structure imposed by the Normans. But the influence went further than that. When we think about what the nobility and aspirants to Norman French culture wore and how they spent their time when they weren\'t subduing native Britons—that is, words like garment, jewel, and luxury, poetry, romance, and author—all came into English from the French of the ruling class.',
+          'Yet English is a bit of a glutton. It didn\'t replace old words with Norman French new ones; it kept both. And nowhere is this more evident than in terms of food. Beef, mutton, pork, and veal are from French. The Old English words were the same as for the animals themselves: cow, sheep, pig, and calf. This distinction often reflects the division between the Norman aristocrats who consumed the meat and the English peasants who tended the animals and prepared the food.',
+          'The Norman Conquest created a sociolinguistic divide. While the upper classes spoke Norman French, the lower classes continued to speak Old English. Over time, these two languages began to merge, especially as the Normans became more integrated into English society. By the end of the 14th century, English had re-emerged as the dominant language, but it had been significantly altered. This new form is known as Middle English, the language of Chaucer, often regarded as the father of English literature. While English retained its Germanic roots, the structure of the language changed between the Norman Conquest and the emergence of Middle English. It developed a more rigid word order and adopted many French prefixes and suffixes, which expanded its capacity for nuanced expression. The phonology, or sound system, was also affected. The Normans introduced new sounds and stress patterns. And while we struggle with reading Chaucer today, you know what I\'m talking about, right? It is recognizably English.',
+          'There are several reasons why French began to lessen its influence on English. The prolonged conflict between England and France during the Hundred Years\' War—actually from 1337 to 1453—fostered a sense of English national identity and reduced the prestige of the French language. The Black Death, from 1347 to 1351, drastically reduced the population, creating a shortage of skilled workers. Since these workers primarily spoke English, their increased social mobility helped English reassert itself. In 1362, the Statute of Pleading was enacted, mandating that English rather than French be used in the courts.',
+          'However, that didn\'t stop English from borrowing from other languages. With the expansion of trade in the 15th and 16th centuries and Britain\'s global colonial expansion in the 17th and 18th centuries, the borrowing process only accelerated, and it hasn\'t and won\'t stop. We only have to look at neologisms to see that, but we\'ll move on to that another time.'
+        ],
+        questions: [
+          {
+            id: 'l4-q1',
+            num: 1,
+            kind: 'single',
+            type: 'Purpose',
+            prompt: 'What is the purpose of the lecture?',
+            options: {
+              A: 'To consider the evolution and complexity of the English language.',
+              B: 'To detail the role of Norman French in the development of Old English.',
+              C: 'To identify the events leading to the rise of an English-speaking aristocracy.',
+              D: 'To discuss the influence of trade and colonial expansion on the English language.'
+            },
+            correct: 'A',
+            explanation: 'Bài giảng khái quát quá trình phát triển và sự đa dạng phức tạp của tiếng Anh từ gốc Germanic qua cuộc chinh phục Norman, hình thành Middle English cho đến mở rộng thương mại và thuộc địa.'
+          },
+          {
+            id: 'l4-q2',
+            num: 2,
+            kind: 'single',
+            type: 'Detail / Example',
+            prompt: 'What does the existence of words like “cow” and “beef” illustrate?',
+            options: {
+              A: 'How Old English replaced Norman French.',
+              B: 'How words from different languages started to coexist.',
+              C: 'How French words were not only used in legal matters.',
+              D: 'How English words became dominant in Europe.'
+            },
+            correct: 'B',
+            explanation: 'Tiếng Anh không xóa bỏ từ cũ mà giữ cả hai: từ gốc Old English cho con vật (cow, sheep, pig) và từ gốc Pháp cho món thịt (beef, mutton, pork), minh họa sự cùng tồn tại của từ vựng từ hai ngôn ngữ.'
+          },
+          {
+            id: 'l4-q3',
+            num: 3,
+            kind: 'multi2',
+            type: 'Rhetorical Purpose — Choose TWO',
+            prompt: 'Why does the speaker mention the Norman Conquest? (Choose two options)',
+            options: {
+              A: 'To describe the linguistic differences it created between social classes.',
+              B: 'To use as an example of French dominance.',
+              C: 'To imply that English was a weaker language than French.',
+              D: 'To highlight the influence that French had on English.'
+            },
+            correctMulti: ['A', 'D'],
+            explanation: 'Cuộc chinh phục Norman năm 1066 tạo ra sự phân tầng ngôn ngữ giữa tầng lớp cai trị nói tiếng Pháp Norman và dân thường nói tiếng Anh cổ (A), đồng thời cho thấy ảnh hưởng sâu rộng của tiếng Pháp lên tiếng Anh (D).'
+          },
+          {
+            id: 'l4-q4',
+            num: 4,
+            kind: 'single',
+            type: 'Detail',
+            prompt: 'According to the speaker, what happened when Middle English emerged?',
+            options: {
+              A: 'English became the preferred language of authors like Chaucer.',
+              B: 'It replaced Old English practically overnight.',
+              C: 'English became more subtle and expressive.',
+              D: 'English vocabulary exploded.'
+            },
+            correct: 'C',
+            explanation: 'Giảng viên nêu tiếng Anh trung đại tiếp nhận nhiều tiền tố, hậu tố tiếng Pháp giúp mở rộng khả năng diễn đạt tinh tế ("expanded its capacity for nuanced expression").'
+          },
+          {
+            id: 'l4-q5',
+            num: 5,
+            kind: 'matching',
+            type: 'Matching (Historical Events & Influences)',
+            prompt: 'Match the following historical events with the influence they had on the English language.',
+            rows: [
+              { key: 'norman', label: 'Norman Conquest' },
+              { key: 'hundred_years', label: "Hundred Years' War" },
+              { key: 'black_death', label: 'Black Death' },
+              { key: 'trade_colonial', label: 'Expansion of Trade and Colonialism' }
+            ],
+            choices: [
+              'Increased borrowing of words from other languages',
+              'The integration of French vocabulary',
+              'Building a strong English national identity',
+              'Increased social mobility'
+            ],
+            correctMap: {
+              norman: 'The integration of French vocabulary',
+              hundred_years: 'Building a strong English national identity',
+              black_death: 'Increased social mobility',
+              trade_colonial: 'Increased borrowing of words from other languages'
+            },
+            explanation: 'Norman Conquest đưa từ vựng tiếng Pháp vào tiếng Anh; Chiến tranh Trăm Năm nuôi dưỡng bản sắc dân tộc Anh; Cái chết Đen làm thiếu lao động nên tăng dịch chuyển xã hội của tầng lớp nói tiếng Anh; Thương mại & thuộc địa đẩy mạnh vay mượn từ nhiều ngôn ngữ khác.'
+          },
+          {
+            id: 'l4-q6',
+            num: 6,
+            kind: 'single',
+            type: 'Inference',
+            prompt: 'It may be inferred that the Statute of Pleading enacted in 1362 was significant for the English language. Why?',
+            options: {
+              A: 'It stopped French words from being added to English.',
+              B: 'It limited the use of Norman French to legal matters.',
+              C: 'It promoted the use of Latin in the administration.',
+              D: 'It officially recognized English for use in the administration.'
+            },
+            correct: 'D',
+            explanation: 'Đạo luật Biện hộ năm 1362 bắt buộc dùng tiếng Anh thay cho tiếng Pháp tại tòa án, đánh dấu sự công nhận chính thức của nhà nước đối với tiếng Anh trong hệ thống hành chính – tư pháp.'
+          }
+        ]
+      },
+      {
+        id: 'listening-part-5',
+        badge: 'PHẦN 5 / 5 • LECTURE',
+        selectLabel: 'Phần 5: Bài giảng Khoa học Môi trường — Desertification / Sa mạc hóa (6 câu)',
+        title: 'Part 5: Environmental Science Lecture — Desertification',
+        subtitle: 'File: TOEFL Listening Practice Exam 1.mp3 • Environmental Science Lecture',
+        audioSrc: LISTENING_MAIN_AUDIO_SRC,
+        transcript: [
+          'Narrator: Listen to part of a lecture in an environmental science class.',
+          'Professor: Desertification is the process by which fertile land becomes increasingly arid, eventually transforming into desert-like conditions. Several factors contribute to desertification, and the one that immediately springs to mind is climate change. Changes in temperature and rainfall patterns, usually exacerbated by human activities, can lead to decreased soil moisture and increased evaporation rates, accelerating the process by which once fertile land turns into a barren desert.',
+          'I say they are usually exacerbated by human activity because nature can look after itself if it weren\'t compromised by what we do. For example, intensive grazing leads to erosion because goats or cattle eat all the vegetation, and the roots are uprooted. Without greenery, moisture evaporates, and the soil disappears over time. Clearing trees, or deforestation—whether to build homes, create fields, or even just collect firewood—is another issue. Removing trees exposes the topsoil to the elements, causing degradation and ultimately leading to desertification. And even where the situation isn\'t too bad, unsustainable agricultural practices, such as monoculture farming, poor irrigation, and lack of mulching, can reduce the capacity for water replenishment, making conditions increasingly arid as less and less water becomes available.',
+          'So, what happens when desertification affects an area? One major consequence is habitat loss or fragmentation. When an area turns to desert, it affects migratory animals on their routes to traditional feeding or breeding grounds. They have to pass through arid regions with little or no food, and some don\'t make it. Most vulnerable are plant and animal species adapted to specific ecological niches, but any loss of biodiversity reduces the resilience of ecosystems. Of course, degraded soils are less fertile and therefore less productive too, and when crop yields fall, we get food insecurity. In countries like the US, that\'s not usually a matter of life and death, but in regions where communities rely on subsistence agriculture, any decline in yield poses a serious threat to life. Competition over dwindling resources, including land, water, and grazing areas, can also exacerbate social tensions and conflicts among communities, which can destabilize entire regions. Look what happened in Darfur in the Sudan: hundreds of thousands dead and millions displaced.',
+          'So what can we do about it? Well, desertification is a complex problem, and addressing it requires comprehensive strategies, and that means it isn\'t all about individual farmers or families. It requires whole community engagement and, more importantly, support from government and the wider international community. We believe we\'re safe. We can point to places like the Sudan and say smugly, "That couldn\'t happen here." But I guess the people of Darfur thought the same. According to the United Nations Convention to Combat Desertification, UNCCD, desertification already affects over 3.6 billion people globally and threatens the livelihoods of millions more. These impacts are the result of centuries of environmental damage, and we must find ways to address the increasing environmental challenges ahead. Okay, so before we all get too depressed, let\'s look at some success stories.'
+        ],
+        questions: [
+          {
+            id: 'l5-q1',
+            num: 1,
+            kind: 'single',
+            type: 'Main Idea',
+            prompt: 'What is the main idea of the lecture on desertification?',
+            options: {
+              A: 'The economic impacts of desertification on global markets.',
+              B: 'The causes and direct and indirect effects of desertification.',
+              C: 'The role of agriculture in accelerating desertification.',
+              D: 'The history and future of desertification in arid regions.'
+            },
+            correct: 'B',
+            explanation: 'Bài giảng trình bày các nguyên nhân gây sa mạc hóa (biến đổi khí hậu, chăn thả quá mức, phá rừng, canh tác thiếu bền vững) cùng các hệ quả trực tiếp (mất môi trường sống, giảm năng suất cây trồng) và gián tiếp (mất an ninh lương thực, xung đột xã hội).'
+          },
+          {
+            id: 'l5-q2',
+            num: 2,
+            kind: 'single',
+            type: 'Attitude',
+            prompt: "What is the lecturer's attitude towards the role of human activity in desertification?",
+            options: {
+              A: 'He believes natural processes are equally to blame.',
+              B: 'He thinks human activities are major contributors.',
+              C: 'He hopes human activities can solve desertification.',
+              D: 'He sees desertification as an inevitable phenomenon.'
+            },
+            correct: 'B',
+            explanation: 'Giảng viên khẳng định thiên nhiên có thể tự cân bằng nếu không bị tác động bởi con người, và các hoạt động của con người làm trầm trọng thêm quá trình sa mạc hóa ("usually exacerbated by human activity").'
+          },
+          {
+            id: 'l5-q3',
+            num: 3,
+            kind: 'matching',
+            type: 'Matching (Contributing Factors & Effects)',
+            prompt: 'Match the following Contributing Factors to their Effects:',
+            rows: [
+              { key: 'grazing', label: 'Intensive grazing' },
+              { key: 'vegetation', label: 'Loss of vegetation' },
+              { key: 'deforestation', label: 'Deforestation' },
+              { key: 'agriculture', label: 'Unsustainable agricultural practices' }
+            ],
+            choices: [
+              'Decreased water supply',
+              'Moisture Loss',
+              'Soil degradation',
+              'Soil loss'
+            ],
+            correctMap: {
+              grazing: 'Soil loss',
+              vegetation: 'Moisture Loss',
+              deforestation: 'Soil degradation',
+              agriculture: 'Decreased water supply'
+            },
+            explanation: 'Chăn thả quá mức làm đất biến mất dần (Soil loss); mất thảm thực vật khiến hơi ẩm bốc hơi (Moisture Loss); phá rừng làm lộ tầng đất mặt gây thoái hóa đất (Soil degradation); canh tác thiếu bền vững làm giảm nguồn nước bổ sung (Decreased water supply).'
+          },
+          {
+            id: 'l5-q4',
+            num: 4,
+            kind: 'single',
+            type: 'Inference',
+            prompt: 'It may be inferred that habitat fragmentation leads to',
+            options: {
+              A: 'the endangerment of species.',
+              B: 'changes in migrant behavior.',
+              C: 'changes in breeding habits.',
+              D: 'increased desertification.'
+            },
+            correct: 'A',
+            explanation: 'Khi môi trường sống bị chia cắt, các loài dễ tổn thương không vượt qua được vùng khô cằn thiếu thức ăn ("some don\'t make it"), suy ra chúng đứng trước nguy cơ tuyệt chủng/nguy cấp ("endangerment of species").'
+          },
+          {
+            id: 'l5-q5',
+            num: 5,
+            kind: 'single',
+            type: 'Rhetorical Purpose',
+            prompt: 'Why does the speaker mention Darfur?',
+            options: {
+              A: 'To illustrate the result of falling crop yields.',
+              B: 'To compare the US with a less fortunate country.',
+              C: 'To emphasize how serious desertification can be.',
+              D: 'To show the vulnerability of subsistence farming.'
+            },
+            correct: 'C',
+            explanation: 'Ví dụ Darfur ở Sudan với hàng trăm nghìn người thiệt mạng và hàng triệu người phải di dời được nêu ra để nhấn mạnh mức độ nghiêm trọng của sa mạc hóa khi làm bất ổn cả một khu vực.'
+          },
+          {
+            id: 'l5-q6',
+            num: 6,
+            kind: 'single',
+            type: 'Replay / Inference',
+            replayAudioSrc: 'Hook%20Toefl%20ibt_Writing/TOEFL_Exam1-Listening5-Q6.mp3',
+            replayFileName: 'TOEFL_Exam1-Listening5-Q6.mp3',
+            prompt: 'What does the speaker mean when he says this?',
+            options: {
+              A: "people in the US aren't affected by desertification.",
+              B: "nobody ever thinks they'll be affected by war.",
+              C: "Americans don't appreciate the impact of climate change.",
+              D: 'US agricultural practices are much better than elsewhere.'
+            },
+            correct: 'C',
+            explanation: 'Giảng viên phê phán tâm lý chủ quan cho rằng mình an toàn ("We believe we\'re safe"), hàm ý người dân ở các nước phát triển như Mỹ chưa đánh giá đúng mức tác động của biến đổi khí hậu và sa mạc hóa.'
+          }
+        ]
+      }
+    ];
 
     const INDEPENDENT_PROMPTS = [
-      { id: 'ind-01', testCode: 'PRACTICE TEST 01', statement: 'All the students in a group should receive the same grade.' },
-      { id: 'ind-02', testCode: 'PRACTICE TEST 02', statement: 'Television has negative effects on children.' },
-      { id: 'ind-03', testCode: 'PRACTICE TEST 03', statement: 'It is more relaxing and less stressful to spend time alone.' },
-      { id: 'ind-04', testCode: 'PRACTICE TEST 04', statement: 'It is better to save your money for the future than to spend it immediately.' },
-      { id: 'ind-05', testCode: 'PRACTICE TEST 05', statement: 'More than 11 months of class in a school year can give students a better and more effective education.' },
-      { id: 'ind-06', testCode: 'PRACTICE TEST 06', statement: 'It is better to take the most difficult classes in college even though you cannot get a good grade in the courses.' },
-      { id: 'ind-07', testCode: 'PRACTICE TEST 07', statement: 'Students should be required to participate in extracurricular activities as part of their education.' },
-      { id: 'ind-08', testCode: 'PRACTICE TEST 08', statement: 'It is better for university students to live with their parents than to live away from home.' },
-      { id: 'ind-09', testCode: 'PRACTICE TEST 09', statement: 'Technology has made communication between people less personal.' },
-      { id: 'ind-10', testCode: 'PRACTICE TEST 10', statement: 'People should choose a job based on their personal interests rather than the amount of money they can earn.' }
+      {
+        id: 'ind-test-01',
+        testCode: 'PRACTICE TEST 01',
+        statement: 'Technology has made children less creative than they were in the past.'
+      },
+      {
+        id: 'ind-test-02',
+        testCode: 'PRACTICE TEST 02',
+        statement: 'Universities should require every student to take a variety of courses outside the student’s field of study.'
+      },
+      {
+        id: 'ind-test-03',
+        testCode: 'PRACTICE TEST 03',
+        statement: 'It is better for children to grow up in the countryside than in a big city.'
+      },
+      {
+        id: 'ind-test-04',
+        testCode: 'PRACTICE TEST 04',
+        statement: 'Working in a team is more effective than working alone.'
+      },
+      {
+        id: 'ind-test-05',
+        testCode: 'PRACTICE TEST 05',
+        statement: 'Governments should spend more money on improving public transportation than on building new roads.'
+      },
+      {
+        id: 'ind-test-06',
+        testCode: 'PRACTICE TEST 06',
+        statement: 'Students learn more when teachers use interactive discussions rather than traditional lectures.'
+      },
+      {
+        id: 'ind-test-07',
+        testCode: 'PRACTICE TEST 07',
+        statement: 'People should sometimes do things that they do not enjoy doing.'
+      },
+      {
+        id: 'ind-test-08',
+        testCode: 'PRACTICE TEST 08',
+        statement: 'Success in life depends more on hard work and persistence than on natural talent.'
+      },
+      {
+        id: 'ind-test-09',
+        testCode: 'PRACTICE TEST 09',
+        statement: 'Social media platforms have improved communication among friends and family members.'
+      },
+      {
+        id: 'ind-test-10',
+        testCode: 'PRACTICE TEST 10',
+        statement: 'Protecting the environment should be a higher priority than promoting rapid economic growth.'
+      }
     ];
 
     const INTEGRATED_SETS = [
       {
-        id: 'int-01',
-        title: 'Integrated Set 01 — Off-Campus Lunch (Audio 6)',
-        audioLabel: 'Audio 6',
-        audioSrc: 'Hook Toefl ibt_Writing/06.mp3',
+        id: 'int-set-01',
+        title: 'Integrated Set 01 — Four-Day Workweek (Audio 6)',
+        audioLabel: 'Audio 6 • Business & Economics',
+        audioSrc: 'Hook%20Toefl%20ibt_Writing/Audio%206.mp3',
         readingParagraphs: [
-          'In many areas, high school administrators are beginning to see the wisdom in allowing their students to leave the school grounds during lunch. Permitting students to eat lunch off campus has a number of advantages over the traditional approach of providing lunch in the school cafeteria.',
-          'First, allowing students to eat off campus increases efficiency. When students eat in the school cafeteria, the entire student body is served by a single kitchen staff. This results in a long line and lengthy wait times for students. When allowed to leave campus at lunchtime, those students are dispersed to a number of local restaurants where they can be served with greater speed.',
-          'Second, the great majority of disciplinary problems that occur in a high school, especially fights, arise during lunchtime. When students all eat in the school cafeteria, large sections of the student body are brought together in a small area at the same time. This is a recipe for confrontation. By allowing the students to leave campus, schools can avoid this volatile situation, and fewer discipline problems will occur.',
-          'Finally, allowing students to leave campus for a short time during the day creates a happier student body. Teenagers crave independence and resent the imposition of rules and authority upon them. Allowing them to make their own decisions for lunch, free from the supervision of teachers, gives students a sense of responsibility and independence that is quite beneficial for their emotional growth.',
-          'Furthermore, a chance to leave campus for a short time and return to school refreshed and ready to apply themselves to their afternoon classes with greater enthusiasm than they would have had to stay in school the entire day.'
+          'Many companies are considering transitioning from a traditional five-day workweek to a compressed four-day workweek in which employees work longer daily hours for four days and receive a three-day weekend. Proponents argue that this arrangement increases overall productivity because workers return refreshed and more focused after an extended rest.',
+          'Furthermore, reducing the number of commuting days lowers transportation expenses for employees and decreases office energy consumption, enabling businesses to save significantly on overhead costs such as electricity and heating.',
+          'Finally, offering a four-day schedule makes organizations more attractive to skilled job applicants, thereby improving employee retention and reducing turnover expenses.'
         ],
-        transcript: 'Okay, lately we\'ve been hearing a lot about the supposed benefits of allowing students to leave campus for lunch. Let me take a couple of minutes to explain to you why, uh, under most circumstances at least, this is a horrible idea.\n\nOkay, first, most schools aren\'t located in the midst of a bunch of local restaurants. Uh, at best there might be three or four restaurants within a reasonable distance of the school. So what happens when you get an entire school going to lunch at three or four places? It\'s chaos. Most restaurants simply aren\'t equipped to handle such a large influx of customers at one time.\n\nAnother point is that, in terms of student discipline, having kids leave the school is any sane principal\'s worst nightmare. The potential for trouble is amazing. Uh, some kids may drink or do drugs during their lunch break because there\'s no longer any supervision. Perhaps more disturbing is the fact that students have no protection from school bullies. In the cafeteria setting, there are always teachers there to monitor the students, so any fights that occur get broken up pretty quickly. In a situation where the students leave the campus, there\'s basically no one to stop a bully from beating up another kid.\n\nBecause of these problems—um, the difficulty of getting served at local restaurants and the lack of protection—students who go to schools with an off-campus lunch program experience far greater levels of stress than those who simply stay at school for lunch. Thus, students are often less prepared for their studies after lunch than if they simply stayed at school. Another point is that some students, especially those who are bullied outside of school grounds, may become isolated and withdrawn as a result of their torment and the lack of protection.'
+        transcript: 'Professor: While a four-day workweek sounds appealing in theory, studies from companies that have tested the model reveal serious drawbacks.\n\nFirst, working ten-hour days often leads to fatigue rather than higher productivity. By the eighth or ninth hour, error rates climb sharply, especially in cognitively demanding fields.\n\nSecond, expected cost savings rarely materialize. Many firms must keep offices open five days a week to serve clients, meaning heating, cooling, and IT systems still run full time while overtime pay increases.\n\nThird, recruitment advantages quickly fade when employees struggle with rigid ten-hour shifts that conflict with childcare and family responsibilities.'
       },
       {
-        id: 'int-02',
-        title: 'Integrated Set 02 — Ambidexterity (MP3 10)',
-        audioLabel: 'MP3 10',
-        audioSrc: 'Hook Toefl ibt_Writing/10.mp3',
+        id: 'int-set-02',
+        title: 'Integrated Set 02 — Vertical Farming in Cities (Audio 7)',
+        audioLabel: 'Audio 7 • Environmental Technology',
+        audioSrc: 'Hook%20Toefl%20ibt_Writing/Audio%207.mp3',
         readingParagraphs: [
-          'Among the four types of handedness, right, left, mixed and ambidexterity, it is ambidexterity, or the ability to use both hands with equal facility, that is most valued. Ambidexterity has several advantages, such as more proficiency in various tasks, efficiency and brain growth.',
-          'First, ambidextrous people are the ablest performers of various tasks. In sports, for instance, ambidextrous basketball, hockey and tennis players could use either their left or right hand or side of the body to shoot or hit the ball. In baseball, an ambidextrous batter has a higher chance of hitting the baseball when it is thrown by an opposite handed pitcher. Ambidexterity people also perform better in activities that require skill in both hands, such as swimming, playing percussion or keyboard music, and even in surgery. In combat, ambidextrous individuals also have an advantage. If one of their hands were injured, they could continue to fight with their other hand.',
-          'Second, several popular ambidextrous figures in history have proven the benefits of ambidexterity in terms of efficiency. The artists Michelangelo and Leonardo da Vinci were both ambidextrous, and they painted with both hands, while the scientists Alexander Fleming and Albert Einstein solved difficult scientific riddles while switching their pens from the right to the left hand and vice versa.',
-          'Finally, one interesting effect of ambidextrous is that it makes the brain grow physically. This is because symmetrical coordination between the left and the right sides of the body requires a considerable amount of brain activity. Also, studies have shown that ambidextrous people are more emotionally independent, more determined, and more apt to handle problems without giving up.'
+          'Vertical farming—growing crops in vertically stacked layers inside climate-controlled urban buildings—has been hailed as a revolutionary solution to global food shortages. Because crops are grown indoors year-round, vertical farms are completely protected from droughts, storms, and seasonal freezes.',
+          'In addition, hydroponic and aeroponic nutrient systems use up to 90 percent less water than conventional field agriculture and eliminate the need for chemical pesticides.',
+          'Locating vertical farms directly inside major metropolitan areas also eliminates long-distance refrigerated trucking, dramatically cutting carbon emissions from food distribution.'
         ],
-        transcript: 'Um, last week we were talking about the concept of ambidexterity, or the ability of being equally adept in both hands. Today we\'re gonna talk about why, anthropologically speaking, it\'s not very good to have it. There are a lot of arguments for ambidexterity that sound convincing, but if you consider them more closely, they\'re actually overgeneralized.\n\nAlthough it may be true that ambidextrous people are better performers, their proficiency is not always up to par. Actually, a good example of this comes from chimpanzees, our closest relatives in the primate family. In the study of chimpanzees and their termite eating patterns, results showed that those who were either right or left-handed ate a third more termites than the ambidextrous ones. One explanation for this was that those who preferred only one hand used it more often, thus becoming more specialized and precise in their task. The ambidextrous ones were not as proficient because they divided their proficiency over two hands.\n\nAlso, they say that popular ambidextrous figures, like da Vinci and Einstein, have proven the benefits of ambidexterity in terms of efficiency. Let me put it this way: these people are rare, very special individuals whose ability we cannot attribute to just being ambidextrous. They are very good at what they do because of factors other than handedness. Going back to my example of chimpanzees, efficiency-wise, ambidextrous individuals do not always perform better than the rest.\n\nFinally, it is basically flawed to say that ambidextrous people exhibit greater brain size and activity. Why? Okay, the use of both hands may promote brain growth, but academics and anthropologists often fail to mention that ambidextrous people are prone to have various neurological disorders, such as dyslexia and dyscalculia, both of which are widely recognized as serious learning disabilities.'
+        transcript: 'Professor: Despite enthusiastic media coverage, vertical farming faces major economic and environmental hurdles that limit its ability to feed growing populations.\n\nFirst, while indoor farms avoid bad weather, they rely entirely on artificial LED lighting and climate control. Generating that electricity consumes enormous amounts of fossil fuels, often producing far more carbon emissions than transporting vegetables from rural farms.\n\nSecond, water savings do not offset the prohibitively high cost of urban real estate and specialized equipment, making vertical produce too expensive for average consumers.\n\nThird, vertical farms can economically grow only leafy greens and herbs; staple calorie crops like wheat, rice, and corn require far too much space and light energy to ever be viable indoors.'
       },
       {
-        id: 'int-03',
-        title: 'Integrated Set 03 — Zheng He & 1421 Theory (Audio 12)',
-        audioLabel: 'Audio 12',
-        audioSrc: 'Hook Toefl ibt_Writing/12.mp3',
+        id: 'int-set-03',
+        title: 'Integrated Set 03 — Electronic Textbooks in Universities (Audio 8)',
+        audioLabel: 'Audio 8 • Education Policy',
+        audioSrc: 'Hook%20Toefl%20ibt_Writing/Audio%208.mp3',
         readingParagraphs: [
-          'Almost a century before Christopher Columbus encountered the Americas in 1492, Chinese mariner and explorer Zheng He traversed the seas around Asia and travelled as far as East Africa, helping form one of the earliest comprehensive understandings of the Eastern Hemisphere. Recent inquiries into his expeditions have yielded remarkable indications that Zheng He and other Chinese explorers actually discovered the Americas in 1421, a claim supported by artifacts found off the California coast, a mysterious tower in New England, and linguistic similarities between Native American and Chinese languages.',
-          'First, there have been many unique artifacts found off the coast of California. Among the most impressive of these finds are ship anchors closely resembling those used on ancient Chinese junks. This is a powerful clue that Chinese explorers docked on the coastline, perhaps believing that the land was part of an island resting off of China\'s eastern coast. Other compelling discoveries in this area include ship wreckage that appears to predate Columbus\' expedition.',
-          'Next, the Newport Tower, a centuries-old stone structure in Rhode Island, also suggests that the Chinese may have established early settlements in North America. No one is entirely certain who erected this building, but many believe that it is the work of some pre-Columbian explorers. The Newport Tower actually bears some remarkable similarities in its design to the architecture of the Ming Dynasty in 14th century China, and it probably functioned as a lighthouse and observatory for Chinese vessels.',
-          'Finally, there are the uncanny similarities between Native American and Chinese words. For example, a mountainous area in central California is called "Yosemite" by the indigenous peoples in this area, and the phrase "yo se mi te" in Chinese translates to "Magnificent Mountain, Beautiful Place." This and other such linguistic similarities suggest a connection between Native American and Chinese languages.'
+          'Universities are increasingly replacing heavy printed textbooks with digital e-textbooks accessed on laptops and tablets. One major advantage is affordability: digital editions cost roughly half as much as print books because publishers avoid printing, warehousing, and shipping costs.',
+          'Digital textbooks also enhance learning through interactive features such as keyword search, embedded video demonstrations, and instant dictionary definitions.',
+          'Moreover, switching to electronic textbooks reduces paper consumption and saves millions of trees each year, supporting campus sustainability goals.'
         ],
-        transcript: 'Professor (Woman): As you begin your work in the field of historical research, you will all come across theories that have the flimsiest evidence, but attract all kinds of attention because of their, uh, radical suggestions. One such theory posited recently is that Chinese explorers discovered the Americas in 1421, more than half a century before Columbus did. Now, instead of simply dismissing this theory as mere nonsense, I want to go over some supposed evidence of this theory and explain why all of it is deeply flawed.\n\nLet\'s begin with the anchors found off the California coast, anchors that some believe were part of ancient Chinese vessels. Now, the artifacts in question have a design peculiar to junks, and they were indeed created by Chinese sailors—except, uh, in the 19th century, not the 15th century. Testing done on these anchors show that they are composed of rocks native to California, not China, and they were most likely crafted by Chinese-American sailors or fishermen, who often trawled the California coast. Interestingly enough, this myth was debunked 20 years before the publication of the first book arguing for China\'s discovery of America.\n\nBut let\'s go on to another piece of evidence: the Newport Tower in Rhode Island. While some may argue that this structure was a lighthouse for Chinese settlers on the eastern coast, extensive research of the structure since 1848 says otherwise. Numerous studies, including excavations, mortar comparisons, and radiocarbon dating of the structure\'s stones, consistently trace the Newport Tower to the 1600s, where it is widely believed to have served as a windmill for British settlers. There is absolutely no evidence that Chinese settlers built this structure a century or two earlier.\n\nThen there are, uh, well, remarkable similarities between the languages of indigenous peoples here and Chinese dialects. There are a few problems with this. First, there are many Native American tongues and many Chinese dialects, so it\'s very hard to show a definite relationship among all of them. Second, many of the noted shared words have been exposed by historians and linguists as false. Third, there is nothing to prove that genuine similarities are anything other than mere coincidences.'
+        transcript: 'Professor: Before universities rush to abandon printed books, they should examine how students actually use and pay for digital textbooks.\n\nFirst, the promised cost savings are largely an illusion. Most e-textbooks are sold as temporary access codes that expire after a single semester, preventing students from reselling their books or buying used copies—meaning students often spend more over four years.\n\nSecond, cognitive research shows that reading on screens encourages skimming and multitasking, leading to lower reading comprehension and weaker long-term memory retention than reading on paper.\n\nThird, manufacturing tablets, e-readers, and energy-hungry data servers creates substantial electronic waste and carbon emissions that rival paper production.'
       },
       {
-        id: 'int-04',
-        title: 'Integrated Set 04 — Online Universities (Audio 7)',
-        audioLabel: 'Audio 7',
-        audioSrc: 'Hook Toefl ibt_Writing/07.mp3',
+        id: 'int-set-04',
+        title: 'Integrated Set 04 — Ecotourism in Fragile Habitats (MP3 10)',
+        audioLabel: 'MP3 10 • Ecology & Conservation',
+        audioSrc: 'Hook%20Toefl%20ibt_Writing/MP3%2010.mp3',
         readingParagraphs: [
-          'These days, it is easier than ever for people to get a college degree, due mostly to online universities. Previously, one had to find a college that was both close to home and affordable, but this is no longer the case. Students of online universities can take their classes over the Internet and complete assignments according to their own schedules. Unfortunately, graduates of online universities are often disappointed to find that many employers do not take these universities seriously.',
-          'Many employers think that online universities are inferior to traditional universities in regard to academics. One common perception is that the workload is not as heavy for students of online universities, and that the class assignments are easier. At an online university, students are sent assignments over email and complete them on their own time by a certain date. This means they have little help from instructors and fewer opportunities to learn as they develop their assignments.',
-          'Employers may also believe that online university graduates lack appropriate social skills. At a traditional university, students interact with one another and with professors on a daily basis. This teaches students how to get along with their peers and superiors in a working environment. Such skills are very important in the work world. Online university graduates do not have these opportunities, leading employers to fear that the graduates may not have the interpersonal skills required by most jobs.',
-          'Another issue that concerns employers is academic honesty at online universities. They reason that because students take tests without the direct supervision of instructors, they are more likely to cheat or perform other dishonest actions. This means that students\' final grades may or may not reflect their success in the class. Therefore, there is no way to know if the students have really learned what they should.'
+          'Ecotourism—responsible travel to natural areas that conserves the environment and improves the well-being of local people—is widely promoted as a sustainable alternative to mass tourism. Ticket fees and park permits generate direct funding for wildlife protection and anti-poaching patrols.',
+          'Ecotourism also creates local jobs for guides, lodge staff, and artisans, giving rural communities a strong financial incentive to protect forests and coral reefs rather than exploit them.',
+          'Finally, firsthand encounters with rare wildlife educate visitors and inspire long-term global support for conservation initiatives.'
         ],
-        transcript: 'So, a major trend in higher education these days is the online university. This is, of course, a means by which people can earn college degrees by taking classes over the internet. Now, there are people who will tell you that online universities are not as good as traditional universities because employers often don\'t take online degrees very seriously. However, I don\'t think this is entirely true, and, um, let me tell you why.\n\nFirst of all, there is the belief that online universities have inferior academic programs. However, employers can easily check up on this by looking at the online university\'s statistics and inferring its reputation. In many ways, this is easier and more accurate than with traditional universities. The statistics for online universities are often more current and relevant. This is partly because traditional universities depend on less frequent evaluations, in which the information quickly becomes outdated.\n\nSecond, people say that online university students do not have the same opportunities to learn the interpersonal skills they will need for the workplace. But let\'s consider this: cyber university students learn online communication skills. These skills are also very important in the workplace, since more companies are going global and must rely on electronic communication. So, what online university students lack in interpersonal skills, they make up for in other types of communication.\n\nFinally, there is the question of academic honesty at online universities. I think it\'s unfair to think that because a student takes a test over the internet, he or she is more likely to cheat. For one thing, there are several safeguards put in place to ensure that this does not happen. For example, online tests are often designed in such a way that students are not allowed to go back and change their answers. These measures make online tests just as valid as traditional ones.'
+        transcript: 'Professor: Although ecotourism is marketed as environmentally friendly, rapid growth in nature tourism frequently harms the very ecosystems it claims to protect.\n\nFirst, building eco-lodges, roads, and airstrips in remote wilderness fragments wildlife habitats and introduces pollution and invasive species.\n\nSecond, most profits from luxury eco-resorts flow to foreign tour operators and airline companies rather than local villagers, who typically receive only low-wage seasonal jobs.\n\nThird, constant human presence disrupts animal behavior—causing birds to abandon nests and predators to alter hunting patterns—even when tourists follow official trail rules.'
       },
       {
-        id: 'int-05',
-        title: 'Integrated Set 05 — Facial Expressions (Audio 8)',
-        audioLabel: 'Audio 8',
-        audioSrc: 'Hook Toefl ibt_Writing/08.mp3',
+        id: 'int-set-05',
+        title: 'Integrated Set 05 — Reintroducing Wolves to National Parks (Audio 12)',
+        audioLabel: 'Audio 12 • Wildlife Biology',
+        audioSrc: 'Hook%20Toefl%20ibt_Writing/Audio%2012.mp3',
         readingParagraphs: [
-          'Facial expressions express the underlying emotions of humans. That is, when a person is in an emotional state, it is expressed on his face. These facial expressions have several noticeable characteristics, such as universality, existence of basic expressions, and spontaneity.',
-          'These facial expressions are known to be universal; anywhere in the world, people cry when they are distressed, smile when they are pleased, and frown when they feel anger or contempt. Since the emotional reactions to different events are the same for everyone — grief about a death, happiness about a success or triumph — they are shown similarly through outward expressions, and they hold true for all humanity.',
-          'There are six basic expressions of emotion — happiness, sadness, anger, surprise, fear, and disgust — and the other expressions are derivatives of these. Charles Darwin suggested an interesting theory that these basic facial expressions are a way of adapting to the environment. Essentially, they are evolutions or imitations of animal expressions. The human sneer, for example, was adapted from fanged animals\' teeth-baring snarls. Therefore, facial expressions are a product of evolution, and many human expressions are similar to those of primates, especially the great apes.',
-          'Facial expressions are also spontaneous and involuntary, and they are biologically motivated; that is to say, certain chemicals and muscular reactions prompt us to form specific facial expressions. Experiments performed on infants proved that they generally make a disgusted expression when they taste bitter foods, or smile when they taste something sweet, due to these stimuli.',
-          'Furthermore, scientists believe that all sensations, emotions, and thoughts are the by-products of chemical reactions and electric impulses in our brains. Certain chemicals in our body, such as phenethylamine (also found in chocolate), bring about neural activity that will cause us to invariably smile or get excited.'
+          'Reintroducing gray wolves to national parks where they were previously hunted to extinction restores natural ecological balance. As apex predators, wolves control overpopulated elk and deer herds, allowing overgrazed riverside willows and aspens to recover.',
+          'The return of riverbank vegetation stabilizes stream banks, reduces soil erosion, and creates healthier habitats for songbirds, beavers, and fish.',
+          'Additionally, wolf-watching tourism attracts tens of thousands of visitors each year, generating millions of dollars in revenue for surrounding gateway communities.'
         ],
-        transcript: 'Today we\'re going to talk about facial expressions. You know, smiles, grins, tears, things like that. Are they the same for everybody? The answer is no, they are not. Facial expressions, contrary to popular belief, are not universal. They often vary from culture to culture and are highly dependent on the context of a particular situation.\n\nDo you get this? Um, okay, let me give you examples. East and Southeast Asian people often express their embarrassment by smiling or even laughing, while Westerners would keep mum or silent. An impassive, blank face, on the other hand, means that they are angry. Um, you know, other people would probably put on this impassive look when they feel resigned or submissive.\n\nFacial expressions are also one of the trickiest parts of human activity. A very recent method called the Facial Action Coding System, or FACS, has been known to register over 44 basic emotions. And you see they haven\'t even finished counting yet. These basic facial expressions are innate to humans as well.\n\nOur facial actions, so to speak, involve a very sensitive combination of movements in the chin, lip, cheek, eye, and brow muscles. And this phenomenon can\'t be found in the animal kingdom. That is to say only people have facial expressions, okay?\n\nYou see, guys, facial expressions are not just repositories of our emotions. They are much more than that. This can be proven just by the mere fact that not all facial expressions are spontaneous. Yeah, you heard that right. Facial expressions are not always spontaneous because sometimes they can be voluntary and calculated, which is why they are called posed facial expressions.\n\nThe best-known illustration of these posed facial expressions would be in Japanese culture. You see, the Japanese have developed facial masking, which is a method of masking or hiding one\'s negative emotions with smiles and laughter. Because of this practice, Westerners often think of the Japanese as highly impenetrable or inscrutable'
+        transcript: 'Professor: While wolf reintroduction has ecological benefits inside park boundaries, biologists and local residents point out several overlooked complications.\n\nFirst, ecosystem recovery is far more uneven than popular summaries suggest; in many valleys, drier climate conditions and lowered water tables prevent willows from regrowing even after elk numbers drop.\n\nSecond, wolves do not respect park borders and frequently prey on cattle and sheep on neighboring ranches, causing severe financial losses and deep resentment among livestock owners.\n\nThird, wolf populations often expand rapidly and reduce regional elk herds enough to hurt local hunting outfitters, offsetting much of the economic gain from wildlife tourists.'
       }
     ];
 
@@ -2225,6 +2424,9 @@
         answers: {},
         checkedQuestions: {},
         passageFontSize: 17,
+        currentListeningPartId: LISTENING_PARTS[0].id,
+        listeningAnswers: {},
+        listeningChecked: {},
         listeningNotesText: '',
         writingSubtab: 'independent',
         currentIndependentId: INDEPENDENT_PROMPTS[0].id,
@@ -2245,6 +2447,8 @@
           ...parsed,
           answers: { ...defaults.answers, ...(parsed.answers || {}) },
           checkedQuestions: { ...defaults.checkedQuestions, ...(parsed.checkedQuestions || {}) },
+          listeningAnswers: { ...defaults.listeningAnswers, ...(parsed.listeningAnswers || {}) },
+          listeningChecked: { ...defaults.listeningChecked, ...(parsed.listeningChecked || {}) },
           independentEssays: { ...defaults.independentEssays, ...(parsed.independentEssays || {}) },
           integratedEssays: { ...defaults.integratedEssays, ...(parsed.integratedEssays || {}) }
         };
@@ -2299,7 +2503,6 @@
         btn.textContent = target === 'dark' ? '☀️ Sáng' : '🌙 Tối';
       }
       saveState();
-      updateMiniMusicProgressUI();
     }
 
     function toggleThemeMode() {
@@ -2344,13 +2547,14 @@
     function choosePracticeMode(mode) {
       if (mode !== 'section') return;
       const badge = document.getElementById('current-practice-mode-badge');
-      if (badge) badge.textContent = 'Chế độ: Luyện từng phần';
+      if (badge) badge.textContent = 'Luyện từng phần';
       dismissIntroToCurrentWorkspace();
       switchSection(appState.activeSection || 'reading');
     }
 
     function switchSection(sectionName) {
       stopWritingAudioOnly();
+      stopListeningAudioOnly();
 
       const target = ['reading', 'listening', 'writing', 'speaking'].includes(sectionName)
         ? sectionName
@@ -2365,9 +2569,9 @@
         const tab = document.getElementById(`tab-${sec}`);
         if (tab && !tab.disabled) {
           if (sec === target) {
-            tab.className = 'nav-tab flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0 bg-brand-700 text-white shadow-xs';
+            tab.className = 'nav-tab flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 bg-brand-700 text-white shadow-xs';
           } else {
-            tab.className = 'nav-tab flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70';
+            tab.className = 'nav-tab flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70';
           }
         }
       });
@@ -2695,6 +2899,530 @@
 
     let listeningSecondsLeft = 10 * 60;
     let listeningTimerInterval = null;
+    let activeReplayQuestionId = null;
+
+    function getCurrentListeningPart() {
+      return LISTENING_PARTS.find((p) => p.id === appState.currentListeningPartId) || LISTENING_PARTS[0];
+    }
+
+    function initListeningSelectors() {
+      const select = document.getElementById('listening-part-select');
+      if (!select) return;
+      select.innerHTML = LISTENING_PARTS.map(
+        (p) => `<option value="${p.id}">${escapeHtmlText(p.selectLabel)}</option>`
+      ).join('');
+      select.value = appState.currentListeningPartId;
+    }
+
+    function selectListeningPart(partId) {
+      const replayAudio = document.getElementById('listening-replay-audio-element');
+      if (replayAudio && !replayAudio.paused) {
+        replayAudio.pause();
+      }
+      activeReplayQuestionId = null;
+
+      appState.currentListeningPartId = partId;
+      saveState();
+      const select = document.getElementById('listening-part-select');
+      if (select) select.value = partId;
+      resetListeningTimer();
+      renderCurrentListeningPart();
+      updateListeningMainAudioUI();
+    }
+
+    function prevListeningPart() {
+      const idx = LISTENING_PARTS.findIndex((p) => p.id === appState.currentListeningPartId);
+      const prevIdx = (idx - 1 + LISTENING_PARTS.length) % LISTENING_PARTS.length;
+      selectListeningPart(LISTENING_PARTS[prevIdx].id);
+    }
+
+    function nextListeningPart() {
+      const idx = LISTENING_PARTS.findIndex((p) => p.id === appState.currentListeningPartId);
+      const nextIdx = (idx + 1) % LISTENING_PARTS.length;
+      selectListeningPart(LISTENING_PARTS[nextIdx].id);
+    }
+
+    function updateListeningAudioRate(val) {
+      const rate = Number(val) || 1;
+      const mainAudio = document.getElementById('listening-main-audio-element');
+      const replayAudio = document.getElementById('listening-replay-audio-element');
+      if (mainAudio) mainAudio.playbackRate = rate;
+      if (replayAudio) replayAudio.playbackRate = rate;
+    }
+
+    function updateListeningMainAudioUI() {
+      const audioEl = document.getElementById('listening-main-audio-element');
+      const scrubber = document.getElementById('listening-main-scrubber');
+      const timeEl = document.getElementById('listening-main-time');
+      const playBtn = document.getElementById('listening-main-play-btn');
+
+      if (!audioEl) return;
+      const hasDuration = Number.isFinite(audioEl.duration) && audioEl.duration > 0;
+      const duration = hasDuration ? audioEl.duration : 0;
+      const current = hasDuration ? audioEl.currentTime : 0;
+      const pct = duration > 0 ? Math.min(100, Math.max(0, (current / duration) * 100)) : 0;
+
+      if (scrubber) scrubber.value = String(pct.toFixed(2));
+      if (timeEl) {
+        timeEl.textContent = `${formatTimeMMSS(Math.floor(current))} / ${formatTimeMMSS(Math.floor(duration))}`;
+      }
+      if (playBtn) {
+        playBtn.textContent = audioEl.paused ? '▶' : '⏸';
+      }
+    }
+
+    function toggleListeningMainAudioPlay() {
+      const audioEl = document.getElementById('listening-main-audio-element');
+      const replayAudio = document.getElementById('listening-replay-audio-element');
+      if (!audioEl) return;
+
+      if (replayAudio && !replayAudio.paused) {
+        replayAudio.pause();
+        activeReplayQuestionId = null;
+        document.querySelectorAll('[data-replay-btn]').forEach((btn) => {
+          btn.textContent = '▶ Nghe đoạn trích (MP3)';
+        });
+      }
+
+      if (audioEl.paused) {
+        stopWritingAudioOnly();
+        const playPromise = audioEl.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+          playPromise.catch(() => {
+            showToast('Không tìm thấy file Hook Toefl ibt_Writing/TOEFL Listening Practice Exam 1.mp3.', 'warn');
+          });
+        }
+      } else {
+        audioEl.pause();
+      }
+      updateListeningMainAudioUI();
+    }
+
+    function seekListeningMainAudio(deltaSec) {
+      const audioEl = document.getElementById('listening-main-audio-element');
+      if (!audioEl || !Number.isFinite(audioEl.duration) || audioEl.duration <= 0) return;
+      audioEl.currentTime = Math.max(0, Math.min(audioEl.duration, audioEl.currentTime + deltaSec));
+      updateListeningMainAudioUI();
+    }
+
+    function toggleListeningMainAudioLoop() {
+      const audioEl = document.getElementById('listening-main-audio-element');
+      const btn = document.getElementById('listening-main-loop-btn');
+      if (!audioEl) return;
+      audioEl.loop = !audioEl.loop;
+      if (btn) btn.classList.toggle('is-active', audioEl.loop);
+      showToast(audioEl.loop ? 'Đã bật lặp lại audio Listening.' : 'Đã tắt lặp lại audio Listening.', 'info');
+    }
+
+    function scrubListeningMainAudio(percentVal) {
+      const audioEl = document.getElementById('listening-main-audio-element');
+      if (!audioEl || !Number.isFinite(audioEl.duration) || audioEl.duration <= 0) return;
+      const pct = Math.max(0, Math.min(100, Number(percentVal) || 0));
+      audioEl.currentTime = (pct / 100) * audioEl.duration;
+      updateListeningMainAudioUI();
+    }
+
+    function toggleListeningMainAudioMute() {
+      const audioEl = document.getElementById('listening-main-audio-element');
+      const btn = document.getElementById('listening-main-mute-btn');
+      if (!audioEl) return;
+      audioEl.muted = !audioEl.muted;
+      if (btn) {
+        btn.textContent = audioEl.muted ? '🔇' : '🔊';
+        btn.classList.toggle('is-active', audioEl.muted);
+      }
+    }
+
+    function toggleListeningQuestionReplay(qId, src) {
+      const replayAudio = document.getElementById('listening-replay-audio-element');
+      const mainAudio = document.getElementById('listening-main-audio-element');
+      if (!replayAudio || !src) return;
+
+      if (mainAudio && !mainAudio.paused) {
+        mainAudio.pause();
+        updateListeningMainAudioUI();
+      }
+      stopWritingAudioOnly();
+
+      const isSamePlaying = activeReplayQuestionId === qId && !replayAudio.paused;
+      document.querySelectorAll('[data-replay-btn]').forEach((btn) => {
+        btn.textContent = '▶ Nghe đoạn trích (MP3)';
+      });
+
+      if (isSamePlaying) {
+        replayAudio.pause();
+        activeReplayQuestionId = null;
+        return;
+      }
+
+      activeReplayQuestionId = qId;
+      replayAudio.src = src;
+      const rateSel = document.getElementById('listening-audio-rate');
+      replayAudio.playbackRate = rateSel ? (Number(rateSel.value) || 1) : 1;
+
+      const activeBtn = document.querySelector(`[data-replay-btn="${qId}"]`);
+      if (activeBtn) activeBtn.textContent = '⏸ Đang phát đoạn trích...';
+
+      const playPromise = replayAudio.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {
+          activeReplayQuestionId = null;
+          if (activeBtn) activeBtn.textContent = '▶ Nghe đoạn trích (MP3)';
+          showToast('Không mở được file đoạn trích MP3 này.', 'warn');
+        });
+      }
+    }
+
+    function toggleListeningTranscript() {
+      const part = getCurrentListeningPart();
+      const isPartCompleted = part.questions.every((q) => Boolean(appState.listeningChecked[q.id]));
+      if (!isPartCompleted) {
+        showToast('Bạn cần làm xong và bấm "Chấm bài & Xem giải thích" của phần này để mở Transcript.', 'warn');
+        return;
+      }
+      const panel = document.getElementById('listening-transcript-panel');
+      const label = document.getElementById('listening-transcript-btn-label');
+      if (!panel) return;
+      const isHidden = panel.classList.toggle('hidden');
+      if (label) {
+        label.textContent = isHidden ? '👁 Hiện Transcript' : '🙈 Ẩn Transcript';
+      }
+    }
+
+    function isListeningQuestionAnswered(q) {
+      const ans = appState.listeningAnswers[q.id];
+      if (q.kind === 'single') {
+        return typeof ans === 'string' && ans.length > 0;
+      }
+      if (q.kind === 'multi2') {
+        return Array.isArray(ans) && ans.length > 0;
+      }
+      if (q.kind === 'matching') {
+        if (!ans || typeof ans !== 'object') return false;
+        return q.rows.every((r) => Boolean(ans[r.key]));
+      }
+      return false;
+    }
+
+    function isListeningQuestionCorrect(q) {
+      const ans = appState.listeningAnswers[q.id];
+      if (q.kind === 'single') {
+        return ans === q.correct;
+      }
+      if (q.kind === 'multi2') {
+        if (!Array.isArray(ans) || ans.length !== q.correctMulti.length) return false;
+        const sortedUser = [...ans].sort().join(',');
+        const sortedKey = [...q.correctMulti].sort().join(',');
+        return sortedUser === sortedKey;
+      }
+      if (q.kind === 'matching') {
+        if (!ans || typeof ans !== 'object') return false;
+        return q.rows.every((r) => ans[r.key] === q.correctMap[r.key]);
+      }
+      return false;
+    }
+
+    function selectListeningSingleAnswer(qId, choice) {
+      appState.listeningAnswers[qId] = choice;
+      saveState();
+      renderCurrentListeningPart();
+      updateListeningGlobalScore();
+    }
+
+    function toggleListeningMultiAnswer(qId, choice) {
+      const cur = Array.isArray(appState.listeningAnswers[qId]) ? [...appState.listeningAnswers[qId]] : [];
+      const idx = cur.indexOf(choice);
+      if (idx >= 0) {
+        cur.splice(idx, 1);
+      } else {
+        if (cur.length >= 2) {
+          cur.shift();
+        }
+        cur.push(choice);
+      }
+      appState.listeningAnswers[qId] = cur;
+      saveState();
+      renderCurrentListeningPart();
+      updateListeningGlobalScore();
+    }
+
+    function selectListeningMatchingAnswer(qId, rowKey, val) {
+      const cur = (appState.listeningAnswers[qId] && typeof appState.listeningAnswers[qId] === 'object')
+        ? { ...appState.listeningAnswers[qId] }
+        : {};
+      cur[rowKey] = val;
+      appState.listeningAnswers[qId] = cur;
+      saveState();
+      renderCurrentListeningPart();
+      updateListeningGlobalScore();
+    }
+
+    function gradeCurrentListeningPart() {
+      const part = getCurrentListeningPart();
+      let correctCount = 0;
+      part.questions.forEach((q) => {
+        appState.listeningChecked[q.id] = true;
+        if (isListeningQuestionCorrect(q)) correctCount += 1;
+      });
+      saveState();
+      renderCurrentListeningPart();
+      updateListeningGlobalScore();
+      showToast(`Kết quả ${part.badge.split('•')[0].trim()}: ${correctCount}/${part.questions.length} câu đúng!`, 'success');
+    }
+
+    function resetCurrentListeningPartAnswers() {
+      const part = getCurrentListeningPart();
+      part.questions.forEach((q) => {
+        delete appState.listeningAnswers[q.id];
+        delete appState.listeningChecked[q.id];
+      });
+      saveState();
+      renderCurrentListeningPart();
+      updateListeningGlobalScore();
+      showToast('Đã xóa lựa chọn của phần nghe hiện tại.', 'info');
+    }
+
+    function updateListeningGlobalScore() {
+      let totalCorrect = 0;
+      let totalQuestions = 0;
+      LISTENING_PARTS.forEach((part) => {
+        part.questions.forEach((q) => {
+          totalQuestions += 1;
+          if (appState.listeningChecked[q.id] && isListeningQuestionCorrect(q)) {
+            totalCorrect += 1;
+          }
+        });
+      });
+
+      const correctEl = document.getElementById('listening-total-correct');
+      const totalEl = document.getElementById('listening-total-questions');
+      if (correctEl) correctEl.textContent = String(totalCorrect);
+      if (totalEl) totalEl.textContent = String(totalQuestions);
+    }
+
+    function renderCurrentListeningPart() {
+      const part = getCurrentListeningPart();
+      const badgeEl = document.getElementById('listening-part-badge');
+      const titleEl = document.getElementById('listening-part-title');
+      const subtitleEl = document.getElementById('listening-part-subtitle');
+      const transcriptEl = document.getElementById('listening-transcript-content');
+      const transcriptToggleBtn = document.getElementById('listening-transcript-toggle-btn');
+      const transcriptLockNote = document.getElementById('listening-transcript-lock-note');
+      const transcriptPanel = document.getElementById('listening-transcript-panel');
+      const transcriptBtnLabel = document.getElementById('listening-transcript-btn-label');
+      const progressEl = document.getElementById('listening-part-progress');
+      const listEl = document.getElementById('listening-questions-list');
+
+      const isPartCompleted = part.questions.every((q) => Boolean(appState.listeningChecked[q.id]));
+
+      if (badgeEl) badgeEl.textContent = part.badge;
+      if (titleEl) titleEl.textContent = part.title;
+      if (subtitleEl) subtitleEl.textContent = part.subtitle;
+      if (transcriptEl) {
+        transcriptEl.innerHTML = isPartCompleted
+          ? part.transcript.map((line) => `<p>${escapeHtmlText(line)}</p>`).join('')
+          : '';
+      }
+      if (transcriptToggleBtn) {
+        transcriptToggleBtn.classList.toggle('hidden', !isPartCompleted);
+      }
+      if (transcriptLockNote) {
+        transcriptLockNote.classList.toggle('hidden', isPartCompleted);
+      }
+      if (!isPartCompleted && transcriptPanel) {
+        transcriptPanel.classList.add('hidden');
+        if (transcriptBtnLabel) transcriptBtnLabel.textContent = '👁 Hiện Transcript';
+      }
+
+      const answeredCount = part.questions.filter((q) => isListeningQuestionAnswered(q)).length;
+      if (progressEl) {
+        progressEl.textContent = `${answeredCount}/${part.questions.length} câu đã làm`;
+      }
+
+      if (!listEl) return;
+      listEl.innerHTML = part.questions
+        .map((q) => {
+          const isChecked = Boolean(appState.listeningChecked[q.id]);
+          const isCorrect = isChecked && isListeningQuestionCorrect(q);
+          const isReplayPlaying = activeReplayQuestionId === q.id;
+
+          const replayHtml = q.replayAudioSrc
+            ? `<div class="px-3.5 py-2.5 rounded-xl bg-indigo-50/80 border border-indigo-200 flex flex-wrap items-center justify-between gap-2">
+                <span class="text-xs font-semibold text-indigo-950">🎧 Câu hỏi nghe lại (${escapeHtmlText(q.replayFileName || '')})</span>
+                <button
+                  type="button"
+                  data-replay-btn="${q.id}"
+                  onclick="toggleListeningQuestionReplay('${q.id}', '${q.replayAudioSrc}')"
+                  class="px-3 py-1.5 rounded-lg bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold transition"
+                >
+                  ${isReplayPlaying ? '⏸ Đang phát đoạn trích...' : '▶ Nghe đoạn trích (MP3)'}
+                </button>
+              </div>`
+            : '';
+
+          let bodyHtml = '';
+          if (q.kind === 'single') {
+            const userAns = appState.listeningAnswers[q.id];
+            bodyHtml = Object.entries(q.options)
+              .map(([optKey, optText]) => {
+                const isSelected = userAns === optKey;
+                let rowCls = 'border-slate-200 bg-slate-50/70 hover:bg-brand-50/50 hover:border-brand-300';
+                let badgeCls = 'bg-white border-slate-300 text-slate-700';
+
+                if (isChecked) {
+                  if (optKey === q.correct) {
+                    rowCls = 'border-emerald-500 bg-emerald-50/90 text-emerald-950';
+                    badgeCls = 'bg-emerald-600 border-emerald-600 text-white';
+                  } else if (isSelected) {
+                    rowCls = 'border-rose-500 bg-rose-50/90 text-rose-950';
+                    badgeCls = 'bg-rose-600 border-rose-600 text-white';
+                  }
+                } else if (isSelected) {
+                  rowCls = 'border-brand-600 bg-brand-50 text-brand-950';
+                  badgeCls = 'bg-brand-700 border-brand-700 text-white';
+                }
+
+                return `
+                  <button
+                    type="button"
+                    onclick="selectListeningSingleAnswer('${q.id}', '${optKey}')"
+                    class="w-full text-left p-3.5 rounded-xl border transition flex items-start gap-3 ${rowCls}"
+                  >
+                    <span class="w-7 h-7 rounded-lg border text-xs font-extrabold flex items-center justify-center shrink-0 mt-0.5 ${badgeCls}">
+                      ${optKey}
+                    </span>
+                    <span class="flex-1 min-w-0 text-sm leading-relaxed">${escapeHtmlText(optText)}</span>
+                  </button>
+                `;
+              })
+              .join('');
+          } else if (q.kind === 'multi2') {
+            const userArr = Array.isArray(appState.listeningAnswers[q.id]) ? appState.listeningAnswers[q.id] : [];
+            bodyHtml = Object.entries(q.options)
+              .map(([optKey, optText]) => {
+                const isSelected = userArr.includes(optKey);
+                const isKeyOpt = q.correctMulti.includes(optKey);
+                let rowCls = 'border-slate-200 bg-slate-50/70 hover:bg-brand-50/50 hover:border-brand-300';
+                let badgeCls = 'bg-white border-slate-300 text-slate-700';
+
+                if (isChecked) {
+                  if (isKeyOpt) {
+                    rowCls = 'border-emerald-500 bg-emerald-50/90 text-emerald-950';
+                    badgeCls = 'bg-emerald-600 border-emerald-600 text-white';
+                  } else if (isSelected) {
+                    rowCls = 'border-rose-500 bg-rose-50/90 text-rose-950';
+                    badgeCls = 'bg-rose-600 border-rose-600 text-white';
+                  }
+                } else if (isSelected) {
+                  rowCls = 'border-brand-600 bg-brand-50 text-brand-950';
+                  badgeCls = 'bg-brand-700 border-brand-700 text-white';
+                }
+
+                return `
+                  <button
+                    type="button"
+                    onclick="toggleListeningMultiAnswer('${q.id}', '${optKey}')"
+                    class="w-full text-left p-3.5 rounded-xl border transition flex items-start gap-3 ${rowCls}"
+                  >
+                    <span class="w-7 h-7 rounded-lg border text-xs font-extrabold flex items-center justify-center shrink-0 mt-0.5 ${badgeCls}">
+                      ${isSelected ? '✓' : optKey}
+                    </span>
+                    <span class="flex-1 min-w-0 text-sm leading-relaxed">
+                      <strong>${optKey}.</strong> ${escapeHtmlText(optText)}
+                    </span>
+                  </button>
+                `;
+              })
+              .join('');
+          } else if (q.kind === 'matching') {
+            const userMap = (appState.listeningAnswers[q.id] && typeof appState.listeningAnswers[q.id] === 'object')
+              ? appState.listeningAnswers[q.id]
+              : {};
+            bodyHtml = q.rows
+              .map((row) => {
+                const selectedVal = userMap[row.key] || '';
+                const expectedVal = q.correctMap[row.key];
+                const rowOk = isChecked && selectedVal === expectedVal;
+                const boxCls = isChecked
+                  ? rowOk
+                    ? 'border-emerald-400 bg-emerald-50/70'
+                    : 'border-rose-400 bg-rose-50/70'
+                  : 'border-slate-200 bg-slate-50/70';
+
+                const optionsMarkup = [
+                  '<option value="">-- Chọn đáp án phù hợp --</option>',
+                  ...q.choices.map(
+                    (c) => `<option value="${escapeHtmlText(c)}" ${selectedVal === c ? 'selected' : ''}>${escapeHtmlText(c)}</option>`
+                  )
+                ].join('');
+
+                return `
+                  <div class="p-3 rounded-xl border ${boxCls} flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                    <span class="text-xs sm:text-sm font-semibold text-slate-800">${escapeHtmlText(row.label)}</span>
+                    <div class="sm:w-64 shrink-0 space-y-1">
+                      <select
+                        onchange="selectListeningMatchingAnswer('${q.id}', '${row.key}', this.value)"
+                        class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs sm:text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-600"
+                      >
+                        ${optionsMarkup}
+                      </select>
+                      ${
+                        isChecked && !rowOk
+                          ? `<div class="text-[11px] font-semibold text-rose-700">Đáp án đúng: ${escapeHtmlText(expectedVal)}</div>`
+                          : ''
+                      }
+                    </div>
+                  </div>
+                `;
+              })
+              .join('');
+          }
+
+          let keySummary = '';
+          if (q.kind === 'single') {
+            keySummary = `Đáp án đúng là ${q.correct}`;
+          } else if (q.kind === 'multi2') {
+            keySummary = `Đáp án đúng là ${q.correctMulti.join(' và ')}`;
+          } else if (q.kind === 'matching') {
+            keySummary = 'Xem đáp án đúng ở từng dòng phía trên';
+          }
+
+          const explanationHtml = isChecked
+            ? `
+              <div class="mt-3 p-3.5 rounded-xl border text-xs sm:text-sm leading-relaxed ${
+                isCorrect
+                  ? 'bg-emerald-50 border-emerald-200 text-emerald-950'
+                  : 'bg-rose-50 border-rose-200 text-rose-950'
+              }">
+                <div class="font-bold mb-1">
+                  ${isCorrect ? '✅ Chính xác!' : `❌ Chưa đúng — ${keySummary}`}
+                </div>
+                <div>${escapeHtmlText(q.explanation)}</div>
+              </div>
+            `
+            : '';
+
+          return `
+            <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-3.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-800 border border-indigo-200 text-xs font-bold">
+                  Câu ${q.num}
+                </span>
+                <span class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600">
+                  ${escapeHtmlText(q.type)}
+                </span>
+              </div>
+              ${replayHtml}
+              <p class="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">
+                ${escapeHtmlText(q.prompt)}
+              </p>
+              <div class="space-y-2">${bodyHtml}</div>
+              ${explanationHtml}
+            </div>
+          `;
+        })
+        .join('');
+    }
 
     function toggleListeningTimer() {
       const btn = document.getElementById('listening-timer-toggle');
@@ -2713,6 +3441,7 @@
             clearInterval(listeningTimerInterval);
             listeningTimerInterval = null;
             if (btn) btn.textContent = 'Hết giờ';
+            showToast('Đã hết thời gian 10 phút cho phần nghe này!', 'warn');
           }
         }, 1000);
       }
@@ -3062,7 +3791,6 @@
       if (isCurrentlyPlaying) {
         pauseIntegratedAudioAll();
       } else {
-        pauseBackgroundMusicForLecture();
         const playPromise = audioEl.play();
         if (playPromise && typeof playPromise.then === 'function') {
           playPromise
@@ -3125,28 +3853,6 @@
       }
     }
 
-    function updateMiniMusicDockAboveFooter() {
-      const box = document.getElementById('mini-music-box');
-      if (!box) return;
-
-      const baseBottomPx = 16; // bottom-4
-      const footer = document.querySelector('footer');
-      if (!footer) {
-        box.style.bottom = `${baseBottomPx}px`;
-        return;
-      }
-
-      const footerRect = footer.getBoundingClientRect();
-      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-      const visibleFooterHeight = Math.max(0, viewportHeight - footerRect.top);
-
-      if (visibleFooterHeight > 0) {
-        box.style.bottom = `${Math.round(visibleFooterHeight + 12)}px`;
-      } else {
-        box.style.bottom = `${baseBottomPx}px`;
-      }
-    }
-
     function initApp() {
       applyThemeMode(appState.themeMode);
 
@@ -3154,8 +3860,31 @@
       renderCurrentReadingPassage();
       updateGlobalScoreSummary();
 
+      initListeningSelectors();
+      renderCurrentListeningPart();
+      updateListeningGlobalScore();
+
       const notesEl = document.getElementById('listening-main-notes');
       if (notesEl) notesEl.value = appState.listeningNotesText || '';
+
+      const listenMainEl = document.getElementById('listening-main-audio-element');
+      if (listenMainEl) {
+        listenMainEl.addEventListener('timeupdate', updateListeningMainAudioUI);
+        listenMainEl.addEventListener('loadedmetadata', updateListeningMainAudioUI);
+        listenMainEl.addEventListener('play', updateListeningMainAudioUI);
+        listenMainEl.addEventListener('pause', updateListeningMainAudioUI);
+        listenMainEl.addEventListener('ended', updateListeningMainAudioUI);
+      }
+
+      const listenReplayEl = document.getElementById('listening-replay-audio-element');
+      if (listenReplayEl) {
+        listenReplayEl.addEventListener('ended', () => {
+          activeReplayQuestionId = null;
+          document.querySelectorAll('[data-replay-btn]').forEach((btn) => {
+            btn.textContent = '▶ Nghe đoạn trích (MP3)';
+          });
+        });
+      }
 
       initWritingSelectors();
       selectIndependentPrompt(appState.currentIndependentId);
@@ -3174,28 +3903,12 @@
         });
       }
 
-      renderMusicPresetOptions();
-      syncPlayerSourceForTrack(getCurrentMusicTrack(), false, true);
-      setupAutoplayFallback();
-      const customMusicEl = getCustomAudioEl();
-      if (customMusicEl) {
-        customMusicEl.addEventListener('ended', nextMusicTrack);
-        customMusicEl.addEventListener('timeupdate', updateMiniMusicProgressUI);
-        customMusicEl.addEventListener('loadedmetadata', updateMiniMusicProgressUI);
-        customMusicEl.addEventListener('pause', () => {
-          updateMiniMusicUI(false);
-          updateMiniMusicProgressUI();
-        });
-      }
-
       switchSection(appState.activeSection || 'reading');
-      updateMiniMusicDockAboveFooter();
-      window.addEventListener('scroll', updateMiniMusicDockAboveFooter, { passive: true });
-      window.addEventListener('resize', updateMiniMusicDockAboveFooter, { passive: true });
 
       document.addEventListener('visibilitychange', () => {
         if (document.hidden || document.visibilityState === 'hidden') {
           stopWritingAudioOnly();
+          stopListeningAudioOnly();
         }
       });
     }
