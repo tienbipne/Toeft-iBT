@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <title>TOEFL iBT Practice Studio — Reading, Listening & Writing</title>
+  <title>Luyện thi Final Exam Course 3 — Reading, Listening, Writing & Speaking</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231e40af'/%3E%3Cpath d='M8 10.5h16M16 10.5v12M11 22.5h10' stroke='%23ffffff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -92,6 +92,34 @@
     html.dark .academic-scroll::-webkit-scrollbar-track { background: #0f172a; }
     html.dark .academic-scroll::-webkit-scrollbar-thumb { background: #334155; }
   </style>
+  <style>
+    body.mock-mode { padding-top: 60px; }
+    body.mock-mode header,
+    body.mock-mode #site-footer,
+    body.mock-mode [onclick="gradeCurrentPassage()"],
+    body.mock-mode [onclick="resetCurrentPassageAnswers()"],
+    body.mock-mode [onclick="toggleReadingOverviewModal()"],
+    body.mock-mode [onclick="gradeCurrentListeningPart()"],
+    body.mock-mode [onclick="resetCurrentListeningPartAnswers()"],
+    body.mock-mode [onclick="toggleListeningTranscript()"],
+    body.mock-mode [onclick="toggleIntegratedTranscript()"],
+    body.mock-mode [data-replay-btn],
+    body.mock-mode #listening-transcript-panel,
+    body.mock-mode #listening-transcript-lock-note,
+    body.mock-mode #integrated-transcript-box,
+    body.mock-mode div:has(> #reading-timer-display),
+    body.mock-mode div:has(> #listening-timer-display),
+    body.mock-mode div:has(> #writing-timer-display),
+    body.mock-mode div:has(> #reading-total-correct),
+    body.mock-mode div:has(> #listening-total-correct),
+    body.mock-mode #mobile-score-summary,
+    body.mock-mode #btn-writing-independent,
+    body.mock-mode #btn-writing-integrated,
+    body.mock-mode #independent-prompt-select,
+    body.mock-mode #integrated-set-select,
+    body.mock-mode label[for="independent-prompt-select"],
+    body.mock-mode label[for="integrated-set-select"] { display: none !important; }
+  </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-100 selection:text-brand-900">
   <div id="intro-overlay" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
@@ -99,19 +127,19 @@
       <div id="intro-step-welcome" class="space-y-5 text-left">
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-brand-50 text-brand-800 border border-brand-200">
           <span>🎓</span>
-          <span>TOEFL iBT PRACTICE STUDIO • VIỆT – ANH SONG NGỮ</span>
+          <span>LUYỆN THI FINAL EXAM COURSE 3 • VIỆT – ANH SONG NGỮ</span>
         </div>
 
         <div class="space-y-2.5">
           <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            Chào mừng bạn đến với Web Luyện Thi TOEFL iBT
+            Chào mừng bạn đến với Web Luyện Thi Final Exam Course 3
           </h2>
           <p class="text-sm sm:text-[15px] text-slate-600 leading-relaxed">
-            Nền tảng luyện thi miễn phí do <strong>Ngô Minh Tiến</strong> biên soạn và duy trì nhằm hỗ trợ cộng đồng học viên ôn tập TOEFL iBT. Bao gồm trọn bộ <strong>Reading</strong> (10 bài đọc / 67 câu hỏi kèm giải thích chi tiết), <strong>Listening</strong> (5 phần nghe 28 câu &amp; ghi chú thông minh) và <strong>Writing</strong> (10 đề Independent + 5 đề Integrated có audio &amp; transcript).
+            Nền tảng luyện thi miễn phí do <strong>Ngô Minh Tiến</strong> biên soạn và duy trì nhằm bổ trợ cho học viên ôn luyện thi Final Exam Course 3. Bao gồm trọn bộ <strong>Reading</strong> (10 bài đọc / 67 câu hỏi kèm giải thích chi tiết), <strong>Listening</strong> (5 phần nghe 28 câu &amp; ghi chú thông minh) và <strong>Writing</strong> (10 đề Independent + 5 đề Integrated có audio &amp; transcript) và <strong>Speaking</strong> (30 đề từ giáo trình HTMS Speaking Advanced, kèm audio 3 CD &amp; đồng hồ bấm giờ).
           </p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-left">
           <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
             <div class="text-xs font-bold text-brand-800">📖 Reading</div>
             <div class="text-xs text-slate-600 mt-1 leading-relaxed">67 câu hỏi, đồng hồ đếm ngược, bảng điểm &amp; lọc câu sai.</div>
@@ -123,6 +151,10 @@
           <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
             <div class="text-xs font-bold text-emerald-700">✍️ Writing</div>
             <div class="text-xs text-slate-600 mt-1 leading-relaxed">10 đề Independent + 5 đề Integrated kèm audio &amp; transcript.</div>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
+            <div class="text-xs font-bold text-amber-700">🎙️ Speaking</div>
+            <div class="text-xs text-slate-600 mt-1 leading-relaxed">30 đề (6 chương) có audio CD, Reading &amp; đồng hồ chuẩn bị / nói.</div>
           </div>
         </div>
 
@@ -184,7 +216,7 @@
             </div>
             <h4 class="text-lg font-bold text-slate-900">1. Luyện từng phần</h4>
             <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Tự do chọn luyện riêng từng kỹ năng <strong>Reading</strong>, <strong>Listening</strong> hoặc <strong>Writing</strong> với giải thích chi tiết và lưu tiến độ tự động.
+              Tự do chọn luyện riêng từng kỹ năng <strong>Reading</strong>, <strong>Listening</strong>, <strong>Writing</strong> hoặc <strong>Speaking</strong> với giải thích chi tiết và lưu tiến độ tự động.
             </p>
             <span class="inline-flex items-center gap-1 text-xs font-bold text-brand-800">
               Bắt đầu luyện từng phần →
@@ -193,20 +225,19 @@
 
           <button
             type="button"
-            disabled
-            aria-disabled="true"
-            class="text-left p-5 rounded-2xl border border-slate-200 bg-slate-100/80 opacity-75 cursor-not-allowed space-y-2.5"
+            onclick="choosePracticeMode('mock')"
+            class="text-left p-5 rounded-2xl border-2 border-indigo-500 bg-indigo-50/60 hover:bg-indigo-50 transition space-y-2.5 shadow-xs"
           >
             <div class="flex items-center justify-between">
               <span class="text-2xl">⏱️</span>
-              <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">Đang cập nhật</span>
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">Mới</span>
             </div>
-            <h4 class="text-lg font-bold text-slate-600">2. Luyện đề thi thử</h4>
-            <p class="text-xs sm:text-sm text-slate-500 leading-relaxed">
-              Chế độ thi thử trọn bộ hiện <strong>đang cập nhật</strong> nên tạm khóa. Bạn hãy chọn <strong>Luyện từng phần</strong> để ôn tập nhé.
+            <h4 class="text-lg font-bold text-slate-900">2. Luyện đề thi thử</h4>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Thi thử theo cấu trúc <strong>Final Test – Course 3</strong>: Listening → Reading → nghỉ 10 phút → Writing, có bấm giờ từng phần, đề chọn ngẫu nhiên, không lưu bài làm; làm xong nhập email để nhận kết quả.
             </p>
-            <span class="inline-flex items-center gap-1 text-xs font-bold text-slate-500">
-              🔒 Đang cập nhật
+            <span class="inline-flex items-center gap-1 text-xs font-bold text-indigo-800">
+              Bắt đầu thi thử →
             </span>
           </button>
         </div>
@@ -214,7 +245,26 @@
     </div>
   </div>
 
-  <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
+  <div id="mock-bar" class="hidden fixed top-0 inset-x-0 z-[60] bg-slate-900 text-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex flex-wrap items-center gap-x-4 gap-y-2">
+      <div class="min-w-0">
+        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">THI THỬ • <span id="mock-bar-step"></span></div>
+        <div id="mock-bar-stage" class="text-sm font-extrabold leading-tight"></div>
+      </div>
+      <div id="mock-bar-timer" class="font-mono text-2xl font-extrabold tabular-nums">00:00</div>
+      <div id="mock-bar-extra" class="flex flex-wrap items-center gap-2"></div>
+      <div class="ml-auto flex items-center gap-2">
+          <button type="button" onclick="mockAbort()" class="px-3 py-1.5 rounded-lg border border-slate-600 text-xs font-semibold text-slate-300 hover:bg-slate-800 transition">Thoát</button>
+          <button type="button" onclick="mockSubmitStage(true)" class="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold transition whitespace-nowrap">Nộp phần này →</button>
+        </div>
+      </div>
+    </div>
+
+  <div id="mock-overlay" class="hidden fixed inset-0 z-[70] bg-slate-950/85 backdrop-blur-sm flex items-start justify-center p-4 sm:p-6 overflow-y-auto">
+    <div id="mock-overlay-body" class="w-full max-w-3xl my-auto bg-white rounded-3xl shadow-2xl border border-slate-200 p-5 sm:p-8"></div>
+  </div>
+
+  <div id="toast-container" class="fixed bottom-4 right-4 z-[100] flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
 
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -230,14 +280,14 @@
             <div class="min-w-0">
               <div class="flex items-center gap-2">
                 <h1 class="text-sm sm:text-base font-bold text-slate-900 tracking-tight whitespace-nowrap">
-                  TOEFL iBT Practice Studio
+                  Luyện thi Final Exam Course 3
                 </h1>
                 <span class="hidden 2xl:inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 whitespace-nowrap shrink-0">
                   Song Ngữ
                 </span>
               </div>
               <p class="hidden sm:block text-[11px] text-slate-500 truncate max-w-[240px] xl:max-w-[300px]">
-                Reading (67 câu), Listening (28 câu) &amp; Writing
+                Reading (67 câu), Listening (28 câu), Writing &amp; Speaking
               </p>
             </div>
           </div>
@@ -264,7 +314,7 @@
         </div>
 
         <div class="flex items-center gap-2 w-full lg:w-auto justify-between lg:justify-end shrink-0">
-          <nav aria-label="Chuyển kỹ năng TOEFL iBT" class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80 overflow-x-auto max-w-full">
+          <nav aria-label="Chuyển kỹ năng Final Exam Course 3" class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80 overflow-x-auto max-w-full">
             <button
               type="button"
               id="tab-reading"
@@ -295,14 +345,11 @@
             <button
               type="button"
               id="tab-speaking"
-              disabled
-              aria-disabled="true"
-              onclick="return false;"
-              class="nav-tab flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap shrink-0 text-slate-400 bg-slate-200/60 opacity-60 cursor-not-allowed select-none"
-              title="Speaking đang cập nhật — tạm khóa"
+              onclick="switchSection('speaking')"
+              class="nav-tab flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap shrink-0 text-slate-600 hover:text-slate-900 hover:bg-white/70"
             >
               <span>🎙️ Speaking</span>
-              <span class="hidden xl:inline text-[10px] px-1.5 py-0.5 rounded-md bg-amber-100 text-amber-800">Đang cập nhật</span>
+              <span class="text-[11px] px-1.5 py-0.5 rounded-md bg-slate-200 text-slate-700">3 CD</span>
             </button>
           </nav>
 
@@ -604,7 +651,7 @@
             </div>
 
             <div class="p-4 sm:p-5 space-y-3.5">
-              <!-- Trình phát file MP3 bài nghe chính (Hook Toefl ibt_Writing/TOEFL Listening Practice Exam 1.mp3) -->
+              <!-- Trình phát audio bài nghe chính -->
               <div class="space-y-2">
                 <div class="flex items-center justify-between gap-2">
                   <span class="text-xs font-bold text-slate-800">🎧 Audio bài nghe chính (MP3)</span>
@@ -702,7 +749,7 @@
                     </button>
                   </div>
                   <div id="listening-main-caption" class="toefl-audio-caption">
-                    File: TOEFL Listening Practice Exam 1.mp3
+                    Audio bài nghe chính
                   </div>
                 </div>
 
@@ -1088,44 +1135,29 @@
       </div>
     </section>
 
-    <section id="section-speaking" class="hidden">
-      <div class="bg-white rounded-2xl border border-slate-200 p-8 sm:p-10 shadow-xs text-center max-w-2xl mx-auto space-y-4">
-        <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-2xl mx-auto">
-          🎙️
+    <section id="section-speaking" class="hidden space-y-6">
+
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-xs space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">🎙️ SPEAKING • HTMS Speaking Advanced</span>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-2">Đề luyện Speaking <span class="text-sm font-semibold text-slate-500">(30 đề • 6 chương)</span></h2>
+          </div>
         </div>
-        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200">
-          SPEAKING • ĐANG CẬP NHẬT
-        </span>
-        <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">
-          Phần luyện Speaking đang cập nhật
-        </h2>
-        <p class="text-sm text-slate-600 leading-relaxed">
-          Tính năng luyện nói TOEFL iBT Speaking hiện đang được hoàn thiện. Trong lúc chờ cập nhật, bạn có thể tiếp tục luyện <strong>Reading</strong>, <strong>Listening</strong> hoặc <strong>Writing</strong>.
-        </p>
-        <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
-          <button
-            type="button"
-            onclick="switchSection('reading')"
-            class="px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-800 text-white text-sm font-semibold transition"
-          >
-            Quay lại Reading
-          </button>
-          <button
-            type="button"
-            onclick="openIntroOverlay()"
-            class="px-4 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-sm font-semibold transition"
-          >
-            Mở màn hình chọn chế độ
-          </button>
+        <div id="spk-chapter-tabs" class="flex flex-wrap gap-2"></div>
+        <div class="grid gap-4 lg:grid-cols-[260px_1fr]">
+          <div id="spk-unit-list" class="space-y-1.5"></div>
+          <div id="spk-unit-detail" class="space-y-4 min-w-0"></div>
         </div>
       </div>
+
     </section>
   </main>
 
   <footer id="site-footer" class="border-t border-slate-200 bg-white/90 backdrop-blur py-4 mt-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
       <div class="text-center sm:text-left flex flex-wrap items-center justify-center sm:justify-start gap-x-2 gap-y-1">
-        <span><strong class="text-slate-800">Ngô Minh Tiến</strong> • Hỗ trợ ôn luyện TOEFL iBT • Zalo / góp ý: <strong class="text-slate-800">0794599501</strong></span>
+        <span><strong class="text-slate-800">Ngô Minh Tiến</strong> • Hỗ trợ ôn luyện thi Final Exam Course 3 • Zalo / góp ý: <strong class="text-slate-800">0794599501</strong></span>
         <span class="text-slate-300 hidden sm:inline">•</span>
         <a
           href="https://guns.lol/tienbipne"
@@ -1527,7 +1559,7 @@
       },
       {
         id: 'passage-07-test-01',
-        badge: 'TOEFL iBT READING TEST — ĐỀ SỐ 01',
+        badge: 'FINAL EXAM COURSE 3 • READING — ĐỀ SỐ 01',
         selectLabel: 'Bài 7: ĐỀ SỐ 01 — Plate Tectonics and Subduction Zones (Câu 44–49)',
         title: 'PASSAGE 1: PLATE TECTONICS AND SUBDUCTION ZONES',
         topic: 'Geology • Time: 18 mins',
@@ -1573,7 +1605,7 @@
       },
       {
         id: 'passage-08-test-02',
-        badge: 'TOEFL iBT READING TEST — ĐỀ SỐ 02',
+        badge: 'FINAL EXAM COURSE 3 • READING — ĐỀ SỐ 02',
         selectLabel: 'Bài 8: ĐỀ SỐ 02 — Bioluminescence in Deep-Sea Ecosystems (Câu 50–55)',
         title: 'PASSAGE 2: BIOLUMINESCENCE IN DEEP-SEA ECOSYSTEMS',
         topic: 'Marine Biology • Time: 18 mins',
@@ -1607,7 +1639,7 @@
       },
       {
         id: 'passage-09-test-03',
-        badge: 'TOEFL iBT READING TEST — ĐỀ SỐ 03',
+        badge: 'FINAL EXAM COURSE 3 • READING — ĐỀ SỐ 03',
         selectLabel: 'Bài 9: ĐỀ SỐ 03 — The Classic Maya Collapse (Câu 56–61)',
         title: 'PASSAGE 3: THE CLASSIC MAYA COLLAPSE',
         topic: 'Archaeology & Paleoclimatology • Time: 18 mins',
@@ -1653,7 +1685,7 @@
       },
       {
         id: 'passage-10-test-04',
-        badge: 'TOEFL iBT READING TEST — ĐỀ SỐ 04',
+        badge: 'FINAL EXAM COURSE 3 • READING — ĐỀ SỐ 04',
         selectLabel: 'Bài 10: ĐỀ SỐ 04 — Detecting Extrasolar Planets (Câu 62–67)',
         title: 'PASSAGE 4: DETECTING EXTRASOLAR PLANETS',
         topic: 'Astronomy • Time: 18 mins',
@@ -1700,7 +1732,7 @@
     ];
 
     (() => {
-      counter = 1;
+      let counter = 1;
       READING_PASSAGES.forEach((p) => {
         p.questions.forEach((q) => {
           q.globalIndex = counter++;
@@ -1717,7 +1749,7 @@
         badge: 'PHẦN 1 / 5 • CONVERSATION',
         selectLabel: 'Phần 1: Cuộc trò chuyện giữa sinh viên Freya và giáo sư Dubois (5 câu)',
         title: 'Part 1: Student & Professor — Choosing a Presentation Topic',
-        subtitle: 'File: TOEFL Listening Practice Exam 1.mp3 • Conversation',
+        subtitle: 'Conversation',
         audioSrc: LISTENING_MAIN_AUDIO_SRC,
         transcript: [
           'Narrator: Listen to a conversation between a student and a professor.',
@@ -1829,7 +1861,7 @@
         badge: 'PHẦN 2 / 5 • LECTURE',
         selectLabel: 'Phần 2: Bài giảng về Brand Image — Hình ảnh thương hiệu (6 câu)',
         title: 'Part 2: Lecture — Brand Image (Consistency vs. Change)',
-        subtitle: 'File: TOEFL Listening Practice Exam 1.mp3 • Marketing Lecture',
+        subtitle: 'Marketing Lecture',
         audioSrc: LISTENING_MAIN_AUDIO_SRC,
         transcript: [
           'Narrator: Listen to part of a lecture in a class on brand image. The professor is discussing the role and importance of brand image.',
@@ -1944,7 +1976,7 @@
         badge: 'PHẦN 3 / 5 • CONVERSATION',
         selectLabel: 'Phần 3: Sinh viên Sarah và cán bộ nhà ở đại học (5 câu)',
         title: 'Part 3: Student & University Housing Officer — Moving Off Campus',
-        subtitle: 'File: TOEFL Listening Practice Exam 1.mp3 • Campus Service Conversation',
+        subtitle: 'Campus Service Conversation',
         audioSrc: LISTENING_MAIN_AUDIO_SRC,
         transcript: [
           'Narrator: Listen to a conversation between a student and a university housing officer.',
@@ -2054,7 +2086,7 @@
         badge: 'PHẦN 4 / 5 • LECTURE',
         selectLabel: 'Phần 4: Bài giảng Lịch sử ngôn ngữ tiếng Anh — 1066 & Middle English (6 câu)',
         title: 'Part 4: Lecture — History of the English Language',
-        subtitle: 'File: TOEFL Listening Practice Exam 1.mp3 • Linguistics & History Lecture',
+        subtitle: 'Linguistics & History Lecture',
         audioSrc: LISTENING_MAIN_AUDIO_SRC,
         transcript: [
           'Narrator: Listen to part of a lecture in a history of the English language class.',
@@ -2175,7 +2207,7 @@
         badge: 'PHẦN 5 / 5 • LECTURE',
         selectLabel: 'Phần 5: Bài giảng Khoa học Môi trường — Desertification / Sa mạc hóa (6 câu)',
         title: 'Part 5: Environmental Science Lecture — Desertification',
-        subtitle: 'File: TOEFL Listening Practice Exam 1.mp3 • Environmental Science Lecture',
+        subtitle: 'Environmental Science Lecture',
         audioSrc: LISTENING_MAIN_AUDIO_SRC,
         transcript: [
           'Narrator: Listen to part of a lecture in an environmental science class.',
@@ -2350,7 +2382,7 @@
         id: 'int-set-01',
         title: 'Integrated Set 01 — Four-Day Workweek (Audio 6)',
         audioLabel: 'Audio 6 • Business & Economics',
-        audioSrc: 'Hook%20Toefl%20ibt_Writing/Audio%206.mp3',
+        audioSrc: 'Hook%20Toefl%20ibt_Writing/06.mp3',
         readingParagraphs: [
           'Many companies are considering transitioning from a traditional five-day workweek to a compressed four-day workweek in which employees work longer daily hours for four days and receive a three-day weekend. Proponents argue that this arrangement increases overall productivity because workers return refreshed and more focused after an extended rest.',
           'Furthermore, reducing the number of commuting days lowers transportation expenses for employees and decreases office energy consumption, enabling businesses to save significantly on overhead costs such as electricity and heating.',
@@ -2362,7 +2394,7 @@
         id: 'int-set-02',
         title: 'Integrated Set 02 — Vertical Farming in Cities (Audio 7)',
         audioLabel: 'Audio 7 • Environmental Technology',
-        audioSrc: 'Hook%20Toefl%20ibt_Writing/Audio%207.mp3',
+        audioSrc: 'Hook%20Toefl%20ibt_Writing/07.mp3',
         readingParagraphs: [
           'Vertical farming—growing crops in vertically stacked layers inside climate-controlled urban buildings—has been hailed as a revolutionary solution to global food shortages. Because crops are grown indoors year-round, vertical farms are completely protected from droughts, storms, and seasonal freezes.',
           'In addition, hydroponic and aeroponic nutrient systems use up to 90 percent less water than conventional field agriculture and eliminate the need for chemical pesticides.',
@@ -2374,7 +2406,7 @@
         id: 'int-set-03',
         title: 'Integrated Set 03 — Electronic Textbooks in Universities (Audio 8)',
         audioLabel: 'Audio 8 • Education Policy',
-        audioSrc: 'Hook%20Toefl%20ibt_Writing/Audio%208.mp3',
+        audioSrc: 'Hook%20Toefl%20ibt_Writing/08.mp3',
         readingParagraphs: [
           'Universities are increasingly replacing heavy printed textbooks with digital e-textbooks accessed on laptops and tablets. One major advantage is affordability: digital editions cost roughly half as much as print books because publishers avoid printing, warehousing, and shipping costs.',
           'Digital textbooks also enhance learning through interactive features such as keyword search, embedded video demonstrations, and instant dictionary definitions.',
@@ -2386,7 +2418,7 @@
         id: 'int-set-04',
         title: 'Integrated Set 04 — Ecotourism in Fragile Habitats (MP3 10)',
         audioLabel: 'MP3 10 • Ecology & Conservation',
-        audioSrc: 'Hook%20Toefl%20ibt_Writing/MP3%2010.mp3',
+        audioSrc: 'Hook%20Toefl%20ibt_Writing/10.mp3',
         readingParagraphs: [
           'Ecotourism—responsible travel to natural areas that conserves the environment and improves the well-being of local people—is widely promoted as a sustainable alternative to mass tourism. Ticket fees and park permits generate direct funding for wildlife protection and anti-poaching patrols.',
           'Ecotourism also creates local jobs for guides, lodge staff, and artisans, giving rural communities a strong financial incentive to protect forests and coral reefs rather than exploit them.',
@@ -2398,7 +2430,7 @@
         id: 'int-set-05',
         title: 'Integrated Set 05 — Reintroducing Wolves to National Parks (Audio 12)',
         audioLabel: 'Audio 12 • Wildlife Biology',
-        audioSrc: 'Hook%20Toefl%20ibt_Writing/Audio%2012.mp3',
+        audioSrc: 'Hook%20Toefl%20ibt_Writing/12.mp3',
         readingParagraphs: [
           'Reintroducing gray wolves to national parks where they were previously hunted to extinction restores natural ecological balance. As apex predators, wolves control overpopulated elk and deer herds, allowing overgrazed riverside willows and aspens to recover.',
           'The return of riverbank vegetation stabilizes stream banks, reduces soil erosion, and creates healthier habitats for songbirds, beavers, and fish.',
@@ -2460,7 +2492,11 @@
 
     let appState = loadState();
 
+    // Bật khi đang thi thử: bài làm chỉ nằm trong bộ nhớ, không ghi vào localStorage.
+    let MOCK_NO_SAVE = false;
+
     function saveState() {
+      if (MOCK_NO_SAVE) return;
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
       } catch (err) {
@@ -2545,6 +2581,18 @@
     }
 
     function choosePracticeMode(mode) {
+      if (mode === 'mock') {
+        const badge = document.getElementById('current-practice-mode-badge');
+        if (badge) badge.textContent = 'Thi thử';
+        dismissIntroToCurrentWorkspace();
+        if (typeof openMockStart === 'function') {
+          openMockStart();
+        } else {
+          switchSection('listening');
+          showToast('Đã chuyển sang chế độ luyện thi thử.', 'info');
+        }
+        return;
+      }
       if (mode !== 'section') return;
       const badge = document.getElementById('current-practice-mode-badge');
       if (badge) badge.textContent = 'Luyện từng phần';
@@ -2555,6 +2603,7 @@
     function switchSection(sectionName) {
       stopWritingAudioOnly();
       stopListeningAudioOnly();
+      if (typeof stopSpeakingAudioOnly === 'function') stopSpeakingAudioOnly();
 
       const target = ['reading', 'listening', 'writing', 'speaking'].includes(sectionName)
         ? sectionName
@@ -2818,7 +2867,7 @@
                     Câu ${localIndex + 1} (Tổng #${q.globalIndex})
                   </span>
                   <span class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600">
-                    ${escapeHtmlText(q.type || 'TOEFL Reading')}
+                    ${escapeHtmlText(q.type || 'Reading')}
                   </span>
                 </div>
                 <p class="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">
@@ -2989,7 +3038,7 @@
         const playPromise = audioEl.play();
         if (playPromise && typeof playPromise.catch === 'function') {
           playPromise.catch(() => {
-            showToast('Không tìm thấy file Hook Toefl ibt_Writing/TOEFL Listening Practice Exam 1.mp3.', 'warn');
+            showToast('Không phát được audio bài nghe. Vui lòng thử lại.', 'warn');
           });
         }
       } else {
@@ -3248,7 +3297,7 @@
 
           const replayHtml = q.replayAudioSrc
             ? `<div class="px-3.5 py-2.5 rounded-xl bg-indigo-50/80 border border-indigo-200 flex flex-wrap items-center justify-between gap-2">
-                <span class="text-xs font-semibold text-indigo-950">🎧 Câu hỏi nghe lại (${escapeHtmlText(q.replayFileName || '')})</span>
+                <span class="text-xs font-semibold text-indigo-950">🎧 Câu hỏi nghe lại</span>
                 <button
                   type="button"
                   data-replay-btn="${q.id}"
@@ -3759,7 +3808,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `toefl-${mode}-essay.txt`;
+      a.download = `course3-${mode}-essay.txt`;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -3914,6 +3963,803 @@
     }
 
     window.addEventListener('DOMContentLoaded', initApp);
+  
+
+    /* ===== SPEAKING EXAMS (từ Speaking.docx) ===== */
+    const SPEAKING_UNITS = [{"id": "u1", "chapter": 1, "chapterTitle": "PERSONAL EXPERIENCE", "lesson": 1, "unit": 1, "title": "Needing Help", "prompt": "Describe a situation when you asked someone for help. What were the results? Please include specific examples and details in your explanation.", "hints": ["When did you have to ask for some help?", "Why did you have to ask for help from this person?", "What was the end result of that situation?"], "reading": null, "cd": null, "track": null, "audioKind": "conversation", "audioNote": ""}, {"id": "u2", "chapter": 1, "chapterTitle": "PERSONAL EXPERIENCE", "lesson": 2, "unit": 2, "title": "Subjects", "prompt": "Which subject do you want to learn more about? Please include specific examples and details in your explanation.", "hints": ["What subject would you like to learn more about?", "Why do you feel that this subject is important?", "What would happen if you were to learn more about this subject?"], "reading": null, "cd": null, "track": null, "audioKind": "conversation", "audioNote": ""}, {"id": "u3", "chapter": 1, "chapterTitle": "PERSONAL EXPERIENCE", "lesson": 3, "unit": 3, "title": "Life Changes", "prompt": "Describe how your life will be different five years from now. Please include specific examples and details in your explanation.", "hints": ["How will your life be different in five years?", "Why do you think it will be that way?", "What improvement can these differences make?"], "reading": null, "cd": null, "track": null, "audioKind": "conversation", "audioNote": ""}, {"id": "u4", "chapter": 1, "chapterTitle": "PERSONAL EXPERIENCE", "lesson": 4, "unit": 4, "title": "Home Characteristics", "prompt": "What characteristics of a house or an apartment do you think are the most important? Please include specific examples and details in your explanation.", "hints": ["What are the most important characteristics for a house or an apartment?", "Why do you believe that these characteristics are so important?", "How can these characteristics make a home better to live in?"], "reading": null, "cd": null, "track": null, "audioKind": "conversation", "audioNote": ""}, {"id": "u5", "chapter": 1, "chapterTitle": "PERSONAL EXPERIENCE", "lesson": 5, "unit": 5, "title": "Celebrations", "prompt": "What is a special day of celebration in your country, and what do you do on that day? Please include specific examples and details in your explanation.", "hints": ["What is a special day of celebration in your country?", "What do people usually do on this special day?", "What are the reasons that people engage in these activities?"], "reading": null, "cd": null, "track": null, "audioKind": "conversation", "audioNote": ""}, {"id": "u11", "chapter": 2, "chapterTitle": "PERSONAL PREFERENCE", "lesson": 1, "unit": 11, "title": "Cell Phones", "prompt": "Do you agree or disagree with the following statement? The use of cell phones should be prohibited in public. Give specific reasons and examples to support your opinion.", "hints": ["Do you believe cell phone usage should be prohibited in public or not?", "Why do you feel that way about cell phones?", "What reasons can you provide to back up your opinion?"], "reading": null, "cd": null, "track": null, "audioKind": "conversation", "audioNote": ""}, {"id": "u12", "chapter": 2, "chapterTitle": "PERSONAL PREFERENCE", "lesson": 2, "unit": 12, "title": "College Housing Arrangements", "prompt": "Some schools have all of their first-year students live together in dormitories. Other schools have first-year students live together with students from other years. Which housing arrangement do you think is better and why? Use specific reasons and examples to support your preference.", "hints": ["Should freshmen live with one another or be matched with students from other years?", "What makes you feel that is the best solution?", "What are the possible benefits to this living situation?"], "reading": null, "cd": null, "track": null, "audioKind": "conversation", "audioNote": ""}, {"id": "u13", "chapter": 2, "chapterTitle": "PERSONAL PREFERENCE", "lesson": 3, "unit": 13, "title": "Part-time Jobs", "prompt": "Do you agree or disagree with the following statement? Students should take classes during the day and work part-time jobs at night or on the weekend. Give specific reasons and examples to support your opinion.", "hints": ["Do you believe that students should study during the day and work part-time or not?", "Why should students either work or not work while also studying?", "What benefits would this have for the students?"], "reading": null, "cd": null, "track": null, "audioKind": "conversation", "audioNote": ""}, {"id": "u14", "chapter": 2, "chapterTitle": "PERSONAL PREFERENCE", "lesson": 4, "unit": 14, "title": "Life after High School", "prompt": "Some people believe it is better to go to university or college right after graduating from high school. Other people believe it is better to take a year off between high school and university or college. Which do you prefer and why? Give specific reasons and examples to support your opinion.", "hints": ["Should a person go to college or university immediately or take a year off?", "Why do you feel that this is the better solution for a high school graduate?", "What are the benefits of attending college or university in this manner?"], "reading": null, "cd": null, "track": null, "audioKind": "conversation", "audioNote": ""}, {"id": "u15", "chapter": 2, "chapterTitle": "PERSONAL PREFERENCE", "lesson": 5, "unit": 15, "title": "Measures of Success", "prompt": "Do you agree or disagree with the following statement? Having money and power is the best way to measure success. Give specific reasons and examples to support your opinion.", "hints": ["Do you agree or disagree that money and power are the best measures of success?", "Why do you believe these are the best measures of success?", "What reasons can you give to defend your opinion?"], "reading": null, "cd": null, "track": null, "audioKind": "conversation", "audioNote": ""}, {"id": "u21", "chapter": 3, "chapterTitle": "READING & CONVERSATION", "lesson": 1, "unit": 21, "title": "School Facilities", "prompt": "The woman expresses her opinion of the student's letter to the editor. State her opinion and explain the reasons she gives for holding that opinion.", "hints": [], "reading": {"title": "Student Center Cafeteria Too Crowded", "text": "I am writing this letter to express my feelings about the Student Center Cafeteria. Ever since enrollment here increased, the cafeteria has become too crowded. This is a tremendous problem during breakfast, lunch, and dinner, as there are simply not enough places for students to sit and eat their meals. In addition, since the library does not have enough room, many students use the cafeteria as a place to study. Unfortunately, there are not enough spaces for the students to sit at. I strongly urge the school administration to renovate the student center and enlarge the cafeteria."}, "cd": 1, "track": 25, "audioKind": "conversation", "audioNote": ""}, {"id": "u22", "chapter": 3, "chapterTitle": "READING & CONVERSATION", "lesson": 2, "unit": 22, "title": "Dormitory Policies I", "prompt": "The woman expresses her opinion of the university's change in policy. State her opinion and explain the reasons she gives for holding that opinion.", "hints": [], "reading": {"title": "All Freshmen May Live on Campus", "text": "Beginning next semester, all freshmen will be eligible to live in student dormitories on campus. The previous rule not guaranteeing on-campus housing for freshmen has been changed due to numerous complaints by both students and parents. This new regulation will permit first-year students more easily to form study groups with their peers on campus. This should enable them to improve their overall grade point averages. Additionally, the university has determined there is enough space in school parking lots to accommodate the extra cars that will be parked there by freshmen, so parking will not be an issue to consider."}, "cd": 1, "track": 27, "audioKind": "conversation", "audioNote": ""}, {"id": "u23", "chapter": 3, "chapterTitle": "READING & CONVERSATION", "lesson": 3, "unit": 23, "title": "Class Size Increases", "prompt": "The man expresses his opinion of the new regulation on seminars. State his opinion and explain the reasons he gives for holding that opinion.", "hints": [], "reading": {"title": "Student Numbers to Increase in Seminars", "text": "Seminar classes will no longer be restricted to fifteen students per class. Instead, the number of students permitted to take each seminar has increased to twenty-five. Not enough students have been able to enroll in these discussion-based seminars despite their popularity because of a lack of instructors. This change will ensure students will be able to register in the seminar of their choice. Since our freshman and sophomore classes are much bigger than we had anticipated, this will guarantee that all students can fulfill their graduation requirement of taking at least one seminar class."}, "cd": 1, "track": 29, "audioKind": "conversation", "audioNote": ""}, {"id": "u24", "chapter": 3, "chapterTitle": "READING & CONVERSATION", "lesson": 4, "unit": 24, "title": "School Policies", "prompt": "The man expresses his opinion of the co-teaching program the university is creating. State his opinion and explain the reasons he gives for holding that opinion.", "hints": [], "reading": {"title": "Seniors Eligible to Teach Freshman Classes", "text": "Central University is beginning a new program in the fall semester. Eligible seniors may now co-teach certain classes alongside a professor in their department. Students must have a 3.5 GPA both overall and in their major to qualify as teachers. This program should be of particular interest to students considering pursuing teaching careers-although that is not a requisite to become an instructor. Student-teachers will need to prepare lesson plans and make themselves available for office hours for their students as well. Inquire at the Student Services Office for more information."}, "cd": 1, "track": 31, "audioKind": "conversation", "audioNote": ""}, {"id": "u25", "chapter": 3, "chapterTitle": "READING & CONVERSATION", "lesson": 5, "unit": 25, "title": "Night Classes", "prompt": "The man expresses his opinion of the new night school program. State his opinion and explain the reasons he gives for holding that opinion.", "hints": [], "reading": {"title": "Night Classes to Be Offered", "text": "Due to overwhelming demand, the school will offer night classes on a limited basis this spring semester starting in January. Night school classes will be taught between the hours of six and ten in the evening. These classes, however, will be open only to students currently employed full-time. Students must provide proof of employment to be able to register. Night school classes will be held in every department and should enable those students with jobs to facilitate their studies while not interrupting their work schedules."}, "cd": 1, "track": 33, "audioKind": "conversation", "audioNote": ""}, {"id": "u31", "chapter": 4, "chapterTitle": "READING & LECTURE", "lesson": 1, "unit": 31, "title": "Shaping", "prompt": "The professor describes how she helped to improve her daughter's drawing skills. Explain how the professor's actions relate to shaping.", "hints": [], "reading": {"title": "Shaping", "text": "Parents normally desire to have their children act in a positive manner. To do so, parents often rely upon shaping to help manage their children's behavior. In using shaping, a parent sets goals for his or her child. As the child completes a goal-typically a fairly small step-the parent praises the child and then encourages the child to continue to the next goal. Should the child not be successful, the parent does not praise the child. Since children are typically eager to be praised, they are often willing to have their behavior shaped by their parents to receive more compliments."}, "cd": 2, "track": 1, "audioKind": "lecture", "audioNote": ""}, {"id": "u32", "chapter": 4, "chapterTitle": "READING & LECTURE", "lesson": 2, "unit": 32, "title": "Memorization", "prompt": "The professor describes an experiment that he conducted with students in two separate classes. Explain how the professor's experiment relates to memorization.", "hints": [], "reading": {"title": "Memorization", "text": "Scientists have conducted countless studies on what makes people memorize better. They have determined that people's environments have dramatic effects on their memorization skills. In fact, researchers have come to the realization that several factors affect people's abilities to memorize facts. Among these factors are the physical setting, the people situated nearby, and even the time of day. When conducting long-term studies on groups of people, they have discovered that when people are put into similar or familiar circumstances, their memorization skills vastly improve. Simply put, being in a comfortable environment helps tremendously."}, "cd": 2, "track": 3, "audioKind": "lecture", "audioNote": ""}, {"id": "u33", "chapter": 4, "chapterTitle": "READING & LECTURE", "lesson": 3, "unit": 33, "title": "Cyclic Population Change", "prompt": "The professor describes the changing numbers of mice and wolves in the forest. Explain how this is related to cyclic population change.", "hints": [], "reading": {"title": "Cyclic Population Change", "text": "Contrary to popular belief, ecosystems are not static environments but are constantly changing. Some of the biggest changes occur in the populations of the species inhabiting them. Species' populations are constantly in states of imbalance. For example, some years, there are large numbers of prey. This causes the numbers of predators to increase since the ecosystem can support more of them. However, eventually, there will be too many predators but not enough prey. This results in large numbers of predators dying since they lack food to eat. This population change occurs in regular cycles in virtually every ecosystem."}, "cd": 2, "track": 5, "audioKind": "lecture", "audioNote": ""}, {"id": "u34", "chapter": 4, "chapterTitle": "READING & LECTURE", "lesson": 4, "unit": 34, "title": "Short-term Memories", "prompt": "The professor describes two different examples related to remembering facts. Explain how these examples relate to short-term memory.", "hints": [], "reading": {"title": "Short-term Memories", "text": "Everyday, people commit thousands of bits of information to their short-term memories. Unfortunately, many memories remain only for a short time and are quickly forgotten. Psychologists have determined two reasons as to why people lose their short-term memories. The first is decay. A memory decays, or fades away, when it is not used by the person. The second reason is interference. This is when a new memory enters the brain and simply causes the other memory to depart. Because of these two factors, people are unable to retain every short-term memory they have."}, "cd": 2, "track": 7, "audioKind": "lecture", "audioNote": ""}, {"id": "u35", "chapter": 4, "chapterTitle": "READING & LECTURE", "lesson": 5, "unit": 35, "title": "Scent Marketing", "prompt": "The professor explains how fragrances affect people's shopping habits. Explain how this is related to scent marketing.", "hints": [], "reading": {"title": "Scent Marketing", "text": "Stores commonly search for ways to entice shoppers to purchase more products when they visit. One effective method that they have discovered is scent marketing. Sellers have discovered that shoppers often associate scents with certain memories or even feelings. Studies have determined that, depending upon the scent, people can be made to feel comfortable, relaxed, tense, or many other feelings. Scents that evoke pleasant memories are particularly effective. By ensuring that these scents are in various sections of their stores, owners can subconsciously encourage shoppers to purchase more products than they normally would."}, "cd": 2, "track": 9, "audioKind": "lecture", "audioNote": ""}, {"id": "u41", "chapter": 5, "chapterTitle": "CONVERSATION", "lesson": 1, "unit": 41, "title": "Student Life I", "prompt": "The students discuss two possible solutions to the woman's problem. Describe the problem. Then state which of the two solutions you prefer and explain why.", "hints": [], "reading": null, "cd": 2, "track": 23, "audioKind": "conversation", "audioNote": ""}, {"id": "u42", "chapter": 5, "chapterTitle": "CONVERSATION", "lesson": 2, "unit": 42, "title": "Internships", "prompt": "The students discuss two possible solutions to the man's problem. Describe the problem. Then state which of the two solutions you prefer and explain why.", "hints": [], "reading": null, "cd": 2, "track": 25, "audioKind": "conversation", "audioNote": ""}, {"id": "u43", "chapter": 5, "chapterTitle": "CONVERSATION", "lesson": 3, "unit": 43, "title": "Student Activities", "prompt": "The students discuss two possible solutions to the man's problem. Describe the problem. Then state which of the two solutions you prefer and explain why.", "hints": [], "reading": null, "cd": 2, "track": 27, "audioKind": "conversation", "audioNote": ""}, {"id": "u44", "chapter": 5, "chapterTitle": "CONVERSATION", "lesson": 4, "unit": 44, "title": "Living Situations", "prompt": "The students discuss two possible solutions to the woman's problem. Describe the problem. Then state which of the two solutions you prefer and explain why.", "hints": [], "reading": null, "cd": 2, "track": 29, "audioKind": "conversation", "audioNote": ""}, {"id": "u45", "chapter": 5, "chapterTitle": "CONVERSATION", "lesson": 5, "unit": 45, "title": "Changing Classes", "prompt": "The students discuss two possible solutions to the woman's problem. Describe the problem. Then state which of the two solutions you prefer and explain why.", "hints": [], "reading": null, "cd": 2, "track": 31, "audioKind": "conversation", "audioNote": ""}, {"id": "u51", "chapter": 6, "chapterTitle": "LECTURE", "lesson": 1, "unit": 51, "title": "Defensive Adaptations", "prompt": "Using points and examples from the lecture, explain the two different types of physical variations some animals use to defend themselves.", "hints": [], "reading": null, "cd": 2, "track": 45, "audioKind": "lecture", "audioNote": ""}, {"id": "u52", "chapter": 6, "chapterTitle": "LECTURE", "lesson": 2, "unit": 52, "title": "Name Recognition", "prompt": "Using points and examples from the lecture, describe how name recognition can affect how much of a product a company sells.", "hints": [], "reading": null, "cd": 2, "track": 47, "audioKind": "lecture", "audioNote": ""}, {"id": "u53", "chapter": 6, "chapterTitle": "LECTURE", "lesson": 3, "unit": 53, "title": "Art Methods", "prompt": "Using points and examples from the lecture, explain the two methods artists used to enable more of the public to view their work.", "hints": [], "reading": null, "cd": 3, "track": 1, "audioKind": "lecture", "audioNote": ""}, {"id": "u54", "chapter": 6, "chapterTitle": "LECTURE", "lesson": 4, "unit": 54, "title": "Animal Cooperation", "prompt": "Using points and examples from the lecture, explain two different activities that animals engage in to cooperate with one another.", "hints": [], "reading": null, "cd": 3, "track": 3, "audioKind": "lecture", "audioNote": ""}, {"id": "u55", "chapter": 6, "chapterTitle": "LECTURE", "lesson": 5, "unit": 55, "title": "Pollinator Attraction", "prompt": "Using points and examples from the lecture, describe the two different ways in which flowers attract insects for the purpose of pollination.", "hints": [], "reading": null, "cd": 3, "track": 3, "audioKind": "lecture", "audioNote": ""}];
+    const SPEAKING_CHAPTER_CFG = {
+      1: { q: 'Q1', label: 'Personal Experience', read: 0, prep: 15, speak: 45 },
+      2: { q: 'Q2', label: 'Personal Preference', read: 0, prep: 15, speak: 45 },
+      3: { q: 'Q3', label: 'Reading & Conversation', read: 45, prep: 30, speak: 60 },
+      4: { q: 'Q4', label: 'Reading & Lecture', read: 45, prep: 30, speak: 60 },
+      5: { q: 'Q5', label: 'Conversation', read: 0, prep: 20, speak: 60 },
+      6: { q: 'Q6', label: 'Lecture', read: 0, prep: 20, speak: 60 }
+    };
+    /* Script (transcript) cho audio Speaking: điền theo mã đề, ví dụ
+       u21: 'Narrator: ...\nWoman: ...\nMan: ...'  (mỗi dòng là một câu thoại) */
+    const SPEAKING_SCRIPTS = {
+  "u21": "Man: You know, the author of this letter is right. The school should renovate the student center cafeteria.\nWoman: Hold on a second. They don't need to do that. After all, there are small eateries all over campus. We have choices of where we want to eat.\nMan: Sure, but the cafeteria is so convenient.\nWoman: Yes, but you don't have to eat there. I mean, I go outdoors to eat when the weather's nice. And don't you eat at that little cafe inside Robinson Hall? I've seen you there before.\nMan: Okay, yes, I eat there sometimes.\nWoman: See, we have choices.\nMan: But what about the studying aspect? That's important.\nWoman: Oh, come on. The student center is always full of students doing lots of different activities. People are always chatting and it's really loud. How can anyone study in that kind of an environment?\nMan: But we can't study at the library.\nWoman: That's true. The desks are always occupied, and there's no room to study. You know, the school should renovate the library instead of the cafeteria. That would help us out a lot more.",
+  "u22": "Man: Hey, they're letting freshmen live in the dorms. Great.\nWoman: The school means well, but I must say that their reasoning is completely illogical.\nMan: I disagree. That idea about forming study groups sounds good. I could have used one when I was a freshman, but I didn't get to live on campus.\nWoman: I lived in the dorms when I was a freshman.\nMan: How was it?\nWoman: Noisy, really noisy. I didn't have a study group because the atmosphere in the dorms just wasn't conducive to studying. People were making noise at all hours of the day and never studying. That's why I moved off campus my sophomore year, when, incidentally, I actually joined a study group. It was much quieter off campus.\nMan: Okay, but what about this parking situation? That's nice, isn't it?\nWoman: The school's not planning to build any new parking lots. That's a huge mistake.\nMan: Do you think so?\nWoman: If every freshman living on campus has a car, the parking lots are going to be jam-packed. Nobody from off campus will get to park here. You can count on that.",
+  "u23": "Woman: It looks like getting into a seminar has just gotten a lot easier.\nMan: That's good to hear.\nWoman: Yes, it sounds nice, but there's a slight problem.\nMan: I don't see anything wrong.\nWoman: Well, these seminars are discussion-based. You can't have a discussion with 25 students in a class, especially if everyone is supposed to speak during them. The entire class will suffer because of this.\nMan: Okay, that might be a problem, but I'm not too disturbed.\nWoman: How come?\nMan: Well, I wanted to get into a seminar last semester, but it was full before I could register. There just aren't enough seminars being offered.\nWoman: Exactly, the school needs to open more of them. But we have an insufficient number of teachers.\nMan: I heard we're going to hire a large number of part-time professors.\nWoman: Yeah, I saw that too, but it's a misguided idea. Part-time professors often aren't qualified to teach university classes, or else they're busy teaching part-time at several different schools. So they won't be able to guarantee the students a quality education. The school needs to reconsider this policy immediately.",
+  "u24": "Woman: What a silly idea. I can't believe the school is entertaining the notion of letting students teach classes.\nMan: It sounds intriguing to me.\nWoman: You think so?\nMan: Why not? First, like the announcement says, it would be a great way to get some teaching experience. Think about it. It'd look great on an application to graduate school. It might help some students get accepted.\nWoman: Okay, that's good for the student teacher, but what about the students taking the classes? I can tell you this: I wouldn't want a student teaching my class. The student wouldn't have nearly as much knowledge as a real professor.\nMan: Well, there is the prospect of that, but the student will just be co-teaching, so I'm not terribly concerned. Anyway, you know, I like the part about the student keeping office hours.\nWoman: Because?\nMan: My professors are always busy and often don't have time to chat. It'd be easier and frankly more comfortable going to a student to ask my questions. It's not like my questions are so difficult that an upperclassman wouldn't be able to answer them.",
+  "u25": "Man: I must confess that I'm rather displeased with this news.\nWoman: What? The night classes?\nMan: Yeah, it's unfair that only those with jobs can sign up for the courses. That just doesn't seem right. These classes should be open to all interested students.\nWoman: Maybe, but perhaps the coursework will be tailored to those who have jobs. You know, the professors might give less homework or something. Regular students would have an unfair advantage.\nMan: That's possible, but I'd love to take night classes myself. Unfortunately, I'm being denied that opportunity.\nWoman: Oh well, you can always get a job. Then you'd qualify.\nMan: Haha, good one. Also, here's another problem.\nWoman: What's that?\nMan: Well, the school hasn't mentioned anything about hiring new professors, right?\nWoman: Okay.\nMan: So that means the school's going to be offering fewer classes during the day. That could wreak havoc with a lot of students' schedules. I mean, there are going to be fewer classes being offered to those students without jobs.\nWoman: Hmm, perhaps the school ought to reconsider this new policy.",
+  "u31": "Raising a child isn't the easiest thing in the world. However, there are certain methods you can use to, uh, mold your child's behavior. Allow me to explain.\nOne day, my young daughter asked for some coloring books, but she'd never even held a marker or a crayon before. Simply doing that was hard for her. So I decided to use shaping to help her. First, whenever she made any kind of mark in the proper place, I'd praise her loudly. I'd say, \"Wow, look at that. That's great.\" I'd pay her lots of compliments, and that would encourage her to continue coloring. But there were some times when she'd make a mark outside the drawing. Then I wouldn't say anything. I wouldn't praise her at all. My daughter would realize she was drawing improperly, so she'd work harder to draw inside the lines.\nLater, I'd make sure to praise her when she got the colors right. For example, if she drew a tree trunk brown, I'd praise her a lot. If she colored it, uh, pink, I wouldn't say a thing. That got my daughter to focus more, so she'd even try to get the colors right. You should see her pictures now. No, don't worry. I'm not going to show you them. Anyway, that's how shaping works.",
+  "u32": "So what makes people memorize facts better? This should interest you all since, of course, as students you have to memorize tons of facts lest you fail your exams. I once conducted an experiment on memorization. Let me tell you how it went.\nI had two classes on the same topic. I assigned both of them work memorizing facts about the rainforest. The first class had to memorize them while just sitting at their desks. I gave them 10 minutes to try to memorize the facts and then quizzed them on the facts. These students did somewhat poorly. Afterwards, many claimed they felt uncomfortable trying to memorize everything while the other students were around them. In short, they felt their environment hindered them in their attempts at memorization.\nAs for the second class, I let them split up into small groups composed of their friends in the class. They spread out through the classroom and worked together. When I tested them, their performance was much better. Upon questioning, most said they had felt very comfortable working together with their partners. They were also able to ignore the other students since they weren't sitting nearby, and they could focus on the task at hand without any outside hindrances.",
+  "u33": "You've all seen that news report about how we've got a record number of deer in the forest this year, right? Well, what's made the numbers of deer increase dramatically? It's called cyclic population change. Let me give you an explanation so that you can understand it easily.\nNow, this usually happens in three separate phases. Imagine a forest with a large number of mice yet a small number of wolves. What happens? Well, the wolves have an enormous food source, so their numbers increase rapidly since they can feast on all of the mice. This is what we refer to as phase one in cyclic population change.\nHowever, pretty soon, you've got a massive wolf population, yet a minuscule mouse population. The wolves have simply overfed and increased their numbers rapidly. This is phase two.\nSo next, the number of wolves begins to decrease even more rapidly than it had increased. The mice, not having to worry about looking behind their backs for wolves everywhere, begin to recover their numbers. This is phase three. Of course, once the mice numbers totally recover, we're back at phase one again and the cycle starts anew.",
+  "u34": "Do you have a good short-term memory? You probably do for some things, yet don't for others. So what makes people suddenly forget their short-term memories? There are a couple of reasons.\nI'm sure you've all been told something only—much to your chagrin—to forget it a couple of hours later. Perhaps your friend tells you his phone number, but you don't write it down. You might repeat it a couple of times and remember it with no problem. But an hour or two later, you can't even recall the first digit. Why did this happen? You didn't use that knowledge, so the memory simply decayed. It went away from disuse.\nHere's a personal example. I went to a bookstore last week to purchase two books I wanted. I had the list with me, but when I got into the bookstore, I realized I'd forgotten the list in the car. Yet I still remembered the books' titles. However, before I could grab them, I ran into an old friend. We talked about a different book for a few minutes and then my friend left. However, the only title I could remember was the book my friend and I had conversed about. This new memory was interfering with my ability to recall the names of the other two books.",
+  "u35": "You've all probably visited the local department store only to be besieged by all of the different scents. Have you ever wondered why there are so many different scents? Well, it's called scent marketing and it's the concept that various scents actually encourage people to shop more.\nThere was a study conducted a while back about the scents used in a department store. One store scented its entire women's clothing section with fragrances which were appealing to women. It also sprayed its men's clothing section with aromas that men found to be pleasing. Interestingly, it doubled the number of clothes that it sold. In a nutshell, both men and women, since they were attracted to those smells, associated the clothes with those fragrances and made more purchases than they normally would have.\nThere was also a survey about running shoes that was conducted recently. I think you'll find the results fascinating. Well, more often than not, people preferred for the running shoes they purchased to have some kind of fragrance. Furthermore, they actually expected to pay more money—around $10 in most cases—for the shoes that smelled nicer. So, not only do smells encourage people to spend more, but they also get people to pay more for the same products.",
+  "u41": "Man: Hey Jennifer, why are you still here? I thought you were going to pick your friend up from the airport right now. Aren't you going to be late?\nWoman: Yeah, well, I was going to drive there, but my car got a flat tire. I'm not sure what I should do now.\nMan: Why don't you take a taxi to get there and back? It should get you to the airport in plenty of time if traffic isn't heavy.\nWoman: That's not a bad idea, but do you know how much two taxis will set me back? They're expensive. I've only got a few dollars left and payday isn't for a couple of days. I don't know if I could afford them.\nMan: Well, what are you going to do then?\nWoman: Hey, I've got an idea. I could always ask my roommate, Stephanie, if I could borrow her car. Then I could drive there by myself.\nMan: You could do that, but I heard Stephanie talking about how she was going out shopping after school today. I'm sure she's going to need her car to do that.\nWoman: Oh, right. Well, the plane lands in a little less than an hour. I've got to do something quickly.",
+  "u42": "Man: Ugh, this just isn't going to work.\nWoman: Uh, what are you talking about? Is something the matter?\nMan: Yeah, actually, I have a big problem. You know that I've got that internship in the chemistry department, right?\nWoman: Know about it? That's all you ever talk about. So, uh, what's the problem then?\nMan: Well, it's too much work for an unpaid job. I really need some cash, especially since I keep on finding myself short of money these days.\nWoman: You should find yourself a part-time job. That seems like the logical thing to do. You could just work on weekends and then you'd have a supply of money coming in.\nMan: Yeah, I could do that, but that would be really hard on me. I wouldn't have any free time at all if I got a job. I'm not sure I could stomach that.\nWoman: Do you have a better idea then?\nMan: Hmm, I suppose I could just share a lot of my work with some of the other interns. You know, they don't seem to do too much at their jobs. I'm the real workhorse.\nWoman: Okay, but what will your boss think about that? What if he thinks you're getting too lazy and then decides to get rid of you?\nMan: Oh, I hadn't considered that at all.",
+  "u43": "Woman: Hey George, how's life as the school newspaper editor going? It's your second year as the top man, right?\nMan: Yeah, it is. Actually, things are great. But, um, there might be a slight problem next semester.\nWoman: Huh? What's up?\nMan: Well, you know I'm a political science major, right?\nWoman: Okay.\nMan: Well, next semester I'm taking a really tough class in my major, so I'm going to have to devote a lot of time to studying. I might not be able to continue as editor.\nWoman: Oh, that's too bad. So, what are you going to do?\nMan: I'm not sure yet. I could just tell the newspaper now so that they'll be able to find someone to replace me. But you know, I'm kind of entrenched as the editor, so they'd have trouble breaking in a new one in the middle of the school year.\nWoman: I can see how that would be a problem. Say, why don't you just take that tough course during summer school? Your department offers it then, right?\nMan: Yes, they do. So I could take it then, but...\nWoman: But what?\nMan: Well, I promised my friend Eric that we'd go on a trip together this summer. We've both been planning this trip for weeks and I really don't want to miss it.",
+  "u44": "Man: Jenny, how's that new apartment of yours working out? You must be so excited to have finally gotten out of the dorms, huh?\nWoman: Well, I wish it were going all right. Unfortunately, it's not.\nMan: Let me guess. It's too expensive?\nWoman: Oh, no, that's not it. It's my roommate, Melissa. You know her. She's the art major?\nMan: Okay, so what's she doing?\nWoman: Well, she painted the most horrid looking picture and then she hung it up on the living room wall. It's a total monstrosity. It covers the entire wall and looks terrible.\nMan: Well, just tell her that you don't like it and then she'll take it down.\nWoman: You know how sensitive Melissa is. If I told her that I hated her picture, she'd get upset and start crying. She might never even forgive me.\nMan: Yeah, I remember that about her. So, uh, what else can you do then?\nWoman: I guess I could just keep my mouth shut and not say anything. I could probably learn to ignore that painting, I guess.\nMan: What? But it's your house, too. You shouldn't have to see something you think is ugly every day just because your roommate likes it.\nWoman: I know, but it's a lot tougher than it seems. Put yourself in my shoes, okay?",
+  "u45": "Man: Catherine, why are you eating here all alone?\nWoman: I'm just in a bad mood today. Professor Apulu got all upset at me in front of the class because I was late again.\nMan: Again? You've been late to Professor Apulu's class multiple times. That's not too bright. He's tough on tardiness.\nWoman: Yeah, I know. But what am I supposed to do? You know that I work part-time at Golden Light Restaurant, and it's kind of far away from school. When traffic's bad, I just can't get to class on time.\nMan: Well, if I were you, I'd just drop the class. Professor Apulu takes off points for being late. You might not get an A.\nWoman: Yeah, I know about his reputation, but I need this class to graduate. It's not being offered again until next year, and I don't want to wait until my senior year to take it. I want to get it over with now.\nMan: Hmm, well, is there any way to reschedule the class? You know, take it at another time?\nWoman: I've considered that, but the only other time it's offered is really early in the morning, like at 8:30. With my heavy class and work schedule, I don't know if I could get up that early three days a week.",
+  "u51": "Most animals have ways to protect themselves. They require defenses since virtually every animal is potential prey for another animal higher on the food chain. So, over countless generations, animals have developed various ways to protect themselves. Interestingly, some are categorized as defensive while others are considered offensive adaptations.\nLet's look at the defensive adaptations first. Look at the picture in your book on page, uh, page 242. It's a turtle, right? You've all seen them. Some of you may even have had pet turtles. But did you know they've actually developed two defensive methods? The first is the most obvious. It's the shell. The shell covers the turtle's entire body including its vital organs. The shell is very hard. Most predators give up trying to bite through it. But take a look at the neck. It's really long. Oh, a weak point, right? Wrong. The turtle has a flexible neck, so it can easily fold its neck back into its shell when danger comes along.\nBut remember, some adaptations are offensive. Look at the picture on the opposite page. You may not be familiar with this animal. It's a hedgehog. Now, look at those spines on its back. Nasty looking, aren't they? These spines are an offensive weapon the hedgehog can use against much larger animals. First, it wraps itself up in a ball. This makes it hard to attack. Sometimes the hedgehog might even ram its attacker. And those spines hurt. Oh, but there's more. Those spines, unlike the porcupine's, are hard to remove. So the attacking animal suffers twice: when it gets stuck with the spines and when it tries to remove them.",
+  "u52": "Advertisers are always searching for new effective ways to pitch their products to consumers. They try many approaches, but the most important one is building name recognition. If consumers can easily recognize a product's name, then they are much more likely to purchase it.\nSo, how do advertisers build name recognition? Well, one way to do this in their commercials and print ads is to, well, reiterate the name of the product as often as possible. Think of some of the ads you've seen on TV. The most effective ones undoubtedly mention the product's name multiple times. This kind of reinforcement helps consumers recall the product's name when they go to purchase it. Think about some of the most popular brand names. Let's see. Coca-Cola is one. You often say, \"I want a Coke,\" when you mean any cola in general. Or how about Xerox, the copier company? People often say, \"I need a Xerox,\" to mean they need a copy. It's no surprise both companies are leaders in their industries.\nOn the other hand, let's consider products with low name recognition. Unfortunately, if a product has low name recognition, people are less likely to purchase it. One simple reason is that they can't remember its name when they're at the store. You've probably had this happen to you in the past, right? You visited a store intending to buy a product, but you simply couldn't remember its name. You might have wound up buying a different, more popular, but less effective product instead. So, you see, this is how name recognition is integral to the economic welfare of companies. Without it, they have trouble selling their products.",
+  "u53": "I'd like to point out something about art from the past. In previous eras, making art was expensive. Most artists required patrons merely to afford the paint, canvas, and everything else they needed. And these patrons, naturally, kept most of the artwork in their homes for their own personal viewing. This made art inaccessible to most people. The artists, quite understandably, didn't appreciate this. So, they came up with two ways to enable the public to admire their work.\nFor one, many artists began using cheaper materials. This let them work without a sponsor. This way, they could produce the art they wanted to and also retain possession of their art. They were then free to display it wherever they wanted to. This naturally permitted many more people to see their work. Of course, one drawback to this approach was that the lower quality of the paint and other materials meant their work often faded quickly. Fortunately, many of these works can now be restored using modern methods.\nAnother thing artists did was to display their art both outdoors and in public places. Remember that artists didn't just do paintings. They did statues, sculptures, and many other kinds of art. Take a look at any cathedral. There is art everywhere. Look at the statues and the stained glass window in them. They're all works of art. And consider one of the greatest examples of art anywhere: Michelangelo's work in the Sistine Chapel. How many thousands or millions of people have seen his artwork? He attained what most artists strive for: for the greatest number of people to admire his work.",
+  "u54": "While we often point out how humans benefit by cooperating with one another, we should also note that many animals act in concert, too. In fact, without cooperating with one another, many animals would be much less well off. For example, many animals cooperate to maximize their protection from predators while others work together in order to locate and exploit new food sources.\nLet's think about deer first. With their antlers, you'd imagine they wouldn't need any protection. But what about does, fawns, and older deer? Wolves and other predators can take down a deer easily, especially by hunting in packs. So, what do deer do? Well, one defensive measure they use is to feed in groups. This helps keep them safe from predators. How? Well, for one, they can alert one another more quickly when predators are nearby, which allows younger, older, or weaker deer to hide or escape. Second, there's safety in numbers. Predators are far more likely to attack a single animal than a large group of them.\nNow, how about honeybees? They work together, too. You've heard of the honeybee's dance, right? That's a textbook case of animal cooperation. When looking for food, honeybees all head in different directions. When they find a potential food source, they return to the hive. Then they perform a complicated dance, which scientists believe actually gives the direction, distance, and amount of food located. This allows the bees to abandon unpromising searches and move on to food sources that are closer and which will be able to provide more food for the hive."
+};
+
+    function spkScriptHtml(u) {
+      if (!u.track) return '';
+      const sc = SPEAKING_SCRIPTS[u.id];
+      let body;
+      if (sc) {
+        body = '<div class="mt-3 space-y-2 text-slate-800" style="font-family: \'Newsreader\', Georgia, serif; font-size: 16px; line-height: 1.6;">' +
+          sc.split('\n').map((line) => {
+            const m = line.match(/^(Man|Woman):\s*(.*)$/);
+            if (m) return `<p><strong class="${m[1] === 'Man' ? 'text-indigo-700' : 'text-rose-700'}">${m[1]}:</strong> ${escapeHtmlText(m[2])}</p>`;
+            return `<p>${escapeHtmlText(line)}</p>`;
+          }).join('') + '</div>';
+      } else {
+        body = '<div class="mt-2 text-sm text-slate-500">Script của audio này chưa được cập nhật.</div>';
+      }
+      return `<details class="rounded-xl border border-slate-200 p-4"><summary class="cursor-pointer text-xs font-bold uppercase tracking-wider text-slate-600 select-none">📄 Script audio (bấm để xem)</summary>${body}</details>`;
+    }
+
+    const spkExam = { chapter: 1, unitId: SPEAKING_UNITS[0].id, rendered: false, timer: null, phaseIdx: 0, left: 0, phases: [] };
+
+    function spkFmt(sec) {
+      return `${String(Math.floor(sec / 60)).padStart(2, '0')}:${String(sec % 60).padStart(2, '0')}`;
+    }
+
+    function spkCurrentUnit() {
+      return SPEAKING_UNITS.find((u) => u.id === spkExam.unitId) || SPEAKING_UNITS[0];
+    }
+
+    function initSpeakingExam() {
+      spkExam.rendered = true;
+      renderSpeakingChapters();
+      renderSpeakingUnitList();
+      renderSpeakingUnitDetail();
+    }
+
+    function selectSpeakingChapter(n) {
+      pauseSpeakingUnitAudio();
+      spkExam.chapter = n;
+      const first = SPEAKING_UNITS.find((u) => u.chapter === n);
+      if (first) spkExam.unitId = first.id;
+      resetSpeakingTimer();
+      renderSpeakingChapters();
+      renderSpeakingUnitList();
+      renderSpeakingUnitDetail();
+    }
+
+    function selectSpeakingUnit(id) {
+      pauseSpeakingUnitAudio();
+      spkExam.unitId = id;
+      resetSpeakingTimer();
+      renderSpeakingUnitList();
+      renderSpeakingUnitDetail();
+    }
+
+    function stepSpeakingUnit(delta) {
+      const idx = SPEAKING_UNITS.findIndex((u) => u.id === spkExam.unitId);
+      const next = SPEAKING_UNITS[idx + delta];
+      if (!next) return;
+      spkExam.chapter = next.chapter;
+      selectSpeakingUnit(next.id);
+      renderSpeakingChapters();
+    }
+
+    function renderSpeakingChapters() {
+      const el = document.getElementById('spk-chapter-tabs');
+      if (!el) return;
+      el.innerHTML = Object.keys(SPEAKING_CHAPTER_CFG).map((k) => {
+        const n = Number(k);
+        const cfg = SPEAKING_CHAPTER_CFG[n];
+        const cls = n === spkExam.chapter ? 'bg-brand-700 text-white shadow-xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200';
+        return `<button type="button" onclick="selectSpeakingChapter(${n})" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition ${cls}">Ch.${n} • ${cfg.label}</button>`;
+      }).join('');
+    }
+
+    function renderSpeakingUnitList() {
+      const el = document.getElementById('spk-unit-list');
+      if (!el) return;
+      el.innerHTML = SPEAKING_UNITS.filter((u) => u.chapter === spkExam.chapter).map((u) => {
+        const active = u.id === spkExam.unitId;
+        const cls = active ? 'border-brand-600 bg-brand-50 text-brand-900' : 'border-slate-200 bg-white hover:bg-slate-50 text-slate-800';
+        return `<button type="button" onclick="selectSpeakingUnit('${u.id}')" class="w-full text-left px-3 py-2 rounded-lg border text-sm transition ${cls}"><span class="block text-[11px] font-bold uppercase tracking-wider text-slate-500">Bài ${u.lesson} • Unit ${u.unit}</span><span class="block font-semibold">${escapeHtmlText(u.title)}</span></button>`;
+      }).join('');
+    }
+
+    function renderSpeakingUnitDetail() {
+      const el = document.getElementById('spk-unit-detail');
+      if (!el) return;
+      const u = spkCurrentUnit();
+      const cfg = SPEAKING_CHAPTER_CFG[u.chapter];
+      const idx = SPEAKING_UNITS.findIndex((x) => x.id === u.id);
+      let html = `<div class="flex flex-wrap items-center justify-between gap-2">
+        <div><span class="inline-block text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-600 text-white">${cfg.q} • ${escapeHtmlText(cfg.label)}</span>
+        <h3 class="text-lg font-extrabold text-slate-900 mt-1">Unit ${u.unit}. ${escapeHtmlText(u.title)}</h3></div>
+        <div class="flex gap-2">
+          <button type="button" onclick="stepSpeakingUnit(-1)" ${idx <= 0 ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-40">← Đề trước</button>
+          <button type="button" onclick="stepSpeakingUnit(1)" ${idx >= SPEAKING_UNITS.length - 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 disabled:opacity-40">Đề sau →</button>
+        </div></div>`;
+
+      if (u.reading) {
+        html += `<div class="rounded-xl border border-slate-200 bg-slate-50 p-4"><div class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">📖 Reading${cfg.read ? ` (đọc trong ${cfg.read} giây)` : ''}</div>
+          <div class="font-bold text-slate-900 mb-1">${escapeHtmlText(u.reading.title)}</div>
+          <p class="text-sm leading-relaxed text-slate-800" style="font-family: 'Newsreader', Georgia, serif; font-size: 16px;">${escapeHtmlText(u.reading.text)}</p></div>`;
+      }
+
+      if (u.track) {
+        html += `<div id="spk-unit-audio" class="rounded-xl border border-slate-200 p-4 space-y-2"></div>`;
+        html += spkScriptHtml(u);
+      }
+
+      html += `<div class="rounded-xl border border-indigo-200 bg-indigo-50 p-4"><div class="text-xs font-bold uppercase tracking-wider text-indigo-700 mb-1">❓ Đề bài</div>
+        <p class="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">${escapeHtmlText(u.prompt)}</p></div>`;
+
+      if (u.hints && u.hints.length) {
+        html += `<div class="rounded-xl border border-slate-200 p-4"><div class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">💡 Câu hỏi gợi ý</div>
+          <ul class="list-disc pl-5 space-y-1 text-sm text-slate-800">${u.hints.map((h) => `<li>${escapeHtmlText(h)}</li>`).join('')}</ul></div>`;
+      }
+
+      html += `<div class="rounded-xl border border-slate-200 p-4 space-y-2">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="text-xs font-bold uppercase tracking-wider text-slate-500">⏱️ Bấm giờ theo chuẩn đề thi</div>
+          <div class="text-xs text-slate-500">${cfg.read ? `Đọc ${cfg.read}s • ` : ''}Chuẩn bị ${cfg.prep}s • Nói ${cfg.speak}s</div>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <div id="spk-timer-phase" class="text-sm font-semibold text-slate-700">Sẵn sàng</div>
+          <div id="spk-timer-display" class="font-mono text-2xl font-extrabold text-slate-900">--:--</div>
+          <button type="button" onclick="startSpeakingTimer()" class="px-3.5 py-2 rounded-lg bg-brand-700 hover:bg-brand-800 text-white text-xs font-semibold transition">▶ Bắt đầu</button>
+          <button type="button" onclick="resetSpeakingTimer()" class="px-3.5 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition">↺ Đặt lại</button>
+        </div>
+        <p class="text-[11px] text-slate-500">Nghe audio (nếu có) rồi bấm “Bắt đầu”. Hết giai đoạn chuẩn bị sẽ có tiếng bíp để bạn bắt đầu nói.</p></div>`;
+
+      el.innerHTML = html;
+      updateSpeakingUnitAudio();
+    }
+
+    function spkAudioSrc(cd, track) {
+      const nn = String(track).padStart(2, '0');
+      return `Hook%20Toefl%20ibt_Writing/HTMS%20-%20Speaking%20Advanced%20-%20CD%20${cd}/CD${cd}-Track%20${nn}.mp3`;
+    }
+
+    function updateSpeakingUnitAudio() {
+      const box = document.getElementById('spk-unit-audio');
+      if (!box) return;
+      const u = spkCurrentUnit();
+      if (!u.track) return;
+      const kind = u.audioKind === 'lecture' ? 'bài giảng' : 'hội thoại';
+      const nn = String(u.track).padStart(2, '0');
+      box.innerHTML = `<div class="text-xs font-bold uppercase tracking-wider text-slate-500">🎧 Audio ${kind} • CD ${u.cd} – Track ${nn}</div>
+        <audio id="spk-unit-audio-el" controls preload="none" class="w-full" src="${spkAudioSrc(u.cd, u.track)}"></audio>`;
+    }
+
+    function pauseSpeakingUnitAudio() {
+      const a = document.getElementById('spk-unit-audio-el');
+      if (a && !a.paused) a.pause();
+    }
+
+    function spkBeep() {
+      try {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return;
+        const ctx = new Ctx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.frequency.value = 880;
+        gain.gain.value = 0.15;
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start();
+        setTimeout(() => { osc.stop(); ctx.close(); }, 250);
+      } catch (e) { /* bỏ qua */ }
+    }
+
+    function startSpeakingTimer() {
+      resetSpeakingTimer();
+      const u = spkCurrentUnit();
+      const cfg = SPEAKING_CHAPTER_CFG[u.chapter];
+      spkExam.phases = [];
+      if (cfg.read) spkExam.phases.push({ label: '📖 Đọc bài', secs: cfg.read });
+      spkExam.phases.push({ label: '🧠 Chuẩn bị', secs: cfg.prep });
+      spkExam.phases.push({ label: '🎙️ Nói', secs: cfg.speak });
+      spkExam.phaseIdx = 0;
+      spkExam.left = spkExam.phases[0].secs;
+      spkTimerPaint();
+      spkExam.timer = setInterval(() => {
+        spkExam.left -= 1;
+        if (spkExam.left <= 0) {
+          spkBeep();
+          spkExam.phaseIdx += 1;
+          if (spkExam.phaseIdx >= spkExam.phases.length) {
+            clearInterval(spkExam.timer);
+            spkExam.timer = null;
+            const ph = document.getElementById('spk-timer-phase');
+            const dp = document.getElementById('spk-timer-display');
+            if (ph) ph.textContent = '✅ Hết giờ';
+            if (dp) dp.textContent = '00:00';
+            return;
+          }
+          spkExam.left = spkExam.phases[spkExam.phaseIdx].secs;
+        }
+        spkTimerPaint();
+      }, 1000);
+    }
+
+    function spkTimerPaint() {
+      const ph = document.getElementById('spk-timer-phase');
+      const dp = document.getElementById('spk-timer-display');
+      const cur = spkExam.phases[spkExam.phaseIdx];
+      if (ph && cur) ph.textContent = cur.label;
+      if (dp) dp.textContent = spkFmt(Math.max(0, spkExam.left));
+    }
+
+    function resetSpeakingTimer() {
+      if (spkExam.timer) { clearInterval(spkExam.timer); spkExam.timer = null; }
+      const ph = document.getElementById('spk-timer-phase');
+      const dp = document.getElementById('spk-timer-display');
+      if (ph) ph.textContent = 'Sẵn sàng';
+      if (dp) dp.textContent = '--:--';
+    }
+
+
+    /* ===== THI THỬ (theo cấu trúc Final Test – Course 3) ===== */
+    const MOCK_CFG = {
+      listening: { label: 'Listening', secs: 35 * 60, section: 'listening' },
+      reading: { label: 'Reading', secs: 70 * 60, section: 'reading' },
+      break: { label: 'Nghỉ giữa giờ', secs: 10 * 60 },
+      writing: { label: 'Writing', secs: 56 * 60, section: 'writing' }
+    };
+    const mock = { active: false, stage: 'idle', left: 0, timer: null, readingIds: [], integratedId: null, independentId: null, task: 'integrated', orig: null, result: null, writingSelf: 0, student: { name: '', email: '' }, backup: null, payload: null, sent: false };
+
+    // Dán link Web App của Google Apps Script vào đây (xem file gui-mail-apps-script.gs).
+    // Để trống thì bài làm sẽ không được gửi mail.
+    const MAIL_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwoqVXbXtutvC4B62oNCkzzIkQap4GQiB69vsZt27AXLjsyoMhY0y0AVKitiEvZ2DEz/exec';
+
+    function mockShuffle(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function mockOverlay(html) {
+      const body = document.getElementById('mock-overlay-body');
+      const ov = document.getElementById('mock-overlay');
+      if (body) body.innerHTML = html;
+      if (ov) { ov.classList.remove('hidden'); ov.scrollTop = 0; }
+    }
+
+    function mockOverlayClose() {
+      document.getElementById('mock-overlay')?.classList.add('hidden');
+    }
+
+    function openMockStart() {
+      mockOverlay(`
+        <div class="space-y-5">
+          <div>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">⏱️ THI THỬ • FINAL TEST – COURSE 3</span>
+            <h2 class="text-2xl font-extrabold text-slate-900 mt-2">Chuẩn bị vào phòng thi</h2>
+            <p class="text-sm text-slate-600 mt-1 leading-relaxed">Cấu trúc bám theo đề cuối khóa (mức B2 / ~70 TOEFL iBT), làm trên màn hình với bộ đề có sẵn trong trang.</p>
+          </div>
+          <div class="overflow-x-auto"><table class="w-full text-sm border border-slate-200 rounded-xl overflow-hidden">
+            <thead class="bg-slate-100 text-slate-700 text-xs uppercase tracking-wider"><tr><th class="text-left p-2.5">Phần</th><th class="text-left p-2.5">Thời gian</th><th class="text-left p-2.5">Nội dung</th><th class="text-left p-2.5">Điểm</th></tr></thead>
+            <tbody class="text-slate-800">
+              <tr class="border-t border-slate-200"><td class="p-2.5 font-bold">🎧 Listening</td><td class="p-2.5">35 phút</td><td class="p-2.5">2 hội thoại + 3 bài giảng (28 câu). Nghe mỗi audio 1 lần.</td><td class="p-2.5">10</td></tr>
+              <tr class="border-t border-slate-200"><td class="p-2.5 font-bold">📖 Reading</td><td class="p-2.5">70 phút</td><td class="p-2.5">3 bài đọc học thuật chọn ngẫu nhiên (khoảng 25–31 câu).</td><td class="p-2.5">10</td></tr>
+              <tr class="border-t border-slate-200 bg-amber-50"><td class="p-2.5 font-bold">☕ Nghỉ</td><td class="p-2.5">10 phút</td><td class="p-2.5">Có thể bỏ qua.</td><td class="p-2.5">—</td></tr>
+              <tr class="border-t border-slate-200"><td class="p-2.5 font-bold">✍️ Writing</td><td class="p-2.5">56 phút</td><td class="p-2.5">1 bài Integrated (150–225 từ) + 1 bài Independent (~300 từ). Gợi ý: khoảng 20 phút cho Integrated, phần còn lại cho Independent.</td><td class="p-2.5">10 (tự chấm)</td></tr>
+            </tbody>
+          </table></div>
+          <ul class="text-xs sm:text-sm text-slate-600 space-y-1 list-disc pl-5 leading-relaxed">
+            <li>Trong lúc thi không có đáp án, giải thích, transcript hay nghe lại từng câu. Hết giờ mỗi phần, bài tự được nộp.</li>
+            <li>Điểm Listening và Reading quy về thang 10 theo tỉ lệ câu đúng (bộ đề trong trang có số câu hơi khác đề giấy nên điểm chỉ mang tính ước lượng).</li>
+            <li>Speaking thi riêng trên máy (~15 phút) nên không nằm trong phần này, bạn luyện ở tab Speaking.</li>
+            <li class="text-amber-800">Đề được chọn ngẫu nhiên và tách riêng với phần luyện tập: bài làm không được lưu lại trong trang. Làm xong, bạn nhập email để nhận bài làm và kết quả.</li>
+          </ul>
+          <div class="rounded-2xl border border-indigo-200 bg-indigo-50 p-4 space-y-2">
+            <label for="mock-student-name" class="block text-sm font-bold text-slate-900">Họ và tên <span class="text-rose-600">*</span></label>
+            <input id="mock-student-name" type="text" autocomplete="name" value="${escapeHtmlText(mock.student.name)}" placeholder="Nguyễn Văn A" class="block w-full px-3 py-2.5 rounded-xl border-2 border-indigo-300 bg-white text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+            <p id="mock-name-error" class="hidden text-xs font-bold text-rose-600">Vui lòng nhập họ tên để bắt đầu thi.</p>
+            <p class="text-xs text-slate-500">Tên hiện trên bảng điểm và trong email kết quả. Email nhận bài sẽ được hỏi sau khi bạn nộp bài.</p>
+          </div>
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
+            <button type="button" onclick="mockExit(); openModeSelectorOnly();" class="px-4 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-sm font-semibold text-slate-700 transition">← Quay lại</button>
+            <button type="button" onclick="startMock()" class="px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold shadow-md transition">Bắt đầu thi thử →</button>
+          </div>
+        </div>`);
+    }
+
+    function startMock() {
+      const nameEl = document.getElementById('mock-student-name');
+      const stName = (nameEl ? nameEl.value : mock.student.name).trim();
+      if (!stName) {
+        document.getElementById('mock-name-error')?.classList.remove('hidden');
+        if (nameEl) {
+          nameEl.classList.remove('border-indigo-300');
+          nameEl.classList.add('border-rose-500');
+          nameEl.focus();
+        }
+        return;
+      }
+      mock.student = { name: stName, email: mock.student.email || '' };
+
+      let picks = [];
+      for (let t = 0; t < 60; t++) {
+        picks = mockShuffle(READING_PASSAGES).slice(0, 3);
+        if (picks.reduce((n, p) => n + p.questions.length, 0) >= 25) break;
+      }
+      mock.readingIds = picks.map((x) => x.id);
+      mock.integratedId = mockShuffle(INTEGRATED_SETS)[0].id;
+      mock.independentId = mockShuffle(INDEPENDENT_PROMPTS)[0].id;
+      mock.task = 'integrated';
+      mock.writingSelf = 0;
+      mock.result = null;
+
+      mock.payload = null;
+      mock.sent = false;
+
+      // Tách riêng với phần luyện tập: cất state luyện tập lại, thi thử chạy trên state trống nằm trong bộ nhớ.
+      if (!mock.backup) mock.backup = appState;
+      appState = getDefaultState();
+      appState.themeMode = mock.backup.themeMode;
+      appState.passageFontSize = mock.backup.passageFontSize;
+      MOCK_NO_SAVE = true;
+
+      if (!mock.orig) mock.orig = { prevR: prevReadingPassage, nextR: nextReadingPassage };
+      prevReadingPassage = () => mockStepReading(-1);
+      nextReadingPassage = () => mockStepReading(1);
+
+      mock.active = true;
+      document.body.classList.add('mock-mode');
+      mockBeginStage('listening');
+    }
+
+    function mockStepReading(delta) {
+      const idx = mock.readingIds.indexOf(appState.currentPassageId);
+      const next = mock.readingIds[(idx + delta + mock.readingIds.length) % mock.readingIds.length];
+      selectReadingPassage(next);
+    }
+
+    function mockStopTimer() {
+      if (mock.timer) { clearInterval(mock.timer); mock.timer = null; }
+    }
+
+    function mockBeginStage(stage) {
+      mockStopTimer();
+      mock.stage = stage;
+      mock.left = MOCK_CFG[stage].secs;
+      if (stage === 'break') {
+        document.getElementById('mock-bar')?.classList.add('hidden');
+        mockOverlay(`
+          <div class="text-center space-y-4 py-4">
+            <div class="text-5xl">☕</div>
+            <h2 class="text-2xl font-extrabold text-slate-900">Nghỉ giữa giờ</h2>
+            <p class="text-sm text-slate-600">Đứng dậy, uống nước, thư giãn mắt. Phần Writing sẽ tự bắt đầu khi hết giờ nghỉ.</p>
+            <div id="mock-break-timer" class="font-mono text-5xl font-extrabold text-indigo-700 tabular-nums">${formatTimeMMSS(mock.left)}</div>
+            <button type="button" onclick="mockBeginStage('writing')" class="px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold shadow-md transition">Bỏ qua nghỉ, vào Writing ngay →</button>
+          </div>`);
+        mock.timer = setInterval(mockTick, 1000);
+        return;
+      }
+      mockOverlayClose();
+      document.getElementById('mock-bar')?.classList.remove('hidden');
+      switchSection(MOCK_CFG[stage].section);
+      if (stage === 'listening') {
+        selectListeningPart(LISTENING_PARTS[0].id);
+      } else if (stage === 'reading') {
+        const sel = document.getElementById('reading-passage-select');
+        if (sel) {
+          sel.innerHTML = mock.readingIds.map((id) => {
+            const pp = READING_PASSAGES.find((x) => x.id === id);
+            return `<option value="${id}">${escapeHtmlText(pp.selectLabel)}</option>`;
+          }).join('');
+        }
+        selectReadingPassage(mock.readingIds[0]);
+      } else if (stage === 'writing') {
+        selectIntegratedSet(mock.integratedId);
+        selectIndependentPrompt(mock.independentId);
+        mock.task = 'integrated';
+        switchWritingSubtab('integrated');
+      }
+      mockRenderBar();
+      mock.timer = setInterval(mockTick, 1000);
+    }
+
+    function mockTick() {
+      mock.left -= 1;
+      if (mock.stage === 'break') {
+        const el = document.getElementById('mock-break-timer');
+        if (el) el.textContent = formatTimeMMSS(Math.max(0, mock.left));
+        if (mock.left <= 0) mockBeginStage('writing');
+        return;
+      }
+      if (mock.left <= 0) {
+        mock.left = 0;
+        mockRenderBar();
+        showToast(`Hết giờ phần ${MOCK_CFG[mock.stage].label}. Bài đã được nộp.`, 'warn');
+        mockSubmitStage(false);
+        return;
+      }
+      mockRenderBar();
+    }
+
+    function mockEssayText(task) {
+      return task === 'integrated'
+        ? (appState.integratedEssays[mock.integratedId] || '')
+        : (appState.independentEssays[mock.independentId] || '');
+    }
+
+    function mockRenderBar() {
+      const stage = mock.stage;
+      const stepNo = { listening: 1, reading: 2, writing: 3 }[stage] || 0;
+      const stepEl = document.getElementById('mock-bar-step');
+      const stageEl = document.getElementById('mock-bar-stage');
+      const timerEl = document.getElementById('mock-bar-timer');
+      const extra = document.getElementById('mock-bar-extra');
+      if (stepEl) stepEl.textContent = `PHẦN ${stepNo}/3`;
+      if (stageEl) {
+        stageEl.textContent = stage === 'listening' ? '🎧 Listening • 35 phút'
+          : stage === 'reading' ? '📖 Reading • 70 phút'
+          : '✍️ Writing • 56 phút';
+      }
+      if (timerEl) {
+        timerEl.textContent = formatTimeMMSS(Math.max(0, mock.left));
+        timerEl.className = 'font-mono text-2xl font-extrabold tabular-nums ' + (mock.left <= 300 ? 'text-rose-400' : 'text-white');
+      }
+      if (!extra) return;
+      if (stage === 'writing') {
+        const wcI = countWords(mockEssayText('integrated'));
+        const wcD = countWords(mockEssayText('independent'));
+        const cls = (on) => on ? 'bg-indigo-600 text-white' : 'bg-slate-700 text-slate-200 hover:bg-slate-600';
+        extra.innerHTML = `
+          <button type="button" onclick="mockSetTask('integrated')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition ${cls(mock.task === 'integrated')}">① Integrated (150–225 từ) • ${wcI}</button>
+          <button type="button" onclick="mockSetTask('independent')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition ${cls(mock.task === 'independent')}">② Independent (~300 từ) • ${wcD}</button>`;
+      } else if (stage === 'reading') {
+        const idx = mock.readingIds.indexOf(appState.currentPassageId) + 1;
+        extra.innerHTML = `<span class="text-xs text-slate-300">Bài đọc ${idx}/${mock.readingIds.length} (dùng nút Trước / Tiếp để chuyển bài)</span>`;
+      } else {
+        extra.innerHTML = '<span class="text-xs text-slate-300">Nghe mỗi audio 1 lần • chuyển phần bằng nút Phần trước / Phần tiếp</span>';
+      }
+    }
+
+    function mockSetTask(task) {
+      mock.task = task;
+      switchWritingSubtab(task);
+      mockRenderBar();
+    }
+
+    function mockSubmitStage(manual) {
+      if (manual) {
+        showToast('Đang nộp phần hiện tại và chuyển sang phần tiếp theo...', 'info');
+      }
+      mockStopTimer();
+      stopListeningAudioOnly();
+      stopWritingAudioOnly();
+      if (mock.stage === 'listening') mockBeginStage('reading');
+      else if (mock.stage === 'reading') mockBeginStage('break');
+      else mockShowResults();
+    }
+
+    function mockAbort() {
+      mockExit();
+      openModeSelectorOnly();
+      showToast('Đã thoát chế độ thi thử.', 'info');
+    }
+
+    function mockAbort() {
+      if (!confirm('Thoát thi thử? Kết quả sẽ không được tính.')) return;
+      mockExit();
+      openModeSelectorOnly();
+    }
+
+    function mockExit() {
+      mockStopTimer();
+      stopListeningAudioOnly();
+      stopWritingAudioOnly();
+      if (mock.orig) {
+        prevReadingPassage = mock.orig.prevR;
+        nextReadingPassage = mock.orig.nextR;
+        mock.orig = null;
+      }
+      mock.active = false;
+      mock.stage = 'idle';
+      document.body.classList.remove('mock-mode');
+      document.getElementById('mock-bar')?.classList.add('hidden');
+      mockOverlayClose();
+      MOCK_NO_SAVE = false;
+      if (mock.backup) {
+        appState = mock.backup;
+        mock.backup = null;
+        mock.result = null;
+        mock.payload = null;
+        initReadingSelectors();
+        try {
+          selectListeningPart(appState.currentListeningPartId);
+          selectIntegratedSet(appState.currentIntegratedId);
+          selectIndependentPrompt(appState.currentIndependentId);
+          selectReadingPassage(appState.currentPassageId);
+        } catch (err) { console.warn('Khôi phục giao diện luyện tập:', err); }
+      } else {
+        initReadingSelectors();
+      }
+    }
+
+    function mockNormType(t) {
+      return String(t || 'Other').replace(/\s*\(.*?\)/g, '').replace(/\s*[—-]\s*Choose TWO.*$/i, '').replace(/\s*—.*$/, '').trim() || 'Other';
+    }
+
+    function mockFmtAnswer(q, ans) {
+      if (ans === undefined || ans === null || ans === '' || (Array.isArray(ans) && !ans.length)) return 'Chưa trả lời';
+      const opt = (k) => (q.options && q.options[k]) ? `${k}. ${q.options[k]}` : String(k);
+      if (Array.isArray(ans)) return ans.map(opt).join(' • ');
+      if (typeof ans === 'object') {
+        return (q.rows || []).map((r) => `${r.label.split('(')[0].trim()}: ${ans[r.key] || '—'}`).join(' • ');
+      }
+      return opt(ans);
+    }
+
+    function mockFmtKey(q) {
+      if (q.kind === 'multi2') return mockFmtAnswer(q, q.correctMulti);
+      if (q.kind === 'matching') return mockFmtAnswer(q, q.correctMap);
+      return mockFmtAnswer(q, q.correct);
+    }
+
+    function mockComputeResults() {
+      const types = {};
+      const wrong = [];
+      const all = [];
+      const add = (q, ok, kind, userAns, title) => {
+        all.push({ kind, title, q, userAns, ok });
+        const t = mockNormType(q.type);
+        types[t] = types[t] || { c: 0, n: 0 };
+        types[t].n += 1;
+        if (ok) types[t].c += 1;
+        else wrong.push({ kind, title, q, userAns });
+      };
+      let lc = 0, ln = 0;
+      LISTENING_PARTS.forEach((part) => part.questions.forEach((q) => {
+        const ok = isListeningQuestionCorrect(q);
+        ln += 1; if (ok) lc += 1;
+        add(q, ok, 'listening', appState.listeningAnswers[q.id], part.title);
+      }));
+      let rc = 0, rn = 0;
+      mock.readingIds.forEach((id) => {
+        const pp = READING_PASSAGES.find((x) => x.id === id);
+        pp.questions.forEach((q) => {
+          const ok = appState.answers[q.globalIndex] === q.correct;
+          rn += 1; if (ok) rc += 1;
+          add(q, ok, 'reading', appState.answers[q.globalIndex], pp.title);
+        });
+      });
+      const sc = (c, n) => n ? Math.round((c / n) * 100) / 10 : 0;
+      return { lc, ln, rc, rn, ls: sc(lc, ln), rs: sc(rc, rn), types, wrong, all };
+    }
+
+    function mockShowResults() {
+      mockStopTimer();
+      document.getElementById('mock-bar')?.classList.add('hidden');
+      const r = mockComputeResults();
+      mock.result = r;
+      const wcI = countWords(mockEssayText('integrated'));
+      const wcD = countWords(mockEssayText('independent'));
+      const typeRows = Object.keys(r.types).sort((a, b) => r.types[b].n - r.types[a].n).map((k) => {
+        const v = r.types[k];
+        const pct = Math.round((v.c / v.n) * 100);
+        const color = pct >= 70 ? 'bg-emerald-500' : pct >= 40 ? 'bg-amber-500' : 'bg-rose-500';
+        return `<div class="flex items-center gap-3 text-xs"><div class="w-44 shrink-0 font-semibold text-slate-700 truncate">${escapeHtmlText(k)}</div><div class="flex-1 h-2.5 rounded-full bg-slate-200 overflow-hidden"><div class="h-full ${color}" style="width:${pct}%"></div></div><div class="w-12 text-right text-slate-600 font-mono">${v.c}/${v.n}</div></div>`;
+      }).join('');
+      const wrongHtml = r.wrong.length ? r.wrong.map((w) => `
+        <details class="rounded-xl border border-rose-200 bg-rose-50/60 p-3 text-sm">
+          <summary class="cursor-pointer font-semibold text-rose-900">${w.kind === 'listening' ? '🎧' : '📖'} ${escapeHtmlText(mockNormType(w.q.type))} • ${escapeHtmlText(w.title)}</summary>
+          <div class="mt-2 space-y-1.5 text-slate-800">
+            <div class="font-medium">${escapeHtmlText(w.q.prompt || '')}</div>
+            <div class="text-xs"><span class="font-bold text-rose-700">Bạn chọn:</span> ${escapeHtmlText(mockFmtAnswer(w.q, w.userAns))}</div>
+            <div class="text-xs"><span class="font-bold text-emerald-700">Đáp án đúng:</span> ${escapeHtmlText(mockFmtKey(w.q))}</div>
+            ${w.q.explanation ? `<div class="text-xs text-slate-600">${escapeHtmlText(w.q.explanation)}</div>` : ''}
+          </div>
+        </details>`).join('') : '<div class="text-sm text-emerald-700 font-semibold">Không sai câu nào, xuất sắc!</div>';
+      mockOverlay(`
+        <div class="space-y-6">
+          <div>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">✅ HOÀN THÀNH THI THỬ</span>
+            <h2 class="text-2xl font-extrabold text-slate-900 mt-2">Bảng điểm • ${escapeHtmlText(mock.student.name)}</h2>
+          </div>
+          <div id="mock-mail-status" class="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm"></div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="p-4 rounded-2xl border border-indigo-200 bg-indigo-50"><div class="text-xs font-bold text-indigo-700">🎧 Listening</div><div class="text-3xl font-extrabold text-slate-900">${r.ls}<span class="text-base font-semibold text-slate-500"> / 10</span></div><div class="text-xs text-slate-600">${r.lc}/${r.ln} câu đúng</div></div>
+            <div class="p-4 rounded-2xl border border-sky-200 bg-sky-50"><div class="text-xs font-bold text-sky-700">📖 Reading</div><div class="text-3xl font-extrabold text-slate-900">${r.rs}<span class="text-base font-semibold text-slate-500"> / 10</span></div><div class="text-xs text-slate-600">${r.rc}/${r.rn} câu đúng</div></div>
+            <div class="p-4 rounded-2xl border border-emerald-200 bg-emerald-50"><div class="text-xs font-bold text-emerald-700">✍️ Writing (tự chấm)</div><div class="flex items-baseline gap-1"><input id="mock-writing-self" type="number" min="0" max="10" step="0.5" value="${mock.writingSelf}" oninput="mockUpdateTotal()" class="w-20 text-3xl font-extrabold text-slate-900 bg-white border border-emerald-300 rounded-lg px-2 py-0.5" /><span class="text-base font-semibold text-slate-500">/ 10</span></div><div class="text-xs text-slate-600">Integrated ${wcI} từ • Independent ${wcD} từ</div></div>
+          </div>
+          <div class="p-4 rounded-2xl bg-slate-900 text-white flex flex-wrap items-center justify-between gap-2">
+            <div class="text-sm font-semibold">Tổng 3 kỹ năng</div>
+            <div class="text-2xl font-extrabold"><span id="mock-total">0</span> <span class="text-sm font-semibold text-slate-400">/ 30</span></div>
+          </div>
+          <p class="text-xs text-slate-500 leading-relaxed">Điểm Listening và Reading là ước lượng theo tỉ lệ câu đúng. Writing hãy tự đối chiếu số từ (Integrated 150–225, Independent khoảng 300) và các tiêu chí nội dung, bố cục, ngôn ngữ, ngữ pháp, rồi nhập điểm tự chấm. Speaking thi riêng trên máy nên không tính ở đây.</p>
+          <div class="space-y-2">
+            <h3 class="text-sm font-extrabold text-slate-900">Thống kê theo dạng câu hỏi</h3>
+            ${typeRows}
+          </div>
+          <div class="space-y-2">
+            <h3 class="text-sm font-extrabold text-slate-900">Các câu sai (${r.wrong.length})</h3>
+            <div class="space-y-2 max-h-96 overflow-y-auto pr-1">${wrongHtml}</div>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 pt-3 border-t border-slate-100">
+            <button type="button" onclick="mockExit(); openModeSelectorOnly();" class="px-4 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-sm font-semibold text-slate-700 transition">Về trang chọn chế độ</button>
+            <button type="button" onclick="openMockStart()" class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold transition ml-auto">Thi thử lại</button>
+          </div>
+        </div>`);
+      mockUpdateTotal();
+      mockRenderMailBox();
+    }
+
+    function mockBuildReport() {
+      const r = mock.result;
+      const st = mock.student;
+      const esc = escapeHtmlText;
+      const intSet = INTEGRATED_SETS.find((x) => x.id === mock.integratedId) || {};
+      const indP = INDEPENDENT_PROMPTS.find((x) => x.id === mock.independentId) || {};
+      const essays = [
+        { name: 'Integrated', title: intSet.title || '', text: mockEssayText('integrated') },
+        { name: 'Independent', title: [indP.testCode, indP.statement].filter(Boolean).join(' — '), text: mockEssayText('independent') }
+      ];
+      const when = new Date().toLocaleString('vi-VN', { hour12: false });
+      const readingTitles = mock.readingIds.map((id) => (READING_PASSAGES.find((x) => x.id === id) || {}).title || id);
+      const lines = r.all.map((a, i) => ({
+        n: i + 1,
+        section: a.kind === 'listening' ? 'Listening' : 'Reading',
+        part: a.title,
+        type: mockNormType(a.q.type),
+        ok: a.ok,
+        user: mockFmtAnswer(a.q, a.userAns),
+        key: mockFmtKey(a.q)
+      }));
+      const subject = `[Final Exam Course 3] ${st.name} — Listening ${r.ls}/10, Reading ${r.rs}/10`;
+
+      const text = [
+        'KẾT QUẢ THI THỬ FINAL EXAM COURSE 3',
+        `Học viên: ${st.name}`,
+        `Nộp lúc: ${when}`,
+        '',
+        `Listening: ${r.lc}/${r.ln} câu đúng → ${r.ls}/10`,
+        `Reading: ${r.rc}/${r.rn} câu đúng → ${r.rs}/10`,
+        `Bài đọc được chọn: ${readingTitles.join(' | ')}`,
+        'Writing: chưa chấm (xem bài viết bên dưới)',
+        '',
+        '--- CHI TIẾT TỪNG CÂU ---',
+        ...lines.map((l) => `${l.n}. [${l.section}] ${l.part} • ${l.type} • ${l.ok ? 'ĐÚNG' : 'SAI'}\n   Học viên chọn: ${l.user}\n   Đáp án đúng: ${l.key}`),
+        '',
+        '--- BÀI VIẾT ---',
+        ...essays.flatMap((e) => [`${e.name} (${countWords(e.text)} từ) — ${e.title}`, e.text || '(bỏ trống)', ''])
+      ].join('\n');
+
+      const td = 'style="padding:6px 8px;border:1px solid #e2e8f0;vertical-align:top;font-size:13px"';
+      const html = `<div style="font-family:Arial,sans-serif;max-width:760px;color:#0f172a">
+<h2 style="margin:0 0 4px">Kết quả thi thử Final Exam Course 3</h2>
+<p style="margin:0 0 12px;color:#475569">${esc(st.name)} • ${esc(when)}</p>
+<table style="border-collapse:collapse;margin-bottom:12px">
+<tr><td ${td}><b>Listening</b></td><td ${td}>${r.lc}/${r.ln} câu đúng</td><td ${td}><b>${r.ls}/10</b></td></tr>
+<tr><td ${td}><b>Reading</b></td><td ${td}>${r.rc}/${r.rn} câu đúng</td><td ${td}><b>${r.rs}/10</b></td></tr>
+<tr><td ${td}><b>Writing</b></td><td ${td}>Integrated ${countWords(essays[0].text)} từ • Independent ${countWords(essays[1].text)} từ</td><td ${td}>chưa chấm</td></tr>
+</table>
+<p style="font-size:13px"><b>Bài đọc được chọn:</b> ${esc(readingTitles.join(' | '))}</p>
+<h3 style="margin:16px 0 6px">Chi tiết từng câu</h3>
+<table style="border-collapse:collapse;width:100%">
+<tr style="background:#f1f5f9"><th ${td}>#</th><th ${td}>Phần</th><th ${td}>Dạng câu</th><th ${td}>Học viên chọn</th><th ${td}>Đáp án đúng</th></tr>
+${lines.map((l) => `<tr style="background:${l.ok ? '#ecfdf5' : '#fff1f2'}"><td ${td}>${l.n}</td><td ${td}>${l.section}</td><td ${td}>${esc(l.type)}</td><td ${td}>${esc(l.user)}</td><td ${td}>${l.ok ? '✔' : esc(l.key)}</td></tr>`).join('')}
+</table>
+<h3 style="margin:16px 0 6px">Bài viết</h3>
+${essays.map((e) => `<h4 style="margin:12px 0 2px">${esc(e.name)} • ${countWords(e.text)} từ</h4><div style="font-size:12px;color:#64748b">${esc(e.title)}</div><div style="white-space:pre-wrap;border:1px solid #e2e8f0;border-radius:8px;padding:10px;margin-top:6px;font-size:14px;line-height:1.6">${esc(e.text) || '<i>(bỏ trống)</i>'}</div>`).join('')}
+</div>`;
+      return { subject, html, text };
+    }
+
+    function mockRenderMailBox(kind, msg) {
+      const el = document.getElementById('mock-mail-status');
+      if (!el) return;
+      const tone = {
+        ok: ['✅', 'border-emerald-200 bg-emerald-50 text-emerald-800'],
+        fail: ['⚠️', 'border-amber-200 bg-amber-50 text-amber-900'],
+        sending: ['⏳', 'border-indigo-200 bg-indigo-50 text-indigo-800']
+      }[kind];
+      const busy = kind === 'sending';
+      el.className = 'rounded-xl border border-indigo-200 bg-indigo-50 p-3 text-sm space-y-2';
+      el.innerHTML = `
+        <div class="font-bold text-slate-900">📧 Nhận bài làm và kết quả qua email</div>
+        <div class="flex flex-wrap items-center gap-2">
+          <input id="mock-mail-to" type="text" inputmode="email" autocomplete="email" ${busy ? 'disabled' : ''} value="${escapeHtmlText(mock.student.email || '')}" placeholder="Nhập email của bạn" class="flex-1 min-w-[200px] px-3 py-2 rounded-xl border border-slate-300 bg-white text-sm text-slate-900" />
+          <button type="button" ${busy ? 'disabled' : ''} onclick="mockSendResults()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold transition">${busy ? 'Đang gửi...' : 'Gửi cho tôi'}</button>
+          <button type="button" onclick="mockDownloadReport()" class="px-3 py-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition">Tải bản .txt</button>
+        </div>
+        ${msg ? `<div class="rounded-lg border px-3 py-2 text-xs font-semibold ${tone[1]}">${tone[0]} ${escapeHtmlText(msg)}</div>` : ''}`;
+    }
+
+    async function mockSendResults() {
+      if (!mock.result) return;
+      const input = document.getElementById('mock-mail-to');
+      const to = (input ? input.value : mock.student.email || '').trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)) {
+        mock.student.email = to;
+        mockRenderMailBox('fail', 'Email chưa đúng định dạng, bạn kiểm tra lại nhé.');
+        return;
+      }
+      mock.student.email = to;
+      if (!MAIL_ENDPOINT) {
+        mockRenderMailBox('fail', 'Trang chưa được cấu hình gửi mail (MAIL_ENDPOINT). Bạn tải bản .txt để lưu bài nhé.');
+        return;
+      }
+      if (!mock.payload) mock.payload = mockBuildReport();
+      mockRenderMailBox('sending', 'Đang gửi...');
+      try {
+        const res = await fetch(MAIL_ENDPOINT, {
+          method: 'POST',
+          body: JSON.stringify({
+            to,
+            name: mock.student.name,
+            subject: mock.payload.subject,
+            html: mock.payload.html,
+            text: mock.payload.text
+          })
+        });
+        const out = await res.json();
+        if (!out.ok) {
+          mockRenderMailBox('fail', out.error || 'Chưa gửi được, bạn thử lại sau nhé.');
+          return;
+        }
+        mock.sent = true;
+        mockRenderMailBox('ok', `Đã gửi bài làm và kết quả tới ${to}. Nếu chưa thấy, bạn kiểm tra thư mục Spam.`);
+      } catch (err) {
+        console.warn('Gửi mail thất bại:', err);
+        mockRenderMailBox('fail', 'Chưa gửi được (lỗi mạng). Bạn thử lại hoặc tải bản .txt.');
+      }
+    }
+
+    function mockDownloadReport() {
+      if (!mock.payload) mock.payload = mockBuildReport();
+      const blob = new Blob([mock.payload.text], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'ket-qua-thi-thu-' + (mock.student.name.replace(/[^\p{L}\p{N}]+/gu, '-') || 'hoc-vien') + '.txt';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    }
+
+    function mockUpdateTotal() {
+      const inp = document.getElementById('mock-writing-self');
+      let v = inp ? parseFloat(inp.value) : 0;
+      if (!isFinite(v)) v = 0;
+      v = Math.max(0, Math.min(10, v));
+      mock.writingSelf = v;
+      const r = mock.result;
+      const el = document.getElementById('mock-total');
+      if (r && el) el.textContent = (Math.round((r.ls + r.rs + v) * 10) / 10).toString();
+    }
+
+    function stopSpeakingAudioOnly() {
+      if (typeof resetSpeakingTimer === 'function') resetSpeakingTimer();
+      pauseSpeakingUnitAudio();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if (typeof initSpeakingExam === 'function') initSpeakingExam();
+    });
   </script>
 </body>
 </html>
